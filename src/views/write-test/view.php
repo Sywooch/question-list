@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider igribov\questionlist\models\AnswerList */
 
 $this->title = $modelAnswerList->id;
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
 $this->params['breadcrumbs'][] = ['label' => 'Мои опросные листы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

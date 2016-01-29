@@ -9,7 +9,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Список опросных листов';
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-list-index">

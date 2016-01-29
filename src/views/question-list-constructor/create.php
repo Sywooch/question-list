@@ -9,7 +9,7 @@ use yii\helpers\Html;
 /* @var $modelsAnswerVariant igribov\questionlist\models\AnswerVariant */
 
 $this->title = 'Создать опросный лист';
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
 $this->params['breadcrumbs'][] = ['label' => 'Список опросных листов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

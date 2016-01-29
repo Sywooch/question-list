@@ -10,7 +10,7 @@ use yii\helpers\Html;
 /* @var $modelsAnswer igribov\questionlist\models\Answer */
 
 $this->title = $modelAnswerList->id;
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
 $this->params['breadcrumbs'][] = ['label' => 'Мои опросные листы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

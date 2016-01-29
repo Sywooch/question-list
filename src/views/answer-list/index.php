@@ -14,7 +14,7 @@ use app\yourmodule\AppAsset;
 /* @var $statusList array */
 
 $this->title = 'Управление опросами';
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);

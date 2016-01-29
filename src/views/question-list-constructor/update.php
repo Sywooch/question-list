@@ -27,7 +27,7 @@ $(".add-answervariant").click(function() {
 $this->registerJs($js);
 
 $this->title = 'Редатирование : ' . ' ' . $modelQuestionList->title;
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
 $this->params['breadcrumbs'][] = ['label' => 'Список опросных листов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $modelQuestionList->title, 'url' => ['view', 'id' => $modelQuestionList->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
