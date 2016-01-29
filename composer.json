@@ -13,10 +13,16 @@
 	    	"url": "https://github.com/igribov/question-list"
 		}
 	],
+    "minimum-stability": "dev",
 	"license": "Apache-2.0",
 	"homepage": "https://github.com/igribov/question-list",
 	 "support": {
         "source": "https://github.com/igribov/question-list"
+    },
+    "autoload": {
+        "psr-4": {
+            "igribov\\question-list\\": "src/"
+        }
     },
     "require": {
     	"php": ">=5.4.0",
