@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\unicred\controllers;
+namespace igribov\questionlist\controllers;
 
 use Yii;
-use app\modules\unicred\models\Office;
+use igribov\questionlist\models\Office;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

@@ -5,7 +5,7 @@ use kartik\date\DatePicker;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\AnswerList */
+/* @var $model igribov\questionlist\models\AnswerList */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $questionLists array */
 /* @var $DoList array */

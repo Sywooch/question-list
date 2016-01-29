@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
-use app\modules\unicred\models\Answer;
+use igribov\questionlist\models\Answer;
 
 /* @var $this yii\web\View */
-/* @var $modelAnswerList app\modules\unicred\models\AnswerList */
+/* @var $modelAnswerList igribov\questionlist\models\AnswerList */
 
 $this->title = "Ответы на опрос '$model->list_name'";
 ?>

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use wbraganca\dynamicform\DynamicFormWidget;
-use app\modules\unicred\models\AnswerVariant;
+use igribov\questionlist\models\AnswerVariant;
 
 $answVar = new AnswerVariant();
 $answVar->id = $modelsAnswerVariant[0]->id;

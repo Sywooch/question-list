@@ -6,7 +6,7 @@
  * Time: 16:28
  */
 
-namespace app\modules\unicred\models;
+namespace igribov\questionlist\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;

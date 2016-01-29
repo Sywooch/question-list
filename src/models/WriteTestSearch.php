@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\unicred\models;
+namespace igribov\questionlist\models;
 
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
 /**
- * AnswerListSearch represents the model behind the search form about `app\modules\unicred\models\AnswerList`.
+ * AnswerListSearch represents the model behind the search form about `igribov\questionlist\models\AnswerList`.
  */
 class WriteTestSearch extends AnswerListSearch
 {

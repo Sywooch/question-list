@@ -1,14 +1,14 @@
 <?php
 
-namespace app\modules\unicred\models;
+namespace igribov\questionlist\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\unicred\models\QuestionList;
+use igribov\questionlist\models\QuestionList;
 
 /**
- * QuestionSearch represents the model behind the search form about `app\modules\unicred\models\QuestionList`.
+ * QuestionSearch represents the model behind the search form about `igribov\questionlist\models\QuestionList`.
  */
 class QuestionListSearch extends QuestionList
 {

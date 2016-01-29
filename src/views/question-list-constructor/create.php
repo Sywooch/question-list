@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\QuestionList */
-/* @var $modelsQuestion app\modules\unicred\models\Question */
-/* @var $modelQuestionList app\modules\unicred\models\QuestionList */
-/* @var $modelsAnswerVariant app\modules\unicred\models\AnswerVariant */
+/* @var $model igribov\questionlist\models\QuestionList */
+/* @var $modelsQuestion igribov\questionlist\models\Question */
+/* @var $modelQuestionList igribov\questionlist\models\QuestionList */
+/* @var $modelsAnswerVariant igribov\questionlist\models\AnswerVariant */
 
 $this->title = 'Создать опросный лист';
 $this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];

@@ -1,14 +1,14 @@
 <?php
 use yii\widgets\DetailView;
 use yii\widgets\ActiveForm;
-use app\modules\unicred\models\Answer;
+use igribov\questionlist\models\Answer;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $modelQuestionList app\modules\unicred\models\QuestionList */
-/* @var $modelsQuestion app\modules\unicred\models\Question */
-/* @var $modelsAnswer app\modules\unicred\models\Answer */
-/* @var $modelAnswerList app\modules\unicred\models\AnswerList */
+/* @var $modelQuestionList igribov\questionlist\models\QuestionList */
+/* @var $modelsQuestion igribov\questionlist\models\Question */
+/* @var $modelsAnswer igribov\questionlist\models\Answer */
+/* @var $modelAnswerList igribov\questionlist\models\AnswerList */
 
 ?>
 

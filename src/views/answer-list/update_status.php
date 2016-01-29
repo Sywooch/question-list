@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\AnswerList */
+/* @var $model igribov\questionlist\models\AnswerList */
 /* @var $questionLists array */
 /* @var $DoList array */
 /* @var $statusList array */

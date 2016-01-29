@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\QuestionList */
+/* @var $model igribov\questionlist\models\QuestionList */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];

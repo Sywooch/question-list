@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\unicred\models;
+namespace igribov\questionlist\models;
 
 use Yii;
-use app\modules\unicred\models\Answer;
+use igribov\questionlist\models\Answer;
 
 /**
  * This is the model class for table "answers".

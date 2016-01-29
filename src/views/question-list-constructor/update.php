@@ -5,7 +5,7 @@ use yii\bootstrap\ActiveForm;
 use wbraganca\dynamicform\DynamicFormWidget;
 
 /* @var $this yii\web\View */
-/* @var $modelQuestionList app\modules\unicred\models\QuestionList */
+/* @var $modelQuestionList igribov\questionlist\models\QuestionList */
 
 $js = '
 $(".add-answervariant").click(function() {

@@ -1,9 +1,9 @@
 <?php
 
-namespace app\modules\unicred\models;
+namespace igribov\questionlist\models;
 
 use Yii;
-use app\modules\unicred\models\Question;
+use igribov\questionlist\models\Question;
 
 
 /**

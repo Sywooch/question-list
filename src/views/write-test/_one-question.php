@@ -5,7 +5,7 @@ use yii\widgets\ActiveForm;
 
 
 /* @var $this yii\web\View */
-/* @var $modelQuestion app\modules\unicred\models\Question */
+/* @var $modelQuestion igribov\questionlist\models\Question */
 /* @var $form yii\widgets\ActiveForm; */
 /* @var $questionIndex int; */
 /* @var $questionListId int; */

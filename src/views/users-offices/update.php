@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\UsersOffices */
+/* @var $model igribov\questionlist\models\UsersOffices */
 /* @var $offices array */
 /* @var $usersRoles array */
 ?>

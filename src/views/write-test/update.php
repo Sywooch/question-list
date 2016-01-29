@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $modelQuestionList app\modules\unicred\models\QuestionList */
-/* @var $modelAnswerList app\modules\unicred\models\AnswerList */
-/* @var $modelsQuestion app\modules\unicred\models\Question */
-/* @var $modelsAnswer app\modules\unicred\models\Answer */
+/* @var $modelQuestionList igribov\questionlist\models\QuestionList */
+/* @var $modelAnswerList igribov\questionlist\models\AnswerList */
+/* @var $modelsQuestion igribov\questionlist\models\Question */
+/* @var $modelsAnswer igribov\questionlist\models\Answer */
 
 $this->title = $modelAnswerList->id;
 $this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];

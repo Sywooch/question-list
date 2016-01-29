@@ -5,7 +5,7 @@ use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $searchModel app\modules\unicred\models\AnswerListSearch */
+/* @var $searchModel igribov\questionlist\models\AnswerListSearch */
 
 $this->title = 'Мои опросные листы';
 $this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];

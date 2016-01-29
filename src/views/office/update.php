@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\Office */
+/* @var $model igribov\questionlist\models\Office */
 
 $this->title = 'Update Office: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Offices', 'url' => ['index']];

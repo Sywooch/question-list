@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
-/* @var $modelAnswerList app\modules\unicred\models\AnswerList */
+/* @var $modelAnswerList igribov\questionlist\models\AnswerList */
 
 ?>
 <div class="question-list-view">

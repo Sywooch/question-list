@@ -4,7 +4,7 @@ use yii\widgets\DetailView;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\AnswerList */
+/* @var $model igribov\questionlist\models\AnswerList */
 ?>
 <div class="answer-list-view">
  

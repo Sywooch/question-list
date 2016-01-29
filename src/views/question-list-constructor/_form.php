@@ -87,7 +87,7 @@ jQuery(document).ready(function() {
 $this->registerJs($js);
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\QuestionList */
+/* @var $model igribov\questionlist\models\QuestionList */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>

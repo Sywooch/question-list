@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\unicred\models;
+namespace igribov\questionlist\models;
 
 use Yii;
-use app\modules\unicred\models\Question;
-use app\modules\unicred\models\AnswerList;
+use igribov\questionlist\models\Question;
+use igribov\questionlist\models\AnswerList;
 
 /**
  * This is the model class for table "question_list".

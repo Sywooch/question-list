@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\unicred\controllers;
+namespace igribov\questionlist\controllers;
 use Yii;
-use app\modules\unicred\models\Model;
-use app\modules\unicred\models\QuestionList;
-use app\modules\unicred\models\UsersOffices;
-use app\modules\unicred\models\Answer;
-use app\modules\unicred\models\AnswerList;
-use app\modules\unicred\models\WriteTestSearch;
+use igribov\questionlist\models\Model;
+use igribov\questionlist\models\QuestionList;
+use igribov\questionlist\models\UsersOffices;
+use igribov\questionlist\models\Answer;
+use igribov\questionlist\models\AnswerList;
+use igribov\questionlist\models\WriteTestSearch;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
@@ -16,7 +16,7 @@ use yii\helpers\Url;
 
 /**
  * Class AnswerListController
- * @package app\modules\unicred\controllers
+ * @package igribov\questionlist\controllers
  * Класс для создания сущности список ответов на вопросный лист
  */
 class WriteTestController extends \yii\web\Controller

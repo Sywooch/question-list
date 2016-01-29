@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $modelAnswerList app\modules\unicred\models\AnswerList */
-/* @var $dataProvider app\modules\unicred\models\AnswerList */
+/* @var $modelAnswerList igribov\questionlist\models\AnswerList */
+/* @var $dataProvider igribov\questionlist\models\AnswerList */
 
 $this->title = $modelAnswerList->id;
 $this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/unicred/']];

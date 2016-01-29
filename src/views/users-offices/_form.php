@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\UsersOffices */
+/* @var $model igribov\questionlist\models\UsersOffices */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $offices array */
 /* @var $usersRoles array */

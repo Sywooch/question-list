@@ -7,7 +7,7 @@ use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\unicred\models\UsersOfficesSearch */
+/* @var $searchModel igribov\questionlist\models\UsersOfficesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Пользователи и роли';

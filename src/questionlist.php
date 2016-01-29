@@ -1,10 +1,10 @@
 <?php
 
-namespace app\modules\unicred;
+namespace igribov\questionlist;
 
 class questionlist extends \yii\base\Module
 {
-    public $controllerNamespace = 'app\modules\unicred\controllers';
+    public $controllerNamespace = 'igribov\questionlist\controllers';
 
     public function init()
     {

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\UsersOffices */
+/* @var $model igribov\questionlist\models\UsersOffices */
 /* @var $offices array список отделений для селекта */
 /* @var $usersRoles array список отделений для селекта */
 

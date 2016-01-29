@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\unicred\controllers;
+namespace igribov\questionlist\controllers;
 
 use yii\web\Controller;
 use Yii;

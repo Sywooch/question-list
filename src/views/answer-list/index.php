@@ -9,7 +9,7 @@ use kartik\date\DatePicker;
 use app\yourmodule\AppAsset;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\unicred\models\AnswerListSearch */
+/* @var $searchModel igribov\questionlist\models\AnswerListSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $statusList array */
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace app\modules\unicred\controllers;
+namespace igribov\questionlist\controllers;
 
 use Yii;
-use app\modules\unicred\models\UsersOffices;
-use app\modules\unicred\models\Office;
-use app\modules\unicred\models\UsersOfficesSearch;
+use igribov\questionlist\models\UsersOffices;
+use igribov\questionlist\models\Office;
+use igribov\questionlist\models\UsersOfficesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

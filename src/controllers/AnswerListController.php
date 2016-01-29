@@ -1,17 +1,17 @@
 <?php
 
-namespace app\modules\unicred\controllers;
+namespace igribov\questionlist\controllers;
 
 use Yii;
-use app\modules\unicred\models\AnswerList;
-use app\modules\unicred\models\AnswerListSearch;
+use igribov\questionlist\models\AnswerList;
+use igribov\questionlist\models\AnswerListSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
-use app\modules\unicred\models\QuestionList;
-use app\modules\unicred\models\Office;
+use igribov\questionlist\models\QuestionList;
+use igribov\questionlist\models\Office;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;

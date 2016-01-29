@@ -5,7 +5,7 @@ use kartik\grid\GridView;
 use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\unicred\models\QuestionSearch */
+/* @var $searchModel igribov\questionlist\models\QuestionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Список опросных листов';

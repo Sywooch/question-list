@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\Office */
+/* @var $model igribov\questionlist\models\Office */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

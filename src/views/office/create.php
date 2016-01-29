@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\models\Office */
+/* @var $model igribov\questionlist\models\Office */
 
 $this->title = 'Create Office';
 $this->params['breadcrumbs'][] = ['label' => 'Offices', 'url' => ['index']];
