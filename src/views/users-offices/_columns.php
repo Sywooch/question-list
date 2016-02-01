@@ -24,11 +24,8 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'office_id',
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'profile_office_role',
+        'attribute'=>'roleName',
+        'filter' => igribov\questionlist\models\UsersOffices::getRoles(),
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

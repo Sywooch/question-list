@@ -25,7 +25,7 @@ class QuestionList extends \yii\db\ActiveRecord
   public function getQuestions()
   {
       return $this->hasMany(Question::className(), ['id' => 'question_id'])
-            ->viaTable('questions_qlists', ['list_id' => 'id']);
+            ->viaTable('questionlist_questions_qlists', ['list_id' => 'id']);
   }
 
   public function getAnswerLists()
@@ -47,7 +47,7 @@ class QuestionList extends \yii\db\ActiveRecord
           });
 
           $res = Yii::$app->db
-              ->createCommand("DELETE FROM questions_qlists WHERE list_id=:id")
+              ->createCommand("DELETE FROM question_list_questions_qlists WHERE list_id=:id")
               ->bindValue(':id',$this->id)
               ->execute();
           return true;

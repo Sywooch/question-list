@@ -38,7 +38,7 @@ class Question extends \yii\db\ActiveRecord
     public function getQuestionLists()
     {
         return $this->hasMany(QuestionList::className(), ['id' => 'list_id'])
-            ->viaTable('questions_qlists', ['question_id' => 'id']);
+            ->viaTable('questionlist_questions_qlists', ['question_id' => 'id']);
     }
 
     public function getAnswerVariants()

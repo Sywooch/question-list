@@ -7,9 +7,9 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $this yii\web\View */
 /* @var $searchModel igribov\questionlist\models\QuestionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+$moduleID = \Yii::$app->controller->module->id;
 $this->title = 'Список опросных листов';
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
+$moduleID = \Yii::$app->controller->module->id;$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/'.$moduleID]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-list-index">

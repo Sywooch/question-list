@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model igribov\questionlist\models\QuestionList */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
+$moduleID = \Yii::$app->controller->module->id;$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/'.$moduleID]];
 $this->params['breadcrumbs'][] = ['label' => 'Список опросных листов', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

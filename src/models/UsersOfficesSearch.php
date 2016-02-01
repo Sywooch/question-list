@@ -13,6 +13,7 @@ use igribov\questionlist\models\UsersOffices;
 class UsersOfficesSearch extends UsersOffices
 {
     public $officeName;
+    public $roleName;
     /**
      * @inheritdoc
      */
@@ -20,7 +21,7 @@ class UsersOfficesSearch extends UsersOffices
     {
         return [
             [['id', 'office_id'], 'integer'],
-            [['profile_id', 'profile_office_role','officeName'], 'safe'],
+            [['profile_id', 'profile_office_role','officeName','roleName'], 'safe'],
         ];
     }
 
@@ -51,7 +52,7 @@ class UsersOfficesSearch extends UsersOffices
         $sort->attributes['officeName'] = [
             'asc' =>  ['questionlist_office.name' => SORT_ASC],
             'desc' => ['questionlist_office.name' => SORT_DESC],
-            'label' => 'Office Name'
+            'label' => 'Имя офиса'
         ];
         $dataProvider->setSort($sort);
 
@@ -68,10 +69,14 @@ class UsersOfficesSearch extends UsersOffices
             'id' => $this->id,
         ]);
 
+        if($this->roleName) {
+            $this->profile_office_role = $this->roleName;
+        }
+
         $query->andFilterWhere(['like', 'profile_id', $this->profile_id])
             ->andFilterWhere(['like', 'profile_office_role', $this->profile_office_role]);
 
-        $query->joinWith(['questionlist_office'=>function($q) {
+        $query->joinWith(['office'=>function($q) {
             $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
         }]);
 

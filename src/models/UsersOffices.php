@@ -49,6 +49,11 @@ class UsersOffices extends \yii\db\ActiveRecord
         return $this->profile_office_role;
     }
 
+    public function getRoleName()
+    {
+        return $this->getRoles()[$this->profile_office_role];
+    }
+
     public function getOffice()
     {
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
@@ -71,10 +76,11 @@ class UsersOffices extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'profile_id' => 'Profile ID',
+            'profile_id' => 'Профайл',
             'office_id' => 'Office ID',
-            'profile_office_role' => 'Profile Office Role',
-            'officeName' => 'Офис'
+            'profile_office_role' => 'Роль',
+            'officeName' => 'Офис',
+            'roleName' => 'Роль',
         ];
     }
 }

@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 /* @var $searchModel igribov\questionlist\models\AnswerListSearch */
 
 $this->title = 'Мои опросные листы';
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
+$moduleID = \Yii::$app->controller->module->id;$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/'.$moduleID]];
 $this->params['breadcrumbs'][] = $this->title;
 
 $css = '

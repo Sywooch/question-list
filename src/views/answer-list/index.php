@@ -14,7 +14,8 @@ use app\yourmodule\AppAsset;
 /* @var $statusList array */
 
 $this->title = 'Управление опросами';
-$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/questionlist/']];
+$moduleID = \Yii::$app->controller->module->id;
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/'.$moduleID]];
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -48,10 +49,10 @@ $this->registerJs($js);
                     '{toggleData}'.
                     '{export}'
                 ],
-            ],          
+            ],
             'striped' => true,
             'condensed' => true,
-            'responsive' => true,          
+            'responsive' => true,
             'panel' => [
                'type' => 'primary',
                'heading' => '<i class="glyphicon glyphicon-list"></i> Конструктор опросов',

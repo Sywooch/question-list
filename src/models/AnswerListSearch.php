@@ -51,8 +51,8 @@ class AnswerListSearch extends AnswerList
         ]);
         $sort = $dataProvider->getSort();
         $sort->attributes['officeName'] = [
-            'asc' =>  ['office.name' => SORT_ASC],
-            'desc' => ['office.name' => SORT_DESC],
+            'asc' =>  ['questionlist_office.name' => SORT_ASC],
+            'desc' => ['questionlist_office.name' => SORT_DESC],
             'label' => 'Отделение'
         ];
         $sort->attributes['statusName'] = [
@@ -83,7 +83,7 @@ class AnswerListSearch extends AnswerList
             ->andFilterWhere(['>=', 'date_from', $this->date_from])
             ->andFilterWhere(['<=', 'date_to', $this->date_to]);
 
-        $query->joinWith(['questionlist_office'=>function($q) {
+        $query->joinWith(['office'=>function($q) {
             $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
         }]);
 

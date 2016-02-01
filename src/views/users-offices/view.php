@@ -13,7 +13,7 @@ use yii\widgets\DetailView;
             'id',
             'profile_id',
             'officeName',
-            'profile_office_role',
+            'roleName',
         ],
     ]) ?>
 
