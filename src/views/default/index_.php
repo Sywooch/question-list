@@ -1,10 +1,10 @@
 <?php
-use webvimark\modules\UserManagement\components\GhostMenu;
+use yii\widgets\Menu;
 
 $this->title = 'Система опросов';
 $this->params['breadcrumbs'][] = $this->title;
 
-echo GhostMenu::widget([
+echo Menu::widget([
     'encodeLabels'=>false,
     'activateParents'=>true,
     'options' =>['style'=>['width'=>'500px']],

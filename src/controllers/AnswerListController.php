@@ -35,9 +35,6 @@ class AnswerListController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
-            'ghost-access'=> [
-                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
-            ],
         ];
     }
 

@@ -28,9 +28,6 @@ class QuestionListConstructorController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-            'ghost-access'=> [
-                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
-            ],
         ];
     }
 

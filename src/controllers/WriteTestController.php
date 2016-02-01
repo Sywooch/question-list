@@ -30,9 +30,6 @@ class WriteTestController extends \yii\web\Controller
                     'delete' => ['post'],
                 ],
             ],
-            'ghost-access'=> [
-                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
-            ],
         ];
     }
 
