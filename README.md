@@ -41,9 +41,12 @@ Configuration
 
 ./yii migrate --migrationPath=vendor/igribov/question-list/src/migrations/
 
+```
 
 Where you can go
------
+
+```php
 /questionlist
+```
 
 
