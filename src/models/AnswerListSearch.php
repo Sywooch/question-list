@@ -67,7 +67,7 @@ class AnswerListSearch extends AnswerList
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
-            $query->joinWith(['office']);
+            $query->joinWith(['questionlist_office']);
             return $dataProvider;
         }
 
@@ -83,8 +83,8 @@ class AnswerListSearch extends AnswerList
             ->andFilterWhere(['>=', 'date_from', $this->date_from])
             ->andFilterWhere(['<=', 'date_to', $this->date_to]);
 
-        $query->joinWith(['office'=>function($q) {
-            $q->andFilterWhere(['like', 'office.name', $this->officeName]);
+        $query->joinWith(['questionlist_office'=>function($q) {
+            $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
         }]);
 
         return $dataProvider;

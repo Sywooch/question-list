@@ -19,7 +19,7 @@ class Question extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'question';
+        return 'questionlist_question';
     }
 
     /**

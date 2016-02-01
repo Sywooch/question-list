@@ -24,7 +24,7 @@ class Answer extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'answers';
+        return 'questionlist_answers';
     }
 
 

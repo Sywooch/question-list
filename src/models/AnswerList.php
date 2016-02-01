@@ -23,7 +23,7 @@ class AnswerList extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'answer_list';
+        return 'questionlist_answer_list';
     }
 
     /**

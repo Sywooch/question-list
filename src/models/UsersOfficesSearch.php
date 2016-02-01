@@ -49,8 +49,8 @@ class UsersOfficesSearch extends UsersOffices
         ]);
         $sort = $dataProvider->getSort();
         $sort->attributes['officeName'] = [
-            'asc' =>  ['office.name' => SORT_ASC],
-            'desc' => ['office.name' => SORT_DESC],
+            'asc' =>  ['questionlist_office.name' => SORT_ASC],
+            'desc' => ['questionlist_office.name' => SORT_DESC],
             'label' => 'Office Name'
         ];
         $dataProvider->setSort($sort);
@@ -60,7 +60,7 @@ class UsersOfficesSearch extends UsersOffices
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
-            $query->joinWith(['office']);
+            $query->joinWith(['questionlist_office']);
             return $dataProvider;
         }
 
@@ -71,8 +71,8 @@ class UsersOfficesSearch extends UsersOffices
         $query->andFilterWhere(['like', 'profile_id', $this->profile_id])
             ->andFilterWhere(['like', 'profile_office_role', $this->profile_office_role]);
 
-        $query->joinWith(['office'=>function($q) {
-            $q->andFilterWhere(['like', 'office.name', $this->officeName]);
+        $query->joinWith(['questionlist_office'=>function($q) {
+            $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
         }]);
 
         return $dataProvider;

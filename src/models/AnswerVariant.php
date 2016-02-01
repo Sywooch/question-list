@@ -20,7 +20,7 @@ class AnswerVariant extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'answers_variants';
+        return 'questionlist_answers_variants';
     }
 
     /**

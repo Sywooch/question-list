@@ -10,12 +10,10 @@ echo Menu::widget([
     'options' =>['style'=>['width'=>'500px']],
     'itemOptions' => ['class'=>'list-group-item'],
     'items'=>[
-        ['label'=>'Конструктор', 'url'=>['/questionlist/question-list-constructor/index']],
-        ['label'=>'Управление опросами', 'url'=>['/questionlist/answer-list/index']],
-        ['label'=>'Мои опросные листы', 'url'=>['/questionlist/write-test/index']],
-        ['label'=>'Пользователи и роли', 'url'=>['/questionlist/users-offices/index']],
-        ['label'=>'Выход', 'url'=>['/user-management/auth/logout']],
-        ['label'=>'Вход', 'url'=>['/user-management/auth/login']],
+        ['label'=>'Конструктор', 'url'=>['question-list-constructor/index']],
+        ['label'=>'Управление опросами', 'url'=>['answer-list/index']],
+        ['label'=>'Мои опросные листы', 'url'=>['write-test/index']],
+        ['label'=>'Пользователи и роли', 'url'=>['users-offices/index']],
     ],
 ]);
 ?>

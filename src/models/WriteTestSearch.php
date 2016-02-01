@@ -50,8 +50,8 @@ class WriteTestSearch extends AnswerListSearch
 
         $sort = $dataProvider->getSort();
         $sort->attributes['officeName'] = [
-            'asc' =>  ['office.name' => SORT_ASC],
-            'desc' => ['office.name' => SORT_DESC],
+            'asc' =>  ['questionlist_office.name' => SORT_ASC],
+            'desc' => ['questionlist_office.name' => SORT_DESC],
             'label' => 'Отделение'
         ];
         $sort->attributes['statusName'] = [
@@ -66,12 +66,12 @@ class WriteTestSearch extends AnswerListSearch
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
-            $query->joinWith(['office']);
+            $query->joinWith(['questionlist_office']);
             return $dataProvider;
         }
 
         $query->andFilterWhere([
-            'answer_list.id' => $this->id,
+            'questionlist_answer_list.id' => $this->id,
             'question_list_id' => $this->question_list_id,
             /*'date_from' => $this->date_from,
             'date_to' => $this->date_to,*/
@@ -83,7 +83,7 @@ class WriteTestSearch extends AnswerListSearch
             ->andFilterWhere(['<=', 'date_to', $this->date_to]);
 
         $query->joinWith(['office'=>function($q) {
-            $q->andFilterWhere(['like', 'office.name', $this->officeName]);
+            $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
         }]);
 
         return $dataProvider;

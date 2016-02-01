@@ -19,7 +19,7 @@ class UsersOffices extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'users_offices';
+        return 'questionlist_users_offices';
     }
 
     static public function getRoles()
