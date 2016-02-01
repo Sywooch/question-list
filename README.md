@@ -44,9 +44,36 @@ Configuration
 ```
 
 Where you can go
+-----
 
 ```php
-/questionlist
+
+<?php
+use yii\widgets\Menu;
+
+echo Menu::widget([
+    'encodeLabels'=>false,
+    'activateParents'=>true,
+    'items'=>[
+        ['label'=>'Конструктор', 'url'=>['question-list-constructor/index']],
+        ['label'=>'Управление опросами', 'url'=>['answer-list/index']],
+        ['label'=>'Мои опросные листы', 'url'=>['write-test/index']],
+        ['label'=>'Пользователи и роли', 'url'=>['users-offices/index']],
+    ],
+]);
+?>
+
 ```
 
+First steps
+---
 
+1) Зайти как admin/admin
+
+2) Зайти в Пользователи и роли и добавить роль Менеджер пользователю admin, выбрать отделение;
+
+3) Зайти в "Конструктор" и создать новый список вопросов;
+
+4) Зайти в "Управление опросами" и назначить порос отделению, которое выбрано в п.1
+
+5) Зайти в "Мои опросные листы" и ответить на опрос.
