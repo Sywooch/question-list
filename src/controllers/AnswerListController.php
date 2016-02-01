@@ -128,14 +128,6 @@ class AnswerListController extends Controller
                 if($model->save()){
                     return $this->redirect(['index']);
                 }
-                /*if($model->save())return [
-                        'forceReload'=>'#crud-datatable-pjax',
-                        'title'=> "Create new AnswerList",
-                        'content'=>'<span class="text-success">Create AnswerList success</span>',
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-
-                    ];*/
             }else{           
                 return [
                     'title'=> "Create new AnswerList",
@@ -197,12 +189,6 @@ class AnswerListController extends Controller
         $statusList = $model->statusList;
 
         $viewName = 'update';
-        // коммерческий директор может только менять статус опросного листа
-        if(! User::hasRole(['unicredQuestionListSystemAdmin']))
-        {
-            $viewName = 'update_status';
-            unset($statusList['answered']);
-        }
 
         $modelsOffice = Office::find()->all();
         $DoList = ArrayHelper::map($modelsOffice, 'id', 'name');

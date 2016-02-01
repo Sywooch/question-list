@@ -33,7 +33,7 @@ class WriteTestController extends \yii\web\Controller
         ];
     }
 
-    public function getAccessToOffice($office_id)
+    protected function getAccessToOffice($office_id)
     {
         return in_array($office_id,$this->getOffiсeIds(Yii::$app->user->identity->username));
     }
@@ -92,7 +92,6 @@ class WriteTestController extends \yii\web\Controller
     public function actionIndex()
     {
         $statusList = AnswerList::getStatusList();
-
         $searchModel = new WriteTestSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -112,10 +111,10 @@ class WriteTestController extends \yii\web\Controller
     {
         $modelAnswerList = $this->findAnswerListModel($id);
 
-        if(! $this->getAccessToOffice($modelAnswerList->do_id) )
+        /*if(! $this->getAccessToOffice($modelAnswerList->do_id) )
         {
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-        }
+        }*/
 
         if($modelAnswerList->status !== 'clear')
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/update','id'=>$modelAnswerList->id]));
@@ -179,10 +178,10 @@ class WriteTestController extends \yii\web\Controller
         $modelsQuestion = $modelQuestionList->questions;
         $modelsAnswer = $modelAnswerList->answers;
 
-        if(! $this->getAccessToOffice($modelAnswerList->do_id) )
+        /*if(! $this->getAccessToOffice($modelAnswerList->do_id) )
         {
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-        }
+        }*/
 
         // если форма отправлена.
         if($postData = Yii::$app->request->post())
