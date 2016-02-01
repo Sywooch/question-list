@@ -111,7 +111,6 @@ class UsersOfficesController extends Controller
         
                 ];         
             }else if($model->load($request->post()) && $model->save()){
-                $this->addRoleAction($model);
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new UsersOffices",
@@ -136,7 +135,6 @@ class UsersOfficesController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                $this->addRoleAction($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
 
@@ -149,75 +147,6 @@ class UsersOfficesController extends Controller
             }
         }
        
-    }
-
-    protected function addRoleAction($model)
-    {
-        if(!$user = User::findOne(['username'=>$model->profile_id])) return;
-
-        switch($model->role)
-        {
-            case 'admin' :
-                User::assignRole($user->id, 'unicredQuestionListSystemAdmin');
-                break;
-            case 'manager' :
-                User::assignRole($user->id, 'unicredQuestionListSystemManager');
-                break;
-            case 'empl' :
-                break;
-            case 'comdir' :
-                User::assignRole($user->id, 'unicredQuestionListSystemCommercialDirector');
-                break;
-        }
-    }
-
-    protected function deleteRoleAction($model)
-    {
-        if(!$user = User::findOne(['username'=>$model->profile_id])) return;
-
-        switch($model->role)
-        {
-            case 'admin' :
-                User::revokeRole($user->id, 'unicredQuestionListSystemAdmin');
-                break;
-            case 'manager' :
-                User::revokeRole($user->id, 'unicredQuestionListSystemManager');
-                break;
-            case 'empl' :
-                break;
-            case 'comdir' :
-                User::revokeRole($user->id, 'unicredQuestionListSystemCommercialDirector');
-                break;
-        }
-    }
-
-    protected function changeRoleAction($model)
-    {
-        if(!$user = User::findOne(['username'=>$model->profile_id])) return;
-
-        switch($model->role)
-        {
-            case 'admin' :
-                User::assignRole($user->id, 'unicredQuestionListSystemAdmin');
-                User::revokeRole($user->id, 'unicredQuestionListSystemCommercialDirector');
-                User::revokeRole($user->id, 'unicredQuestionListSystemManager');
-                break;
-            case 'manager' :
-                User::assignRole($user->id, 'unicredQuestionListSystemManager');
-                User::revokeRole($user->id, 'unicredQuestionListSystemCommercialDirector');
-                User::revokeRole($user->id, 'unicredQuestionListSystemAdmin');
-                break;
-            case 'empl' :
-                User::assignRole($user->id, 'unicredQuestionListSystemManager');
-                User::revokeRole($user->id, 'unicredQuestionListSystemCommercialDirector');
-                User::revokeRole($user->id, 'unicredQuestionListSystemAdmin');
-                break;
-            case 'comdir' :
-                User::assignRole($user->id, 'unicredQuestionListSystemCommercialDirector');
-                User::revokeRole($user->id, 'unicredQuestionListSystemManager');
-                User::revokeRole($user->id, 'unicredQuestionListSystemAdmin');
-                break;
-        }
     }
 
     /**
@@ -252,7 +181,6 @@ class UsersOfficesController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
-                $this->changeRoleAction($model);
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "UsersOffices #".$id,
@@ -277,7 +205,6 @@ class UsersOfficesController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                $this->changeRoleAction($model);
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render('update', [
@@ -300,7 +227,6 @@ class UsersOfficesController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $this->deleteRoleAction($model);
         $model->delete();
 
         if($request->isAjax){
@@ -331,7 +257,6 @@ class UsersOfficesController extends Controller
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
         foreach (UsersOffices::findAll(json_decode($pks)) as $model) {
-            $this->deleteRoleAction($model);
             $model->delete();
         }
 
