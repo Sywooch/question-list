@@ -23,8 +23,9 @@ class OfficeController extends Controller
                     'delete' => ['post'],
                 ],
             ],
-            'ghost-access'=> [
-                'class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',
+            'access'=> [
+                'class' => 'igribov\questionlist\components\AccessControl',
+                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
             ],
         ];
     }
