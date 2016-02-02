@@ -35,6 +35,10 @@ class AnswerListController extends Controller
                     'bulk-delete' => ['post'],
                 ],
             ],
+            'access'=> [
+                'class' => 'igribov\questionlist\components\AccessControl',
+                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
+            ],
         ];
     }
 
