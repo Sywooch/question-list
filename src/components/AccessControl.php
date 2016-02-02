@@ -2,6 +2,7 @@
 namespace igribov\questionlist\components;
 
 use yii\base\Action;
+use igribov\questionlist\models\UsersOffices;
 use Yii;
 use yii\base\ActionFilter;
 use yii\web\ForbiddenHttpException;
@@ -12,18 +13,19 @@ class AccessControl extends ActionFilter
 
     public function beforeAction($action)
     {
-        // из URL параметры, переденные в запросе
-        $urlParams = Yii::$app->getRequest()->getQueryParams();
-        \yii\helpers\ArrayHelper::remove($urlParams,'r');
-
-        $postParams = Yii::$app->getRequest()->getBodyParams();
-        \yii\helpers\ArrayHelper::remove($postParams,'_csrf');
-        $params = \yii\helpers\ArrayHelper::merge($postParams,$urlParams);
+        $modelsUsersOffices = null;
+        if($profileId = Yii::$app->user->identity->username)
+        {
+            $modelsUsersOffices = UsersOffices::find(['profile_id'=>$profileId])->joinWith('office')->all();
+        }
+        $params = \yii\helpers\ArrayHelper::merge(Yii::$app->getRequest()->getQueryParams(),
+            Yii::$app->getRequest()->getBodyParams());
 
         if(! $beforeActionFunction = $this->onBeforeAction ) return true;
         $res = $beforeActionFunction($action->controller->id,
             $action->id,
             Yii::$app->user->identity,
+            $modelsUsersOffices,
             $params);
         if($res) return true;
         else return $this->denyAccess();

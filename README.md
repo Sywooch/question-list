@@ -30,7 +30,7 @@ Configuration
 'modules'=>[
 	'questionlist' => [
           'class' => 'igribov\questionlist\Module',
-          'onBeforeAction' => function($controllerId,$actionId,$user,$urlParams){
+           'onBeforeAction' => function($controllerId, $actionId, $user, $roles, $params){
               return true;
           },
       ],
@@ -39,6 +39,8 @@ Configuration
 ```
 Метод onBeforeAction заданный анонимной функцией, должен возвращать boolean.
 Он определяет доступ к методу контроллера, для настройки доступа.
+Аргументы : ID контроллера, ID экшкна контроллера, Пользователь (объект класса), массив какими ролями 
+в отделениях обладает пользователь, параметры URL и переданные в теле запроса.
 
 2) Run migrations
 
