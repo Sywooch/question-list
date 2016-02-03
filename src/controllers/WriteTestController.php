@@ -2,6 +2,7 @@
 
 namespace igribov\questionlist\controllers;
 use Yii;
+use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use igribov\questionlist\models\Model;
 use igribov\questionlist\models\QuestionList;
 use igribov\questionlist\models\UsersOffices;
@@ -19,24 +20,8 @@ use yii\helpers\Url;
  * @package igribov\questionlist\controllers
  * Класс для создания сущности список ответов на вопросный лист
  */
-class WriteTestController extends \yii\web\Controller
+class WriteTestController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-            'access'=> [
-                'class' => 'igribov\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-    }
-
     protected function getAccessToOffice($office_id)
     {
         return in_array($office_id,$this->getOffiсeIds(Yii::$app->user->identity->username));

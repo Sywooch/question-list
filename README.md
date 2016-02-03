@@ -34,6 +34,27 @@ Configuration
               return true;
           },
       ],
+    'behaviors' => [
+              'ghost-access'=>['class' => 'webvimark\modules\UserManagement\components\GhostAccessControl',]
+          ],
+    'onBeforeAction' => function($controllerId, $actionId, $user, $roles, $urlParams) {
+	  // роли пользователя
+	  $roles = array_filter(\yii\helpers\ArrayHelper::map($roles,'id','profile_office_role'));
+	  return true;
+	  switch($controllerId) {
+	      case 'write-test' :
+	          return( in_array('manager',$roles));
+	      case 'answer-list' :
+	          return( in_array('admin',$roles));
+	      case 'question-list-constructor' :
+	          return( in_array('admin',$roles));
+	      case 'users-offices' :
+	          return( in_array('admin',$roles));
+	      case 'default' :
+	          return true;
+	  }
+	  return false;
+	},
 ],
 
 ```

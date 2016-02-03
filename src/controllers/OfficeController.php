@@ -6,7 +6,7 @@ use Yii;
 use igribov\questionlist\models\Office;
 use igribov\questionlist\models\OfficeSearch;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
@@ -17,25 +17,6 @@ use yii\helpers\Html;
  */
 class OfficeController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-            'access'=> [
-                'class' => 'igribov\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-    }
 
     /**
      * Lists all Office models.

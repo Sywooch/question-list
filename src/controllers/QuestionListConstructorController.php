@@ -5,7 +5,7 @@ namespace igribov\questionlist\controllers;
 use Yii;
 use igribov\questionlist\models\QuestionList;
 use igribov\questionlist\models\QuestionListSearch;
-use yii\web\Controller;
+use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
@@ -19,23 +19,6 @@ use igribov\questionlist\models\AnswerVariant;
  */
 class QuestionListConstructorController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-            'access'=> [
-                'class' => 'igribov\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-    }
-
-
     /**
      * Lists all QuestionList models.
      * @return mixed

@@ -5,7 +5,7 @@ namespace igribov\questionlist\controllers;
 use Yii;
 use igribov\questionlist\models\Region;
 use igribov\questionlist\models\RegionSearch;
-use yii\web\Controller;
+use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
@@ -16,26 +16,6 @@ use yii\helpers\Html;
  */
 class RegionController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-            'access'=> [
-                'class' => 'igribov\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-    }
-
     /**
      * Lists all Region models.
      * @return mixed

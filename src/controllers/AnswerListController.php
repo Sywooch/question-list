@@ -5,7 +5,7 @@ namespace igribov\questionlist\controllers;
 use Yii;
 use igribov\questionlist\models\AnswerList;
 use igribov\questionlist\models\AnswerListSearch;
-use yii\web\Controller;
+use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
@@ -22,25 +22,6 @@ use webvimark\modules\UserManagement\models\User;
  */
 class AnswerListController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-            'access'=> [
-                'class' => 'igribov\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-    }
 
     /**
      * Lists all AnswerList models.

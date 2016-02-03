@@ -2,7 +2,7 @@
 
 namespace igribov\questionlist\controllers;
 
-use yii\web\Controller;
+use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use Yii;
 
 class DefaultController extends Controller
