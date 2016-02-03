@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\grid\GridView;
+use yii\data\ArrayDataProvider;
 
 /* @var $this yii\web\View */
 /* @var $model igribov\questionlist\models\QuestionList */
@@ -33,15 +35,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'title'
         ],
     ]) ?>
-    <? foreach($questions as $q):?>
-        <?= DetailView::widget([
-            'model' => $q,
-            'attributes' => [
-                'questionTypeName',
-                'quest_text',
-                'answerVariantsInline'
-            ],
-        ]) ?>
-    <? endforeach;?>
+    <?= GridView::widget([
+        'dataProvider' => new ArrayDataProvider([
+            'allModels' => $model->questions,
+        ]),
+        //'filterModel' => false,
+        'columns' => [
+            ['class' => 'kartik\grid\SerialColumn'],
+            'quest_text',
+            'questionTypeName',
+            'answerVariantsInline',
+        ],
+    ]) ?>
 
 </div>

@@ -11,15 +11,8 @@ use yii\data\ArrayDataProvider;
 ?>
 <div class="question-list-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($model->title) ?></h1>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title'
-        ],
-    ]) ?>
     <?= GridView::widget([
         'dataProvider' => new ArrayDataProvider([
             'allModels' => $model->questions,

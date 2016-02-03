@@ -16,7 +16,7 @@ class AccessControl extends ActionFilter
         $modelsUsersOffices = null;
         if($profileId = Yii::$app->user->identity->username)
         {
-            $modelsUsersOffices = UsersOffices::find()->where(['profile_id'=>$profileId])->innerJoinWith('office')->all();
+            $modelsUsersOffices = UsersOffices::find()->where(['profile_id'=>$profileId])->joinWith('office')->all();
         }
         $params = \yii\helpers\ArrayHelper::merge(Yii::$app->getRequest()->getQueryParams(),
             Yii::$app->getRequest()->getBodyParams());
