@@ -37,10 +37,10 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'officeName',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'list_name',
-    // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'scores',
+    ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

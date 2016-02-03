@@ -18,6 +18,7 @@ class m160201_084147_questionlist extends Migration
             'answer' => $this->string(1000)->notNull(),
             'answer_list_id' => $this->integer(11)->notNull(),
             'answer_comment' => $this->string(1000),
+            'scores' => $this->integer()->defaultValue(0),
         ]);
 
         $this->createTable('{{%questionlist_answers_variants}}',[
@@ -35,6 +36,7 @@ class m160201_084147_questionlist extends Migration
             'status' => $this->string(10)->notNull(),
             'do_id' => $this->integer(11)->notNull(),
             'list_name' => $this->string(255)->notNull(),
+            'scores' => $this->integer()->defaultValue(0),
         ]);
 
         $this->createTable('{{%questionlist_office}}',[

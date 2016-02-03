@@ -18,6 +18,7 @@ use yii\grid\GridView;
             'status',
             'officeName',
             'list_name',
+            'scores',
         ],
     ]) ?>
 
@@ -30,6 +31,7 @@ use yii\grid\GridView;
                 'question_text',
                 'answer',
                 'question_type',
+                'scores',
             ],
         ]); ?>
     <? else: ?>

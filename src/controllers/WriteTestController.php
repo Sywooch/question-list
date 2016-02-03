@@ -119,9 +119,9 @@ class WriteTestController extends Controller
             $modelsAnswer = Model::createMultiple(Answer::classname(),[],$scenario=['scenario'=>'create']);
             Model::loadMultiple($modelsAnswer, $postData);
             $valid = $modelQuestionList->validate();
-
-
+            $summScores = 0;
             foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
+                $summScores += $modelAnswer->scores;
                 $modelAnswer->profile_id = Yii::$app->user->identity->username;
                 $valid = $modelAnswer->validate() && $valid;
             }
@@ -129,13 +129,17 @@ class WriteTestController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $flag = false;
-
-                    if($modelAnswerList->save())foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
-                        if (! ($flag = $modelAnswer->save(false))) {
-                            $transaction->rollBack();
-                            break;
+                    $modelAnswerList->scores = $summScores;
+                    if($modelAnswerList->save())
+                        foreach($modelsAnswer as $indexModelAnswer => $modelAnswer)
+                        {
+                            if (! ($flag = $modelAnswer->save(false))) {
+                                $transaction->rollBack();
+                                break;
+                            }
                         }
-                    }
+
+
                     if ($flag) {
                         $transaction->commit();
                         return $this->redirect(['view', 'id' => $modelAnswerList->id]);
@@ -176,14 +180,16 @@ class WriteTestController extends Controller
         if($postData = Yii::$app->request->post())
         {
             $valid = $modelQuestionList->validate();
+            $summScores = 0;
 
             if(isset($postData['Answer'])) {
                 $answerIds = ArrayHelper::getColumn($postData['Answer'], 'id');
                 $modelsAnswer = Answer::findAll($answerIds);
                 Model::loadMultiple($modelsAnswer, $postData);
             }
-
+            $summScores = 0;
             foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
+                $summScores += $modelAnswer->scores;
                 $modelAnswer->profile_id = Yii::$app->user->identity->username;
                 $valid = $modelAnswer->validate() && $valid;
             }
@@ -191,7 +197,7 @@ class WriteTestController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $flag = false;
-
+                    $modelAnswerList->scores = $summScores;
                     if($modelAnswerList->save())foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
                         if (! ($flag = $modelAnswer->save(false))) {
                             $transaction->rollBack();

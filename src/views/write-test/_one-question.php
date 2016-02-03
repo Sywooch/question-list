@@ -11,6 +11,18 @@ use yii\widgets\ActiveForm;
 /* @var $questionListId int; */
 /* @var $answerListId int; */
 /* @var $modelAnswer; */
+$this->registerJs('
+function setScores(){
+    var id = $(this).attr("id").slice(7, $(this).attr("id").indexOf("-answer")),
+        value = $(this).val(),
+        scores = $(this).find("option[value=\'"+value+"\']").attr("scores");
+    $("input#answer-"+id+"-scores").val(scores);
+}
+$(".select_answer select").each(function(i,elemenet){
+    setScores.call(elemenet);
+});
+$(".select_answer select").change(setScores);
+');
 ?>
     <?/*= $form->field($modelQuestion, "[{$modelQuestion->id}]quest_text")->textArea(['maxlength' => true]) */
     $modelAnswer->question_id = $modelQuestion->id;
@@ -34,12 +46,18 @@ use yii\widgets\ActiveForm;
             <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_list_id");?>
             <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_date");?>
             <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_list_id");?>
+            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]scores");?>
             <? switch($modelQuestion->type) {
                 case 'multiple' :
                     $answerVariants = [];
-                    foreach ($modelQuestion->answerVariants as $av) $answerVariants[$av->answer] = $av->answer;
+                    $options = [];
+                    foreach ($modelQuestion->answerVariants as $av) {
+                        $answerVariants[$av->answer] = $av->answer;
+                        $options[$av->answer] = ['scores'=>$av->scores];
+                    }
+                    echo '<div class="select_answer">';
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")
-                        ->dropDownList($answerVariants,[$modelAnswer->answer => ['selected'=>'selected']]);
+                        ->dropDownList($answerVariants,['options'=>$options,$modelAnswer->answer => ['selected'=>'selected']]);
                     break;
                 case 'boolean' :
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")

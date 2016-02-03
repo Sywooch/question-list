@@ -27,6 +27,7 @@ return [
         'filter' => $statusList,
     ],
     'officeName',
+    'scores',
     [
         'class' => 'kartik\grid\ActionColumn',
         'template' => '{create} {view}',

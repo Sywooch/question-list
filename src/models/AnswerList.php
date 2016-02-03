@@ -13,6 +13,7 @@ use Yii;
  * @property string $date_to
  * @property string $status
  * @property integer $do_id
+ * @property integer $scores
  *
  */
 class AnswerList extends \yii\db\ActiveRecord
@@ -51,7 +52,7 @@ class AnswerList extends \yii\db\ActiveRecord
     {
         return [
             [['question_list_id','list_name','date_from', 'date_to', 'do_id'], 'required'],
-            [['question_list_id', 'do_id'], 'integer'],
+            [['question_list_id', 'do_id','scores'], 'integer'],
             [['date_from', 'date_to','list_name'], 'safe'],
             [['status'], 'string', 'max' => 10],
             [['list_name'], 'string', 'max' => 50],
@@ -100,6 +101,7 @@ class AnswerList extends \yii\db\ActiveRecord
             'do_id' => 'Отделение',
             'list_name' => 'Название',
             'officeName' => 'Отделение',
+            'scores' => 'Сумма баллов',
         ];
     }
 }

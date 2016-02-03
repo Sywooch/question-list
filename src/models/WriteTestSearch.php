@@ -75,6 +75,7 @@ class WriteTestSearch extends AnswerListSearch
         $query->andFilterWhere([
             'questionlist_answer_list.id' => $this->id,
             'question_list_id' => $this->question_list_id,
+            'scores' => $this->scores,
             /*'date_from' => $this->date_from,
             'date_to' => $this->date_to,*/
         ]);

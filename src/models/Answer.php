@@ -17,6 +17,7 @@ use igribov\questionlist\models\Answer;
  * @property string $answer_date
  * @property string $answer
  * @property string $answer_comment
+ * @property integer $scores
  */
 class Answer extends \yii\db\ActiveRecord
 {
@@ -37,7 +38,7 @@ class Answer extends \yii\db\ActiveRecord
         return [
             [['answer_list_id','question_text', 'question_type', 'question_id', 'profile_id', 'question_list_id', 'answer_date', 'answer'], 'required'],
             [['id'], 'required','on'=>'update'],
-            [['id', 'question_id', 'question_list_id'], 'integer'],
+            [['id', 'question_id', 'question_list_id','scores'], 'integer'],
             [['answer_date'], 'safe'],
             [['question_text', 'answer','answer_comment'], 'string', 'max' => 1000],
             [['question_type'], 'string', 'max' => 25],
@@ -60,6 +61,7 @@ class Answer extends \yii\db\ActiveRecord
             'answer_date' => 'Дата ответа',
             'answer' => 'Ответ',
             'answer_comment' => 'Комментарий',
+            'scores' => 'Баллы',
         ];
     }
 
