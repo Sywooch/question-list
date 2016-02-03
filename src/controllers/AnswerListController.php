@@ -255,7 +255,8 @@ class AnswerListController extends Controller
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        if($model) { $model->status = 'archive'; $model->save(); }
 
         if($request->isAjax){
             /*
@@ -287,7 +288,9 @@ class AnswerListController extends Controller
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
         foreach (AnswerList::findAll(json_decode($pks)) as $model) {
-            $model->delete();
+            //$model->delete();
+            $model->status = 'archive';
+            $model->save();
         }
 
         if($request->isAjax){
