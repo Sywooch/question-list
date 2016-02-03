@@ -31,7 +31,6 @@ class Model extends \yii\base\Model
             $keys = array_keys(ArrayHelper::map($multipleModels, 'id', 'id'));
             $multipleModels = array_combine($keys, $multipleModels);
         }
-
         if ($post && is_array($post)) {
             foreach ($post as $i => $item) {
                 if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {

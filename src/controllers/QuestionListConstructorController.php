@@ -42,11 +42,9 @@ class QuestionListConstructorController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $questions = $model->questions;
 
         return $this->render('view', [
             'model' => $model,
-            'questions' => $questions,
         ]);
     }
 
@@ -85,7 +83,6 @@ class QuestionListConstructorController extends Controller
             }
             if ($valid) {
                 $transaction = \Yii::$app->db->beginTransaction();
-
                 try {
                     if ($flag = $modelQuestionList->save(false)) {
 

@@ -71,6 +71,7 @@ class Question extends \yii\db\ActiveRecord
             'questionTypeName' => 'Тип вопроса',
             'quest_text' => 'Текст вопроса',
             'answer' => 'Варианты ответа',
+            'answerVariantsInline' => 'Варианты ответа',
         ];
     }
 
