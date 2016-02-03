@@ -14,6 +14,8 @@ echo Menu::widget([
         ['label'=>'Управление опросами', 'url'=>['answer-list/index']],
         ['label'=>'Мои опросные листы', 'url'=>['write-test/index']],
         ['label'=>'Пользователи и роли', 'url'=>['users-offices/index']],
+        ['label'=>'Офисы', 'url'=>['office/index']],
+        ['label'=>'Регионы', 'url'=>['region/index']],
     ],
 ]);
 ?>

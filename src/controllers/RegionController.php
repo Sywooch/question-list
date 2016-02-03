@@ -3,9 +3,8 @@
 namespace igribov\questionlist\controllers;
 
 use Yii;
-use igribov\questionlist\models\Office;
-use igribov\questionlist\models\OfficeSearch;
-use yii\data\ActiveDataProvider;
+use igribov\questionlist\models\Region;
+use igribov\questionlist\models\RegionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,9 +12,9 @@ use \yii\web\Response;
 use yii\helpers\Html;
 
 /**
- * OfficeController implements the CRUD actions for Office model.
+ * RegionController implements the CRUD actions for Region model.
  */
-class OfficeController extends Controller
+class RegionController extends Controller
 {
     /**
      * @inheritdoc
@@ -38,24 +37,23 @@ class OfficeController extends Controller
     }
 
     /**
-     * Lists all Office models.
+     * Lists all Region models.
      * @return mixed
      */
     public function actionIndex()
-    {
-        $searchModel = new OfficeSearch();
+    {    
+        $searchModel = new RegionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-
     }
 
 
     /**
-     * Displays a single Office model.
+     * Displays a single Region model.
      * @param integer $id
      * @return mixed
      */
@@ -65,7 +63,7 @@ class OfficeController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Office #".$id,
+                    'title'=> "Region #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -80,7 +78,7 @@ class OfficeController extends Controller
     }
 
     /**
-     * Creates a new Office model.
+     * Creates a new Region model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -88,7 +86,7 @@ class OfficeController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Office();  
+        $model = new Region();  
 
         if($request->isAjax){
             /*
@@ -97,7 +95,7 @@ class OfficeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Office",
+                    'title'=> "Create new Region",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -108,15 +106,15 @@ class OfficeController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new Office",
-                    'content'=>'<span class="text-success">Create Office success</span>',
+                    'title'=> "Create new Region",
+                    'content'=>'<span class="text-success">Create Region success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new Office",
+                    'title'=> "Create new Region",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -141,7 +139,7 @@ class OfficeController extends Controller
     }
 
     /**
-     * Updates an existing Office model.
+     * Updates an existing Region model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -159,7 +157,7 @@ class OfficeController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Office #".$id,
+                    'title'=> "Update Region #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -169,7 +167,7 @@ class OfficeController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Office #".$id,
+                    'title'=> "Region #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
@@ -178,7 +176,7 @@ class OfficeController extends Controller
                 ];    
             }else{
                  return [
-                    'title'=> "Update Office #".$id,
+                    'title'=> "Update Region #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -201,7 +199,7 @@ class OfficeController extends Controller
     }
 
     /**
-     * Delete an existing Office model.
+     * Delete an existing Region model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -229,7 +227,7 @@ class OfficeController extends Controller
     }
 
      /**
-     * Delete multiple existing Office model.
+     * Delete multiple existing Region model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -239,7 +237,7 @@ class OfficeController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (Office::findAll(json_decode($pks)) as $model) {
+        foreach (Region::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
         
@@ -260,15 +258,15 @@ class OfficeController extends Controller
     }
 
     /**
-     * Finds the Office model based on its primary key value.
+     * Finds the Region model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Office the loaded model
+     * @return Region the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Office::findOne($id)) !== null) {
+        if (($model = Region::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
