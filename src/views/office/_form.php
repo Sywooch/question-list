@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use igribov\questionlist\models\Region;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\unicred\models\Office */
@@ -10,8 +11,10 @@ use yii\widgets\ActiveForm;
 <div class="office-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    <?php $regions =  yii\helpers\ArrayHelper::map(igribov\questionlist\models\Region::find()->all(), 'id', 'name');?>
 
-    <?= $form->field($model, 'region_id')->textInput() ?>
+    <?= $form->field($model, "region_id")->dropDownList($regions,
+        [ $model->region_id => ['selected'=>'selected']]);?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

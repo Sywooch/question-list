@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
         'model' => $model,
         'attributes' => [
             'id',
-            'region_id',
+            'regionName',
             'name',
         ],
     ]) ?>
