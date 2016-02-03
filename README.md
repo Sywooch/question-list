@@ -29,33 +29,16 @@ Configuration
 
 'modules'=>[
 	'questionlist' => [
-        'class' => 'igribov\questionlist\Module',
-		'onBeforeAction' => function($controllerId, $actionId, $user, $roles, $urlParams) {
-		  // роли пользователя
-		  $roles = array_filter(\yii\helpers\ArrayHelper::map($roles,'id','profile_office_role'));
-
-		  switch($controllerId) {
-		      case 'write-test' :
-		          return( in_array('manager',$roles));
-		      case 'answer-list' :
-		          return( in_array('admin',$roles));
-		      case 'question-list-constructor' :
-		          return( in_array('admin',$roles));
-		      case 'users-offices' :
-		          return( in_array('admin',$roles));
-		      case 'default' :
-		          return true;
-		  }
-		  return false;
-		},
-    ],
+          'class' => 'igribov\questionlist\Module',
+          'onBeforeAction' => function($controllerId,$actionId,$user,$urlParams){
+              return true;
+          },
+      ],
 ],
 
 ```
 Метод onBeforeAction заданный анонимной функцией, должен возвращать boolean.
 Он определяет доступ к методу контроллера, для настройки доступа.
-Аргументы : ID контроллера, ID экшкна контроллера, Пользователь (объект класса), массив какими ролями 
-в отделениях обладает пользователь, параметры URL и переданные в теле запроса.
 
 2) Run migrations
 

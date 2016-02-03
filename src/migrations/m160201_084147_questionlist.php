@@ -53,6 +53,18 @@ class m160201_084147_questionlist extends Migration
             'name' => 'Офис 3',
         ]);
 
+        $this->createTable('{{%questionlist_region}}',[
+            'id' => $this->primaryKey(),
+            'name' => $this->string(255)->notNull()->unique(),
+        ]);
+
+        $this->insert('{{%questionlist_region}}',[
+            'name' => 'Регион 1',
+        ]);
+        $this->insert('{{%questionlist_region}}',[
+            'name' => 'Регион 2',
+        ]);
+
         $this->createTable('{{%questionlist_question}}',[
             'id' => $this->primaryKey(),
             'type' => $this->string(10)->notNull(),
@@ -77,11 +89,13 @@ class m160201_084147_questionlist extends Migration
             'office_id' => $this->integer(11)->notNull(),
             'profile_office_role' => $this->string(50)->notNull(),
         ]);
+
         $this->insert('{{%questionlist_users_offices}}',[
             'profile_id' => 'ql_manager',
             'office_id' => 1,
             'profile_office_role' => 'manager',
         ]);
+
         $this->insert('{{%questionlist_users_offices}}',[
             'profile_id' => 'admin',
             'profile_office_role' => 'admin',

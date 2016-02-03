@@ -3,16 +3,9 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model igribov\questionlist\models\Office */
-
-$this->title = 'Update Office: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Offices', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+/* @var $model app\modules\unicred\models\Office */
 ?>
 <div class="office-update">
-
-    <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [
         'model' => $model,

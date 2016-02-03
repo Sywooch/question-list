@@ -33,6 +33,16 @@ class Office extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getRegion()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'region_id']);
+    }
+
+    public function getRegionName()
+    {
+        return $this->region->name;
+    }
+
     /**
      * @inheritdoc
      */
@@ -41,6 +51,7 @@ class Office extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'region_id' => 'Регион',
+            'regionName' => 'Регион',
             'name' => 'Офис',
         ];
     }
