@@ -37,7 +37,7 @@ class WriteTestController extends Controller
     {
         $modelAnswerList = $this->findAnswerListModel($id);
         $modelQuestionList = $modelAnswerList->questionList;
-        // если пользователь лезет не в свое ДО, на просмотр которого нет прав, то редирект.
+        // если пользователь заходит в данные не своего ДО, на просмотр которого нет прав, то редирект.
         if(! $this->getAccessToOffice($modelAnswerList->do_id) )
         {
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));

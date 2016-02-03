@@ -38,7 +38,7 @@ class WriteTestSearch extends AnswerListSearch
         // берем ID отделений, где пользователь является управляющим, или где он назначен им.
 
         $officeIds = $this->getOffiсeIds(Yii::$app->user->identity->username);
-        $query = AnswerList::find()->innerJoinWith('questionList')->where(['do_id'=>$officeIds]);
+        $query = AnswerList::find()->joinWith('questionList')->where(['do_id'=>$officeIds]);
         //$query = AnswerList::find()->innerJoinWith('questionList');
 
         $dataProvider = new ActiveDataProvider([

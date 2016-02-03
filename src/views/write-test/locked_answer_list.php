@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $modelAnswerList igribov\questionlist\models\AnswerList */
@@ -13,13 +14,23 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="answer-list-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?= DetailView::widget([
+        'model' => $modelAnswerList,
+        'attributes' => [
+            'list_name',
+            'officeName',
+            'date_from',
+            'date_to',
+            'scores',
+        ],
+    ]) ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'question_text',
             'question_type',
             'answer',
+            'scores',
         ],
     ]) ?>
 

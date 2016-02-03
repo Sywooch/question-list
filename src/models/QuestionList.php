@@ -45,9 +45,8 @@ class QuestionList extends \yii\db\ActiveRecord
           array_filter( array_merge($this->answerLists, $this->questions), function($item){
               $item->questionListWasDelete();
           });
-
           $res = Yii::$app->db
-              ->createCommand("DELETE FROM question_list_questions_qlists WHERE list_id=:id")
+              ->createCommand("DELETE FROM questionlist_questions_qlists WHERE list_id=:id")
               ->bindValue(':id',$this->id)
               ->execute();
           return true;

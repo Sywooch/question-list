@@ -33,6 +33,7 @@ return [
         'template' => '{create} {view}',
         'buttons' => [
             'create' => function($url, $model) {
+                if($model->status === 'archive') return;
                 $action = $model->status === 'clear' ? 'create' : 'update';
                 return Html::a(
                     '<span class="glyphicon glyphicon-play"></span>',

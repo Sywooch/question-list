@@ -261,8 +261,10 @@ class AnswerListController extends Controller
             /*
             *   Process for ajax request
             */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+            $this->redirect(['index']);
+            return 'Запись успешно удалена.';
+            //Yii::$app->response->format = Response::FORMAT_JSON;
+            //return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
             /*
             *   Process for non-ajax request
