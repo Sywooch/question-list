@@ -92,6 +92,7 @@ $this->registerJs($js);
 
 ?>
 
+
 <div class="question-list-form">
 
     <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>

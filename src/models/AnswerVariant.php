@@ -12,6 +12,7 @@ use igribov\questionlist\models\Question;
  * @property integer $id
  * @property integer $question_id
  * @property string $answer
+ * @property integer $scores
  */
 class AnswerVariant extends \yii\db\ActiveRecord
 {
@@ -31,7 +32,7 @@ class AnswerVariant extends \yii\db\ActiveRecord
         return [
             [['question_id','answer'], 'required',"on"=>"form"],
            /* [['question_id'], 'required'],*/
-            [['question_id'], 'integer'],
+            [['question_id','scores'], 'integer'],
             [['answer'], 'string', 'max' => 255]
         ];
     }
@@ -55,8 +56,9 @@ class AnswerVariant extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'question_id' => 'Question ID',
-            'answer' => 'Answer',
+            'question_id' => 'ID Вопроса',
+            'answer' => 'Ответ',
+            'scores' => 'Баллы',
         ];
     }
 }

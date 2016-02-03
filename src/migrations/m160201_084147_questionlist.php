@@ -23,7 +23,8 @@ class m160201_084147_questionlist extends Migration
         $this->createTable('{{%questionlist_answers_variants}}',[
             'id' => $this->primaryKey(),
             'question_id' => $this->integer(11)->notNull(),
-            'answer' => $this->string(255)->notNull()
+            'answer' => $this->string(255)->notNull(),
+            'scores' => $this->integer()->notNull()->defaultValue(0),
         ]);
 
         $this->createTable('{{%questionlist_answer_list}}',[
@@ -109,11 +110,12 @@ class m160201_084147_questionlist extends Migration
         $this->dropTable('{{%questionlist_answers}}');
         $this->dropTable('{{%questionlist_answers_variants}}');
         $this->dropTable('{{%questionlist_answer_list}}');
-        $this->dropTable('{{%questionlist_office}}');
         $this->dropTable('{{%questionlist_question}}');
         $this->dropTable('{{%questionlist_questions_qlists}}');
         $this->dropTable('{{%questionlist_question_list}}');
         $this->dropTable('{{%questionlist_users_offices}}');
+        $this->dropTable('{{%questionlist_office}}');
+        $this->dropTable('{{%questionlist_region}}');
     }
 
     /*

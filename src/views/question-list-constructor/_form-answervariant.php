@@ -8,6 +8,7 @@ $answVar = new AnswerVariant();
 $answVar->id = $modelsAnswerVariant[0]->id;
 $answVar->question_id = $modelsAnswerVariant[0]->question_id;
 $answVar->answer = $modelsAnswerVariant[0]->answer;
+$answVar->scores = $modelsAnswerVariant[0]->scores;
 $modelsAnswerVariant[0] = $answVar;
 $modelsAnswerVariant[0]->oldAttributes=$modelsAnswerVariant[1]->oldAttributes;
 ?>
@@ -24,7 +25,7 @@ DynamicFormWidget::begin([
     'model' => new AnswerVariant(['scenario'=>'form']),
     'formId' => 'dynamic-form',
     'formFields' => [
-        'answer'
+        'answer',
     ],
 ]); ?>
     <table class="table table-bordered">
@@ -47,6 +48,7 @@ DynamicFormWidget::begin([
                     }
                     ?>
                     <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]answer")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]scores")->textInput(['maxlength' => 4,'style'=>'width:50px']); ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px;">
                     <button type="button" class="remove-answervariant btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>

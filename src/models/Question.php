@@ -89,7 +89,7 @@ class Question extends \yii\db\ActiveRecord
         return [
             'text' => 'Поле для ответа',
             'multiple'=>'Выбор из списка вариантов',
-            'boolean'=>'Да/Нет',
+            //'boolean'=>'Да/Нет',
         ];
     }
 
