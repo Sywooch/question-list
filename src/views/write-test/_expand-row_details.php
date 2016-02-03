@@ -23,6 +23,7 @@ $this->title = "Ответы на опрос '$model->list_name'";
             'question_text',
             'question_type',
             'answer',
+            'answer_comment',
         ],
     ]) ?>
 

@@ -17,6 +17,7 @@ class m160201_084147_questionlist extends Migration
             'answer_date' => $this->date()->defaultValue(NULL),
             'answer' => $this->string(1000)->notNull(),
             'answer_list_id' => $this->integer(11)->notNull(),
+            'answer_comment' => $this->string(1000),
         ]);
 
         $this->createTable('{{%questionlist_answers_variants}}',[

@@ -49,6 +49,7 @@ use yii\widgets\ActiveForm;
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")->textArea(['maxlength' => true]);
                     break;
             }?>
+            <?= $form->field($modelAnswer, "[{$questionIndex}]answer_comment")->textArea(['maxlength' => true]);?>
         </div>
     </div>
 </div>
