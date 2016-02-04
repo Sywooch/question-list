@@ -54,6 +54,7 @@ jQuery(document).on("change",".select-question-type select",function(){
             }
             $(".answer-variants").eq(num).hide();
             $(".answer-variants").eq(num).find(".container-answervariants").find("input[type=text]").val("-");
+            $(".answer-variants").eq(num).find(".container-answervariants").find("input[type=number]").val(0);
     }
     $.each($(".answer-variants").eq(num).find(".answervariant-item"),function( i, element ){
         if(i===0) return;

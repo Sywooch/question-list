@@ -48,7 +48,7 @@ DynamicFormWidget::begin([
                     }
                     ?>
                     <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]answer")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]scores")->textInput(['maxlength' => 4,'style'=>'width:50px']); ?>
+                    <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]scores")->textInput(['type'=>'number','maxlength' => 4,'style'=>'width:100px']); ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px;">
                     <button type="button" class="remove-answervariant btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
