@@ -18,14 +18,14 @@ class m160201_084147_questionlist extends Migration
             'answer' => $this->string(1000)->notNull(),
             'answer_list_id' => $this->integer(11)->notNull(),
             'answer_comment' => $this->string(1000),
-            'scores' => $this->integer()->defaultValue(0),
+            'scores' => $this->integer(11)->defaultValue(null),
         ]);
 
         $this->createTable('{{%questionlist_answers_variants}}',[
             'id' => $this->primaryKey(),
             'question_id' => $this->integer(11)->notNull(),
             'answer' => $this->string(255)->notNull(),
-            'scores' => $this->integer()->defaultValue(0),
+            'scores' => $this->integer()->defaultValue(null),
         ]);
 
         $this->createTable('{{%questionlist_answer_list}}',[
@@ -33,10 +33,11 @@ class m160201_084147_questionlist extends Migration
             'question_list_id' => $this->integer(11)->notNull(),
             'date_from' => $this->date()->notNull(),
             'date_to' => $this->date()->notNull(),
+            'date' => $this->date(),
             'status' => $this->string(10)->notNull(),
             'do_id' => $this->integer(11)->notNull(),
             'list_name' => $this->string(255)->notNull(),
-            'scores' => $this->integer()->defaultValue(0),
+            'scores' => $this->integer()->defaultValue(null),
             'comment' => $this->text(),
         ]);
 
@@ -124,8 +125,8 @@ class m160201_084147_questionlist extends Migration
         $this->dropTable('{{%questionlist_questions_qlists}}');
         $this->dropTable('{{%questionlist_question_list}}');
         $this->dropTable('{{%questionlist_users_offices}}');
-        $this->dropTable('{{%questionlist_office}}');
         $this->dropTable('{{%questionlist_region}}');
+        $this->dropTable('{{%questionlist_office}}');
     }
 
     /*
