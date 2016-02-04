@@ -58,6 +58,7 @@ $(".select_answer select").change(setScores);
                     echo '<div class="select_answer">';
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")
                         ->dropDownList($answerVariants,['options'=>$options,$modelAnswer->answer => ['selected'=>'selected']]);
+                    echo '</div>';
                     break;
                 case 'boolean' :
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")

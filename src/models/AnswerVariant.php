@@ -40,7 +40,7 @@ class AnswerVariant extends \yii\db\ActiveRecord
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios['form'] = ['answer','question_id'];
+        $scenarios['form'] = ['answer','question_id','scores'];
         return $scenarios;
     }
 

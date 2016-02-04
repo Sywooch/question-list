@@ -182,11 +182,22 @@ class WriteTestController extends Controller
             $valid = $modelQuestionList->validate();
             $summScores = 0;
 
-            if(isset($postData['Answer'])) {
-                $answerIds = ArrayHelper::getColumn($postData['Answer'], 'id');
-                $modelsAnswer = Answer::findAll($answerIds);
-                Model::loadMultiple($modelsAnswer, $postData);
+            $answerIds = ArrayHelper::getColumn($postData['Answer'], 'id');
+            $modelsAnswer = Answer::findAll($answerIds);
+            Model::loadMultiple($modelsAnswer, $postData);
+            //если был удален один вопрос, на который ранее отвечали
+            $oldAnswerIDs = ArrayHelper::map($modelsAnswer, 'id', 'id');
+            $deletedAnswerIDs = array_diff($oldAnswerIDs, array_filter($answerIds));
+            // если был добавлен еще один вопрос, то создадим пустой и добавим
+
+            foreach($postData['Answer'] as $answer) {
+                if(!$answer['id']){
+                    $modelAnswerVariant = new Answer();
+                    $modelAnswerVariant->load(['Answer'=>$answer]);
+                    $modelsAnswer[] = $modelAnswerVariant;
+                }
             }
+
             $summScores = 0;
             foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
                 $summScores += $modelAnswer->scores;

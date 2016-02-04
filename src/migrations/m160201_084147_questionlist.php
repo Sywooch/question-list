@@ -25,7 +25,7 @@ class m160201_084147_questionlist extends Migration
             'id' => $this->primaryKey(),
             'question_id' => $this->integer(11)->notNull(),
             'answer' => $this->string(255)->notNull(),
-            'scores' => $this->integer()->notNull()->defaultValue(0),
+            'scores' => $this->integer()->defaultValue(0),
         ]);
 
         $this->createTable('{{%questionlist_answer_list}}',[

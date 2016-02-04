@@ -80,10 +80,12 @@ class WriteTestSearch extends AnswerListSearch
             'date_to' => $this->date_to,*/
         ]);
 
-        $query->andFilterWhere(['like', 'status', $this->statusName])
-            ->andFilterWhere(['like', 'list_name', $this->list_name])
+        $query->andFilterWhere(['like', 'list_name', $this->list_name])
             ->andFilterWhere(['>=', 'date_from', $this->date_from])
             ->andFilterWhere(['<=', 'date_to', $this->date_to]);
+
+        if($this->statusName) $query->andFilterWhere(['like', 'status', $this->statusName]);
+        else $query->andFilterWhere(['not like', 'status', 'archive']);
 
         $query->joinWith(['office'=>function($q) {
             $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
