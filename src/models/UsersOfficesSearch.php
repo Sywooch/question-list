@@ -13,6 +13,7 @@ use igribov\questionlist\models\UsersOffices;
 class UsersOfficesSearch extends UsersOffices
 {
     public $officeName;
+    public $regionName;
     public $roleName;
     /**
      * @inheritdoc
@@ -21,7 +22,7 @@ class UsersOfficesSearch extends UsersOffices
     {
         return [
             [['id', 'office_id'], 'integer'],
-            [['profile_id', 'profile_office_role','officeName','roleName'], 'safe'],
+            [['profile_id', 'profile_office_role','officeName','roleName','regionName'], 'safe'],
         ];
     }
 
@@ -78,6 +79,10 @@ class UsersOfficesSearch extends UsersOffices
 
         $query->joinWith(['office'=>function($q) {
             $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
+        }]);
+
+        $query->joinWith(['region'=>function($q) {
+            $q->andFilterWhere(['like', 'questionlist_region.name', $this->regionName]);
         }]);
 
         return $dataProvider;

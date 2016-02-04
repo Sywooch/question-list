@@ -24,6 +24,10 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'regionName',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'roleName',
         'filter' => igribov\questionlist\models\UsersOffices::getRoles(),
     ],
