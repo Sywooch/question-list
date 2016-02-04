@@ -84,6 +84,9 @@ class AnswerListController extends Controller
     {
         $request = Yii::$app->request;
         $model = new AnswerList();
+        $model->date_from = (new \DateTime())->format('Y-m-d');
+        $model->date_to = (new \DateTime('+1 month'))->format('Y-m-d');
+
         $modelsQuestionList = QuestionList::find()->all();
         $questionLists = ArrayHelper::map($modelsQuestionList, 'id', 'title');
 
