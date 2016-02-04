@@ -9,10 +9,25 @@ use igribov\questionlist\models\Answer;
 /* @var $modelAnswerList igribov\questionlist\models\AnswerList */
 
 $this->title = "Ответы на опрос '$model->list_name'";
+$this->registerCss('
+.comment {
+    border : 1px solid red ;
+    border-radius : 5px;
+    background-color : white;
+    padding : 5px;
+    margin : 5px;
+}
+');
+
 ?>
 <div class="answer-list-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    <?if($model->comment):?>
+    <div class="comment">
+        <p><i>Комментарий : <?=$model->comment?></i></p>
+    </div>
+    <?endif?>
 
     <?= GridView::widget([
         'dataProvider' => new ActiveDataProvider([

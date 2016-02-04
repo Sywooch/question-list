@@ -5,6 +5,7 @@ namespace igribov\questionlist\controllers;
 use Yii;
 use igribov\questionlist\models\UsersOffices;
 use igribov\questionlist\models\Office;
+use igribov\questionlist\models\Region;
 use igribov\questionlist\models\UsersOfficesSearch;
 use igribov\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
@@ -12,7 +13,6 @@ use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use webvimark\modules\UserManagement\models\User;
 
 /**
  * UsersOfficesController implements the CRUD actions for UsersOffices model.

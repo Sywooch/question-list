@@ -10,6 +10,7 @@ use Yii;
  * @property integer $id
  * @property string $profile_id
  * @property integer $office_id
+ * @property integer $region_id
  * @property string $profile_office_role
  */
 class UsersOffices extends \yii\db\ActiveRecord
@@ -28,7 +29,7 @@ class UsersOffices extends \yii\db\ActiveRecord
             'manager'=>'Управляющий',
             'empl'=>'Сотрудник',
             'admin'=>'Администратор',
-            'comdir'=>'Коммерческий директор',
+            'commercial_director'=>'Коммерческий директор',
         ];
     }
 
@@ -38,8 +39,8 @@ class UsersOffices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id', 'office_id'], 'required'],
-            [['office_id'], 'integer'],
+            [['profile_id'], 'required'],
+            [['office_id','region_id'], 'integer'],
             [['profile_id', 'profile_office_role'], 'string', 'max' => 50],
         ];
     }
@@ -59,9 +60,19 @@ class UsersOffices extends \yii\db\ActiveRecord
         return $this->hasOne(Office::className(), ['id' => 'office_id']);
     }
 
+    public function getRegion()
+    {
+        return $this->hasOne(Region::className(), ['id' => 'region_id']);
+    }
+
     public function getOfficeName()
     {
         return $this->office->name;
+    }
+
+    public function getRegionName()
+    {
+        return $this->region->name;
     }
 
     public function setOfficeName()
@@ -78,8 +89,10 @@ class UsersOffices extends \yii\db\ActiveRecord
             'id' => 'ID',
             'profile_id' => 'Профайл',
             'office_id' => 'Office ID',
+            'Region_id' => 'Region ID',
             'profile_office_role' => 'Роль',
             'officeName' => 'Офис',
+            'regionName' => 'Регион',
             'roleName' => 'Роль',
         ];
     }

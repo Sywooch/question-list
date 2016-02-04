@@ -37,6 +37,7 @@ class m160201_084147_questionlist extends Migration
             'do_id' => $this->integer(11)->notNull(),
             'list_name' => $this->string(255)->notNull(),
             'scores' => $this->integer()->defaultValue(0),
+            'comment' => $this->text(),
         ]);
 
         $this->createTable('{{%questionlist_office}}',[
@@ -90,7 +91,8 @@ class m160201_084147_questionlist extends Migration
         $this->createTable('{{%questionlist_users_offices}}',[
             'id' => $this->primaryKey(),
             'profile_id' => $this->string(50)->notNull(),
-            'office_id' => $this->integer(11)->notNull(),
+            'office_id' => $this->integer(11),
+            'region_id' => $this->integer(11),
             'profile_office_role' => $this->string(50)->notNull(),
         ]);
 
@@ -98,6 +100,12 @@ class m160201_084147_questionlist extends Migration
             'profile_id' => 'ql_manager',
             'office_id' => 1,
             'profile_office_role' => 'manager',
+        ]);
+
+        $this->insert('{{%questionlist_users_offices}}',[
+            'profile_id' => 'comdir',
+            'profile_office_role' => 'commercial_director',
+            'region_id' => 1,
         ]);
 
         $this->insert('{{%questionlist_users_offices}}',[

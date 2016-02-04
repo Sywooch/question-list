@@ -203,20 +203,7 @@ class AnswerListController extends Controller
                 if($model->save()){
                     return $this->redirect(['index']);
                 }
-                /*if ($model->save()) return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "AnswerList #".$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                        'questionLists' => $questionLists,
-                        'DoList' => $DoList,
-                        'answersDataProvider' => new ArrayDataProvider([
-                            'allModels' => $model->answers,
-                        ]),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];*/
+
             }else{
                  return [
                     'title'=> "Update AnswerList #".$id,

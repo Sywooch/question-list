@@ -1,35 +1,38 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\AnswerList */
 /* @var $form yii\widgets\ActiveForm */
+
+/*$this->registerJs('
+');*/
 ?>
 
 <div class="answer-list-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'question_list_id')->textInput() ?>
+    <?php
+        $statuses = igribov\questionlist\models\AnswerList::getStatusList();
+        //if($model)
+        $statuses['answered'] = 'В работе у отделения';
+        yii\helpers\ArrayHelper::remove($statuses,'clear');
+        //yii\helpers\ArrayHelper::remove($statuses,'archive');
+    ?>
 
-    <?= $form->field($model, 'date_from')->textInput() ?>
+    <?= $form->field($model, "status")->dropDownList($statuses,
+        [ $model->status => ['selected'=>'selected']]);?>
 
-    <?= $form->field($model, 'date_to')->textInput() ?>
-
-    <?= $form->field($model, 'status')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'do_id')->textInput() ?>
-
-    <?= $form->field($model, 'list_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'scores')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+    <?= $form->field($model, 'comment')->textarea() ?>
+  
+	<?php if (!Yii::$app->request->isAjax){ ?>
+	  	<div class="form-group">
+	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    </div>
+	<?php } ?>
 
     <?php ActiveForm::end(); ?>
-
+    
 </div>

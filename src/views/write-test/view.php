@@ -11,6 +11,17 @@ $this->title = $modelAnswerList->id;
 $moduleID = \Yii::$app->controller->module->id;$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/'.$moduleID]];
 $this->params['breadcrumbs'][] = ['label' => 'Мои опросные листы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerCss('
+.comment {
+    border : 1px solid red ;
+    border-radius : 5px;
+    background-color : white;
+    padding : 5px;
+    margin : 5px;
+}
+');
+
 ?>
 <div class="answer-list-view">
 
@@ -27,6 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) */?>
     </p>
     <? endif; ?>
+
+    <?if($modelAnswerList->comment):?>
+        <div class="comment">
+            <p><i>Комментарий : <?=$modelAnswerList->comment?></i></p>
+        </div>
+    <?endif?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

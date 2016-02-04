@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use igribov\questionlist\models\Region;
 
 /* @var $this yii\web\View */
 /* @var $model igribov\questionlist\models\UsersOffices */
@@ -17,6 +19,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'profile_id')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, "office_id")->dropDownList($offices,[ $model->office_id => ['selected'=>'selected']]);?>
+
+    <? $regions = ArrayHelper::merge([0=>'-'],ArrayHelper::map(Region::find()->all(), 'id', 'name'));?>
+    <?= $form->field($model, "region_id")->dropDownList($regions,[ $model->region_id => ['selected'=>'selected']]);?>
 
     <?= $form
         ->field($model, "profile_office_role")

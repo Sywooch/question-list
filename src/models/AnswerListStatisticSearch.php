@@ -12,6 +12,8 @@ use igribov\questionlist\models\AnswerList;
  */
 class AnswerListStatisticSearch extends AnswerList
 {
+    public $statusName;
+    public $officeName;
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class AnswerListStatisticSearch extends AnswerList
     {
         return [
             [['id', 'question_list_id', 'do_id', 'scores'], 'integer'],
-            [['date_from', 'date_to', 'status', 'list_name'], 'safe'],
+            [['date_from', 'date_to', 'status', 'list_name','statusName','officeName'], 'safe'],
         ];
     }
 
@@ -41,7 +43,7 @@ class AnswerListStatisticSearch extends AnswerList
      */
     public function search($params)
     {
-        $query = AnswerList::find();
+        $query = AnswerList::find()->orderBy('status');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,12 +62,13 @@ class AnswerListStatisticSearch extends AnswerList
             'question_list_id' => $this->question_list_id,
             'date_from' => $this->date_from,
             'date_to' => $this->date_to,
-            'do_id' => $this->do_id,
+            'do_id' => $this->officeName,
             'scores' => $this->scores,
         ]);
+        if($this->statusName) $query->andFilterWhere(['like', 'status', $this->statusName]);
+        else $query->andFilterWhere(['not like', 'status', 'archive']);
 
-        $query->andFilterWhere(['like', 'status', $this->status])
-            ->andFilterWhere(['like', 'list_name', $this->list_name]);
+        $query->andFilterWhere(['like', 'list_name', $this->list_name]);
 
         return $dataProvider;
     }

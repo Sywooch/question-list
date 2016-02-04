@@ -12,6 +12,7 @@ use Yii;
  * @property string $date_from
  * @property string $date_to
  * @property string $status
+ * @property string $comment
  * @property integer $do_id
  * @property integer $scores
  *
@@ -34,9 +35,9 @@ class AnswerList extends \yii\db\ActiveRecord
     {
         return [
             'clear'=>'Ожидает заполнения',
-            'answered'=>'Заполнен',
-            'send'=>'Отправлен',
-            'done' => 'Подтвержден',
+            'answered'=>'Заполняется отделением',
+            'send'=>'Отправлен коммерческому директору',
+            'done' => 'Подтвержден коммерческим директором',
             'archive' => 'Архив'
         ];
     }
@@ -56,6 +57,7 @@ class AnswerList extends \yii\db\ActiveRecord
             [['question_list_id', 'do_id','scores'], 'integer'],
             [['date_from', 'date_to','list_name'], 'safe'],
             [['status'], 'string', 'max' => 10],
+            [['comment'], 'string'],
             [['list_name'], 'string', 'max' => 50],
         ];
     }
@@ -103,6 +105,7 @@ class AnswerList extends \yii\db\ActiveRecord
             'list_name' => 'Название',
             'officeName' => 'Отделение',
             'scores' => 'Сумма баллов',
+            'comment' => 'Комментарий',
         ];
     }
 }
