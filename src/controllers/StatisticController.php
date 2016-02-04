@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
+use yii\data\ArrayDataProvider;
 
 /**
  * StatisticController implements the CRUD actions for AnswerList model.
@@ -43,19 +44,26 @@ class StatisticController extends Controller
     public function actionView($id)
     {   
         $request = Yii::$app->request;
+        $model = $this->findModel($id);
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                     'title'=> "AnswerList #".$id,
                     'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $model,
+                        'answersDataProvider' => new ArrayDataProvider([
+                            'allModels' => $model->answers,
+                        ]),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
         }else{
             return $this->render('view', [
-                'model' => $this->findModel($id),
+                'model' => $model,
+                'answersDataProvider' => new ArrayDataProvider([
+                    'allModels' => $model->answers,
+                ]),
             ]);
         }
     }
@@ -150,26 +158,20 @@ class StatisticController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    /*public function actionDelete($id)
     {
         $request = Yii::$app->request;
         $this->findModel($id)->delete();
 
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
-            /*
-            *   Process for non-ajax request
-            */
+
             return $this->redirect(['index_']);
         }
-
-
-    }
+    }*/
 
      /**
      * Delete multiple existing AnswerList model.
@@ -178,7 +180,7 @@ class StatisticController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionBulkDelete()
+    /*public function actionBulkDelete()
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
@@ -188,19 +190,14 @@ class StatisticController extends Controller
         
 
         if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
+
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
         }else{
-            /*
-            *   Process for non-ajax request
-            */
+
             return $this->redirect(['index_']);
         }
-       
-    }
+    }*/
 
     /**
      * Finds the AnswerList model based on its primary key value.
