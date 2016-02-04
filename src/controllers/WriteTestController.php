@@ -181,15 +181,14 @@ class WriteTestController extends Controller
         {
             $valid = $modelQuestionList->validate();
             $summScores = 0;
-
             $answerIds = ArrayHelper::getColumn($postData['Answer'], 'id');
             $modelsAnswer = Answer::findAll($answerIds);
             Model::loadMultiple($modelsAnswer, $postData);
             //если был удален один вопрос, на который ранее отвечали
-            $oldAnswerIDs = ArrayHelper::map($modelsAnswer, 'id', 'id');
+            $oldAnswerIDs = ArrayHelper::map($modelAnswerList->answers, 'id', 'id');
             $deletedAnswerIDs = array_diff($oldAnswerIDs, array_filter($answerIds));
-            // если был добавлен еще один вопрос, то создадим пустой и добавим
 
+            // если был добавлен еще один вопрос, то создадим пустой и добавим
             foreach($postData['Answer'] as $answer) {
                 if(!$answer['id']){
                     $modelAnswerVariant = new Answer();
@@ -214,6 +213,11 @@ class WriteTestController extends Controller
                             $transaction->rollBack();
                             break;
                         }
+                    }
+                    // удаляем вопросы, которые могли быть удалены в конструкторе
+                    if($deletedAnswerIDs){
+                        $del = Answer::findAll(array_values($deletedAnswerIDs));
+                        foreach($del as $model) $model->delete();
                     }
                     if ($flag) {
                         $transaction->commit();
