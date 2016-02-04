@@ -47,4 +47,16 @@ return [
             }
         ],
     ],
+    [
+        'class' => 'kartik\grid\ActionColumn',
+        'template' => '{send}',
+        'buttons' => [
+            'send' => function($url, $model) {
+                if($model->status !== 'answered') return;
+                return Html::a(
+                    '<button>Отправить<span class="glyphicon glyphicon-share"></span></button>',
+                    Url::toRoute(['write-test/send','id'=>$model->id]));
+            }
+        ],
+    ],
 ];

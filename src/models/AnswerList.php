@@ -35,6 +35,7 @@ class AnswerList extends \yii\db\ActiveRecord
         return [
             'clear'=>'Ожидает заполнения',
             'answered'=>'Заполнен',
+            'send'=>'Отправлен',
             'done' => 'Подтвержден',
             'archive' => 'Архив'
         ];

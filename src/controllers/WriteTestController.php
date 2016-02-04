@@ -27,7 +27,25 @@ class WriteTestController extends Controller
         return in_array($office_id,$this->getOffiсeIds(Yii::$app->user->identity->username));
     }
 
-
+    /**
+     * Меняет статус листа на Отправлен
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionSend($id)
+    {
+        $request = Yii::$app->request;
+        $model = $this->findAnswerListModel($id);
+        if(!$model) return;
+        if( ($model->status!=='answered') || (!$this->getAccessToOffice($model->do_id)) )
+        {
+            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
+            return;
+        }
+        $model->status = 'send';
+        $model->save();
+        return $this->redirect(['index']);
+    }
     /**
      * Displays a single AnswerList model.
      * @param integer $id
@@ -171,11 +189,11 @@ class WriteTestController extends Controller
         $modelsQuestion = $modelQuestionList->questions;
         $modelsAnswer = $modelAnswerList->answers;
 
-        /*if(! $this->getAccessToOffice($modelAnswerList->do_id) )
+        if((!$this->getAccessToOffice($modelAnswerList->do_id))
+            || in_array($modelAnswerList->status,['archive','send','done']) )
         {
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-        }*/
-
+        }
         // если форма отправлена.
         if($postData = Yii::$app->request->post())
         {
@@ -196,7 +214,7 @@ class WriteTestController extends Controller
                     $modelsAnswer[] = $modelAnswerVariant;
                 }
             }
-
+            // сумма очков
             $summScores = 0;
             foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
                 $summScores += $modelAnswer->scores;

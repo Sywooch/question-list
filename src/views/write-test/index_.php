@@ -15,6 +15,7 @@ $css = '
 tr.style-done { background-color: rgba(33, 222, 73, 0.65); }
 tr.style-clear { background-color: rgba(247, 3, 3, 0.42); }
 tr.style-answered { background-color: rgba(247, 228, 3, 0.64); }
+tr.style-send { background-color: rgba(162, 193, 220, 0.64); }
 ';
 $this->registerCss($css);
 ?>
