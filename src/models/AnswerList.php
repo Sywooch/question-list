@@ -15,6 +15,7 @@ use Yii;
  * @property string $comment
  * @property integer $do_id
  * @property integer $scores
+ * @property string $date
  *
  */
 class AnswerList extends \yii\db\ActiveRecord
@@ -55,7 +56,7 @@ class AnswerList extends \yii\db\ActiveRecord
         return [
             [['question_list_id','list_name','date_from', 'date_to', 'do_id'], 'required'],
             [['question_list_id', 'do_id','scores'], 'integer'],
-            [['date_from', 'date_to','list_name'], 'safe'],
+            [['date_from', 'date_to','list_name','date'], 'safe'],
             [['status'], 'string', 'max' => 10],
             [['comment'], 'string'],
             [['list_name'], 'string', 'max' => 50],
@@ -97,8 +98,8 @@ class AnswerList extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'question_list_id' => 'Список вопросов',
-            'date_from' => 'Дата начала опроса',
-            'date_to' => 'Дата окончания опроса',
+            'date_from' => 'Дата начала',
+            'date_to' => 'Дата окончания',
             'status' => 'Статус опроса',
             'statusName' => 'Статус опроса',
             'do_id' => 'Отделение',
@@ -106,6 +107,7 @@ class AnswerList extends \yii\db\ActiveRecord
             'officeName' => 'Отделение',
             'scores' => 'Сумма баллов',
             'comment' => 'Комментарий',
+            'date' => 'Дата заполнения',
         ];
     }
 }

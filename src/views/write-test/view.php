@@ -52,6 +52,7 @@ $this->registerCss('
             'question_type',
             'answer',
             'answer_comment',
+            'scores',
         ],
     ]) ?>
 

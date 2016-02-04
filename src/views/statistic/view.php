@@ -18,6 +18,7 @@ use yii\grid\GridView;
             'date_to',
             'scores',
             'statusName',
+            'date',
         ],
     ]) ?>
 

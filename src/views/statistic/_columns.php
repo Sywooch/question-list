@@ -30,10 +30,15 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'officeName',
+        'filter' => yii\helpers\ArrayHelper::map(igribov\questionlist\models\Office::find()->all(),'id','name'),
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'scores',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'date',
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

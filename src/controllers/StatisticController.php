@@ -123,6 +123,9 @@ class StatisticController extends Controller
                     'title'=> "AnswerList #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
+                        'answersDataProvider' => new ArrayDataProvider([
+                            'allModels' => $model->answers,
+                        ]),
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
@@ -142,7 +145,12 @@ class StatisticController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view',
+                    'id' => $model->id,
+                    'answersDataProvider' => new ArrayDataProvider([
+                        'allModels' => $model->answers,
+                    ]),
+                ]);
             } else {
                 return $this->render('update', [
                     'model' => $model,

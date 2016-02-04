@@ -133,6 +133,7 @@ class WriteTestController extends Controller
         if($postData = Yii::$app->request->post())
         {
             $modelAnswerList->status = 'answered';
+            $modelAnswerList->date = (new \DateTime())->format('Y-m-d');
 
             $modelsAnswer = Model::createMultiple(Answer::classname(),[],$scenario=['scenario'=>'create']);
             Model::loadMultiple($modelsAnswer, $postData);
@@ -226,6 +227,7 @@ class WriteTestController extends Controller
                 try {
                     $flag = false;
                     $modelAnswerList->scores = $summScores;
+                    $modelAnswerList->date = (new \DateTime())->format('Y-m-d');
                     if($modelAnswerList->save())foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
                         if (! ($flag = $modelAnswer->save(false))) {
                             $transaction->rollBack();

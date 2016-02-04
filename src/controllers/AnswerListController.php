@@ -2,6 +2,7 @@
 
 namespace igribov\questionlist\controllers;
 
+use igribov\questionlist\models\UsersOffices;
 use Yii;
 use igribov\questionlist\models\AnswerList;
 use igribov\questionlist\models\AnswerListSearch;
@@ -15,7 +16,6 @@ use igribov\questionlist\models\Office;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
-use webvimark\modules\UserManagement\models\User;
 
 /**
  * AnswerListController implements the CRUD actions for AnswerList model.
@@ -84,6 +84,7 @@ class AnswerListController extends Controller
     {
         $request = Yii::$app->request;
         $model = new AnswerList();
+        $model->date = (new \DateTime())->format('Y-m-d');
         $model->date_from = (new \DateTime())->format('Y-m-d');
         $model->date_to = (new \DateTime('+1 month'))->format('Y-m-d');
 
@@ -200,6 +201,7 @@ class AnswerListController extends Controller
                 ];         
             }else if($model->load($request->post())){
                 $model->list_name = $model->questionList->title;
+                $model->date = (new \DateTime())->format('Y-m-d');
                 if($model->save()){
                     return $this->redirect(['index']);
                 }
@@ -223,6 +225,7 @@ class AnswerListController extends Controller
             */
             if ($model->load($request->post())) {
                 $model->list_name = $model->questionList->title;
+                $model->date = (new \DateTime())->format('Y-m-d');
                 if ($model->save()) return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 return $this->render($viewName, [

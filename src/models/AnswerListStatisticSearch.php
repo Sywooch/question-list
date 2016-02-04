@@ -21,7 +21,7 @@ class AnswerListStatisticSearch extends AnswerList
     {
         return [
             [['id', 'question_list_id', 'do_id', 'scores'], 'integer'],
-            [['date_from', 'date_to', 'status', 'list_name','statusName','officeName'], 'safe'],
+            [['date_from', 'date_to','date', 'status', 'list_name','statusName','officeName'], 'safe'],
         ];
     }
 
@@ -62,6 +62,7 @@ class AnswerListStatisticSearch extends AnswerList
             'question_list_id' => $this->question_list_id,
             'date_from' => $this->date_from,
             'date_to' => $this->date_to,
+            'date' => $this->date,
             'do_id' => $this->officeName,
             'scores' => $this->scores,
         ]);
