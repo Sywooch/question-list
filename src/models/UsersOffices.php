@@ -75,11 +75,6 @@ class UsersOffices extends \yii\db\ActiveRecord
         return $this->region->name;
     }
 
-    public function setOfficeName()
-    {
-
-    }
-
     /**
      * @inheritdoc
      */

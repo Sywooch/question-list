@@ -3,13 +3,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use igribov\questionlist\models\Region;
+use igribov\questionlist\models\Office;
 
 /* @var $this yii\web\View */
 /* @var $model igribov\questionlist\models\UsersOffices */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $offices array */
 /* @var $usersRoles array */
 
+$offices = ArrayHelper::merge([0=>'-'],ArrayHelper::map(Office::find()->all(), 'id', 'name'));
 ?>
 
 <div class="users-offices-form">

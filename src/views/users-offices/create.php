@@ -12,7 +12,6 @@ use yii\helpers\Html;
 <div class="users-offices-create">
     <?= $this->render('_form', [
         'model' => $model,
-        'offices' => $offices,
         'usersRoles' => $usersRoles,
     ]) ?>
 </div>

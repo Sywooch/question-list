@@ -3,6 +3,7 @@
 namespace igribov\questionlist\controllers;
 
 use igribov\questionlist\models\UsersOffices;
+use igribov\questionlist\models\UsersAccess;
 use Yii;
 use igribov\questionlist\models\AnswerList;
 use igribov\questionlist\models\AnswerListStatisticSearch;
@@ -19,7 +20,6 @@ use yii\data\ArrayDataProvider;
  */
 class StatisticController extends Controller
 {
-
     /**
      * Lists all AnswerList models.
      * @return mixed
@@ -79,29 +79,6 @@ class StatisticController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $region = $model->office->region;
-        $username = Yii::$app->getUser()->identity->username;
-        $modelUsersOffices = UsersOffices::findOne(['profile_id'=>$username,'profile_office_role'=>'commercial_director','region_id'=>$region->id]);
-        if(!$modelUsersOffices) {
-            // это не коммерчески директор, вернем отказ
-            if($request->isAjax){
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return [
-                    'title'=> "Доступ запрещен",
-                    'content'=>$this->renderAjax('_access_denied', [
-                        'model' => $model,
-                        'region' => $region
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
-                ];
-            }
-            else {
-                return $this->render('_access_denied', [
-                    'model' => $model,
-                    'region' => $region
-                ]);
-            }
-        }
 
         if($request->isAjax){
             /*
@@ -110,7 +87,7 @@ class StatisticController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update AnswerList #".$id,
+                    'title'=> "Обновление ответов на опрос #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),

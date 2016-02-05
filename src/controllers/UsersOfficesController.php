@@ -70,9 +70,7 @@ class UsersOfficesController extends Controller
     {
         $request = Yii::$app->request;
         $model = new UsersOffices();
-        $modelsOffice = Office::find()->all();
         $usersRoles = UsersOffices::getRoles();
-        $offices = ArrayHelper::map($modelsOffice, 'id', 'name');
 
         if($request->isAjax){
             /*
@@ -84,7 +82,6 @@ class UsersOfficesController extends Controller
                     'title'=> "Create new UsersOffices",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
-                        'offices' => $offices,
                         'usersRoles' => $usersRoles,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -122,7 +119,6 @@ class UsersOfficesController extends Controller
                 return $this->render('create', [
                     'model' => $model,
                     'roleVariants' => ['manager'=>'Менеджер',0 => 'Нет роли'],
-                    'offices' => $offices,
                     'usersRoles' => $usersRoles,
                 ]);
             }
@@ -141,9 +137,7 @@ class UsersOfficesController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $modelsOffice = Office::find()->all();
         $usersRoles = UsersOffices::getRoles();
-        $offices = ArrayHelper::map($modelsOffice, 'id', 'name');
 
         if($request->isAjax){
             /*
@@ -155,7 +149,6 @@ class UsersOfficesController extends Controller
                     'title'=> "Update UsersOffices #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
-                        'offices' => $offices,
                         'usersRoles' => $usersRoles,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
@@ -190,7 +183,6 @@ class UsersOfficesController extends Controller
             } else {
                 return $this->render('update', [
                     'model' => $model,
-                    'offices' => $offices,
                     'usersRoles' => $usersRoles,
                 ]);
             }
