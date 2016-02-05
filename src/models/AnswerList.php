@@ -29,6 +29,19 @@ class AnswerList extends \yii\db\ActiveRecord
         return 'questionlist_answer_list';
     }
 
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)) {
+            if($this->scenario === 'write-test') {
+                $this->author = Yii::$app->user->identity->username;
+                $this->status = 'answered';
+                $this->date = (new \DateTime())->format('Y-m-d');
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @inheritdoc
      */
@@ -55,10 +68,12 @@ class AnswerList extends \yii\db\ActiveRecord
     {
         return [
             [['question_list_id','list_name','date_from', 'date_to', 'do_id'], 'required'],
+            [['question_list_id','list_name','date_from', 'date_to', 'do_id','author','date','scores'],'required','on'=>'write-test'],
             [['question_list_id', 'do_id','scores'], 'integer'],
             [['date_from', 'date_to','list_name','date'], 'safe'],
             [['status'], 'string', 'max' => 10],
             [['comment'], 'string'],
+            [['author'], 'string', 'max' => 50],
             [['list_name'], 'string', 'max' => 50],
         ];
     }
@@ -66,6 +81,13 @@ class AnswerList extends \yii\db\ActiveRecord
     public function getQuestionList()
     {
         return $this->hasOne(QuestionList::className(), ['id' => 'question_list_id']);
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios['write-test'] = [];
+        return $scenarios;
     }
 
     public function getOfficeName()

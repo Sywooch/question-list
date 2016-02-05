@@ -102,6 +102,7 @@ class WriteTestController extends Controller
     public function actionCreate($id)
     {
         $modelAnswerList = $this->findAnswerListModel($id);
+        $modelAnswerList->scenario = 'write-test';
 
         if($modelAnswerList->status !== 'clear')
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/update','id'=>$modelAnswerList->id]));
@@ -112,9 +113,6 @@ class WriteTestController extends Controller
         // если форма отправлена.
         if($postData = Yii::$app->request->post())
         {
-            $modelAnswerList->status = 'answered';
-            $modelAnswerList->date = (new \DateTime())->format('Y-m-d');
-
             $modelsAnswer = Model::createMultiple(Answer::classname(),[],$scenario=['scenario'=>'create']);
             Model::loadMultiple($modelsAnswer, $postData);
             $valid = $modelQuestionList->validate();
@@ -166,6 +164,8 @@ class WriteTestController extends Controller
     public function actionUpdate($id)
     {
         $modelAnswerList = $this->findAnswerListModel($id);
+        $modelAnswerList->scenario = 'write-test';
+
         $modelQuestionList = $modelAnswerList->questionList;
         $modelsQuestion = $modelQuestionList->questions;
         $modelsAnswer = $modelAnswerList->answers;
@@ -202,7 +202,7 @@ class WriteTestController extends Controller
                 try {
                     $flag = false;
                     $modelAnswerList->scores = $summScores;
-                    $modelAnswerList->date = (new \DateTime())->format('Y-m-d');
+
                     if($modelAnswerList->save())foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
                         if (! ($flag = $modelAnswer->save(false))) {
                             $transaction->rollBack();

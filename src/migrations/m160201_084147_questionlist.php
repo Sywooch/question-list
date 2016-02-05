@@ -39,6 +39,7 @@ class m160201_084147_questionlist extends Migration
             'list_name' => $this->string(255)->notNull(),
             'scores' => $this->integer()->defaultValue(null),
             'comment' => $this->text(),
+            'author' => $this->string(50)->defaultValue(null),
         ]);
 
         $this->createTable('{{%questionlist_office}}',[

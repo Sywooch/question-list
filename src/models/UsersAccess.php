@@ -22,7 +22,7 @@ class UsersAccess extends UsersOffices {
             ['label'=>'Офисы', 'url'=>['office/index']],
             ['label'=>'Регионы', 'url'=>['region/index']],
         ],
-        'comdir' => [
+        'commercial_director' => [
             ['label'=>'Статистика', 'url'=>['statistic/index']],
         ],
         'manager' => [
