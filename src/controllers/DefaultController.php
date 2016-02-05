@@ -3,23 +3,16 @@
 namespace igribov\questionlist\controllers;
 
 use igribov\questionlist\controllers\ModuleBaseController as Controller;
+use igribov\questionlist\models\UsersAccess;
 use Yii;
 
 class DefaultController extends Controller
 {
-	public function behaviors()
-    {
-        return [
-            'access'=> [
-                'class' => 'igribov\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-    }
 
     public function actionIndex()
     {
-        return $this->render('index_');
+        $actions = UsersAccess::getAvailableActions(Yii::$app->user->identity->username);
+        return $this->render('index_',['actions' => $actions]);
     }
 
 }

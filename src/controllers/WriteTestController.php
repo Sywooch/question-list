@@ -22,10 +22,6 @@ use yii\helpers\Url;
  */
 class WriteTestController extends Controller
 {
-    protected function getAccessToOffice($office_id)
-    {
-        return in_array($office_id,$this->getOffiсeIds(Yii::$app->user->identity->username));
-    }
 
     /**
      * Меняет статус листа на Отправлен
@@ -36,12 +32,6 @@ class WriteTestController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findAnswerListModel($id);
-        if(!$model) return;
-        if( ($model->status!=='answered') || (!$this->getAccessToOffice($model->do_id)) )
-        {
-            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-            return;
-        }
         $model->status = 'send';
         $model->save();
         return $this->redirect(['index']);
@@ -55,11 +45,6 @@ class WriteTestController extends Controller
     {
         $modelAnswerList = $this->findAnswerListModel($id);
         $modelQuestionList = $modelAnswerList->questionList;
-        // если пользователь заходит в данные не своего ДО, на просмотр которого нет прав, то редирект.
-        if(! $this->getAccessToOffice($modelAnswerList->do_id) )
-        {
-            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-        }
 
         if(! $modelQuestionList ) {
             
@@ -117,11 +102,6 @@ class WriteTestController extends Controller
     public function actionCreate($id)
     {
         $modelAnswerList = $this->findAnswerListModel($id);
-
-        /*if(! $this->getAccessToOffice($modelAnswerList->do_id) )
-        {
-            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-        }*/
 
         if($modelAnswerList->status !== 'clear')
             Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/update','id'=>$modelAnswerList->id]));
@@ -190,11 +170,6 @@ class WriteTestController extends Controller
         $modelsQuestion = $modelQuestionList->questions;
         $modelsAnswer = $modelAnswerList->answers;
 
-        if((!$this->getAccessToOffice($modelAnswerList->do_id))
-            || in_array($modelAnswerList->status,['archive','send','done']) )
-        {
-            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/index']));
-        }
         // если форма отправлена.
         if($postData = Yii::$app->request->post())
         {

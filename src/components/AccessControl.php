@@ -34,12 +34,40 @@ class AccessControl extends ActionFilter
 
             if($res) return true;
             else return $this->denyAccess();
-        // если накстройки не было, то поведение стандартное
         } else {
+            // если накстройки не было, то поведение стандартное
             $access = true;
             $profile_id = Yii::$app->getUser()->identity->username;
             switch($action->controller->id)
             {
+                // экшены для управляющего
+                case 'write-test' :
+                    switch($action->id) {
+                        case 'index' :
+                            $access =  !!UsersAccess::getUserManagerRoles($profile_id);
+                            break;
+                        case 'send' :
+                            // можно отправить ком.директору только лист который заполнялся.
+                            $model = AnswerList::findOne($params['id']);
+                            $access = $access && ($model->status==='answered');
+                        case 'create' :
+                        case 'update' :
+                            $model = empty($model) ? $model :AnswerList::findOne($params['id']);
+                            // при создании и редактировании лист не должен быть в закрытых статусах
+                            $access = $access && (!in_array($model->status,['archive','send','done']));
+                        case 'view' :
+                            // при просмотре важен только доступ к офисам региона
+                            $access =  $access && UsersAccess::getUserManagerRoles($profile_id);
+                            $model = empty($model) ? $model : AnswerList::findOne($params['id']);
+                            if(!$access) break;
+                            $roles = UsersAccess::getUserManagerRoles($profile_id);
+                            foreach( ArrayHelper::map($roles,'region_id','region_id') as $region_id )
+                            {
+                                if($model->office->region->id === $region_id) { $access = true; break; }
+                            }
+                            break;
+                    }
+                    break;
                 // Данная часть доступна для коммерческих директоров
                 case 'statistic' :
                     switch($action->id) {
@@ -58,11 +86,12 @@ class AccessControl extends ActionFilter
                         break;
                     }
                     break;
+                // экщены для админа
                 case 'users-offices' :
                 case 'answer-list' :
-                case 'constructor' :
-                case 'offices' :
-                case 'regions' :
+                case 'question-list-constructor' :
+                case 'office' :
+                case 'region' :
                     $access =  !!UsersAccess::getUserAdminRole($profile_id);
                     break;
                 case 'default' :

@@ -14,6 +14,23 @@ use igribov\questionlist\models\UsersOffices;
 
 class UsersAccess extends UsersOffices {
 
+    static $allActions = [
+        'admin' => [
+            ['label'=>'Конструктор', 'url'=>['question-list-constructor/index']],
+            ['label'=>'Управление опросами', 'url'=>['answer-list/index']],
+            ['label'=>'Пользователи и роли', 'url'=>['users-offices/index']],
+            ['label'=>'Офисы', 'url'=>['office/index']],
+            ['label'=>'Регионы', 'url'=>['region/index']],
+        ],
+        'comdir' => [
+            ['label'=>'Статистика', 'url'=>['statistic/index']],
+        ],
+        'manager' => [
+            ['label'=>'Мои опросные листы', 'url'=>['write-test/index']],
+        ],
+
+    ];
+
     /*
      *  Возвращает все роли пользователя
      *
@@ -48,6 +65,26 @@ class UsersAccess extends UsersOffices {
             'profile_id'=>$profile_id,
             'profile_office_role'=>'manager',
         ]);
+    }
+
+    /*
+     *  Возвращает доступные пользователю экшены
+     */
+    static public function getAvailableActions($profile_id)
+    {
+        $roles = self::getUserRoles($profile_id);
+        $roles = array_values(\yii\helpers\ArrayHelper::map($roles,'profile_office_role','profile_office_role'));
+        // берем все экшены
+        $actions = self::$allActions;
+        // отсеиваем лишние руппы
+        $actions = array_intersect_key($actions,array_flip($roles));
+        $return = [];
+        // экшены из оставшихся группы собираем в один массив
+        foreach($actions as $group)
+        {
+            foreach($group as $action) $return[] = $action;
+        }
+        return $return;
     }
 
     /*
