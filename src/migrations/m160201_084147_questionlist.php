@@ -94,13 +94,14 @@ class m160201_084147_questionlist extends Migration
             'id' => $this->primaryKey(),
             'profile_id' => $this->string(50)->notNull(),
             'office_id' => $this->integer(11),
-            'region_id' => $this->integer(11),
+            'region_id' => $this->integer(11)->notNull(),
             'profile_office_role' => $this->string(50)->notNull(),
         ]);
 
         $this->insert('{{%questionlist_users_offices}}',[
             'profile_id' => 'ql_manager',
             'office_id' => 1,
+            'region_id' => 1,
             'profile_office_role' => 'manager',
         ]);
 
@@ -112,6 +113,7 @@ class m160201_084147_questionlist extends Migration
 
         $this->insert('{{%questionlist_users_offices}}',[
             'profile_id' => 'admin',
+            'region_id' => 0,
             'profile_office_role' => 'admin',
         ]);
 

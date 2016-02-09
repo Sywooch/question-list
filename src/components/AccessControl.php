@@ -37,14 +37,14 @@ class AccessControl extends ActionFilter
         } else {
             // если накстройки не было, то поведение стандартное
             $access = true;
-            $profile_id = Yii::$app->getUser()->identity->username;
+            $user_id = Yii::$app->getUser()->identity->username;
             switch($action->controller->id)
             {
                 // экшены для управляющего
                 case 'write-test' :
                     switch($action->id) {
                         case 'index' :
-                            $access =  !!UsersAccess::getUserManagerRoles($profile_id);
+                            $access =  !!UsersAccess::getUserManagerRoles($user_id);
                             break;
                         case 'send' :
                             // можно отправить ком.директору только лист который заполнялся.
@@ -57,10 +57,10 @@ class AccessControl extends ActionFilter
                             $access = $access && (!in_array($model->status,['archive','send','done']));
                         case 'view' :
                             // при просмотре важен только доступ к офисам региона
-                            $access =  $access && UsersAccess::getUserManagerRoles($profile_id);
+                            $access =  $access && UsersAccess::getUserManagerRoles($user_id);
                             $model = empty($model) ? $model : AnswerList::findOne($params['id']);
                             if(!$access) break;
-                            $roles = UsersAccess::getUserManagerRoles($profile_id);
+                            $roles = UsersAccess::getUserManagerRoles($user_id);
                             foreach( ArrayHelper::map($roles,'region_id','region_id') as $region_id )
                             {
                                 if($model->office->region->id === $region_id) { $access = true; break; }
@@ -72,12 +72,12 @@ class AccessControl extends ActionFilter
                 case 'statistic' :
                     switch($action->id) {
                         case 'index' :
-                            $access =  !!UsersAccess::getUserCommercialDirectorRoles($profile_id);
+                            $access =  !!UsersAccess::getUserCommercialDirectorRoles($user_id);
                             break;
                         case 'update' :
                         case 'view' :
                         $access = false;
-                            $roles = UsersAccess::getUserCommercialDirectorRoles($profile_id);
+                            $roles = UsersAccess::getUserCommercialDirectorRoles($user_id);
                             $model = AnswerList::findOne($params['id']);
                             foreach( ArrayHelper::map($roles,'region_id','region_id') as $region_id )
                             {
@@ -88,11 +88,37 @@ class AccessControl extends ActionFilter
                     break;
                 // экщены для админа
                 case 'users-offices' :
+                    $isComDir = UsersAccess::getUserCommercialDirectorRoles($user_id);
+                    $isAdmin = UsersAccess::getUserAdminRole($user_id);
+                    $access =  $isComDir || $isAdmin;
+                    // если не админ и не комм.директор то не проверяем дальше.
+                    if(!$access) break;
+                    switch($action->id) {
+                        case 'create' :
+                            if($isComDir) {
+
+                            }
+                            break;
+                        case 'update' :
+                        case 'delete' :
+                        case 'bulk-delete' :
+                            // если ком.дир, то он может обновлять данные по пользователям своих регионов
+                            if($isComDir) {
+                                // берем модель, которую пользователь пытается изменить или удалить
+                                $model = UsersOffices::findOne($params['id']);
+                                // и самого пользоватлея
+                                $user = UsersOffices::findOne(['profile_id'=>$user_id]);
+                                $access = ($model->profile_office_role === 'manager' &&
+                                    ($user->region_id === $model->region->id) );
+                            }
+                            break;
+                    }
+                    break;
                 case 'answer-list' :
                 case 'question-list-constructor' :
                 case 'office' :
                 case 'region' :
-                    $access =  !!UsersAccess::getUserAdminRole($profile_id);
+                    $access =  !!UsersAccess::getUserAdminRole($user_id);
                     break;
                 case 'default' :
                     break;

@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use igribov\questionlist\models\Region;
+use igribov\questionlist\models\UsersOffices;
 use igribov\questionlist\models\Office;
 
 /* @var $this yii\web\View */
@@ -11,6 +12,11 @@ use igribov\questionlist\models\Office;
 /* @var $usersRoles array */
 
 $offices = ArrayHelper::merge([0=>'-'],ArrayHelper::map(Office::find()->all(), 'id', 'name'));
+
+$user = UsersOffices::findOne(['profile_id' => Yii::$app->user->identity->username]);
+$userRole = $user->profile_office_role;
+$regions = ArrayHelper::merge([0=>'-'],ArrayHelper::map(Region::find()->all(), 'id', 'name'));
+
 ?>
 
 <div class="users-offices-form">
@@ -21,7 +27,6 @@ $offices = ArrayHelper::merge([0=>'-'],ArrayHelper::map(Office::find()->all(), '
 
     <?= $form->field($model, "office_id")->dropDownList($offices,[ $model->office_id => ['selected'=>'selected']]);?>
 
-    <? $regions = ArrayHelper::merge([0=>'-'],ArrayHelper::map(Region::find()->all(), 'id', 'name'));?>
     <?= $form->field($model, "region_id")->dropDownList($regions,[ $model->region_id => ['selected'=>'selected']]);?>
 
     <?= $form

@@ -39,7 +39,7 @@ class UsersOffices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id'], 'required'],
+            [['profile_id','region_id'], 'required'],
             [['office_id','region_id'], 'integer'],
             [['profile_id', 'profile_office_role'], 'string', 'max' => 50],
         ];

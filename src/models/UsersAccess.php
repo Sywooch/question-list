@@ -24,6 +24,7 @@ class UsersAccess extends UsersOffices {
         ],
         'commercial_director' => [
             ['label'=>'Статистика', 'url'=>['statistic/index']],
+            ['label'=>'Пользователи и роли', 'url'=>['users-offices/index']],
         ],
         'manager' => [
             ['label'=>'Мои опросные листы', 'url'=>['write-test/index']],
