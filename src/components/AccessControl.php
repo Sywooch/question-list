@@ -103,7 +103,7 @@ class AccessControl extends ActionFilter
                         case 'delete' :
                         case 'bulk-delete' :
                             // если ком.дир, то он может обновлять данные по пользователям своих регионов
-                            if($isComDir) {
+                            if($isComDir && !$isAdmin) {
                                 // берем модель, которую пользователь пытается изменить или удалить
                                 $model = UsersOffices::findOne($params['id']);
                                 // и самого пользоватлея
