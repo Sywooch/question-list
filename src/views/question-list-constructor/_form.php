@@ -169,7 +169,7 @@ $this->registerJs($js);
 
 
     <div class="form-group">
-        <?= Html::submitButton($modelQuestion->isNewRecord ? 'Создать' : 'Обновить', ['class' => 'btn btn-primary','submit-button']) ?>
+        <?php echo Html::submitButton($modelQuestion->isNewRecord ? 'Создать' : 'Обновить', ['class' => 'btn btn-primary','submit-button']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

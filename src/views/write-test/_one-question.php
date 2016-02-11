@@ -23,31 +23,31 @@ $(".select_answer select").each(function(i,elemenet){
 });
 $(".select_answer select").change(setScores);
 ');
+
+$modelAnswer->question_id = $modelQuestion->id;
+$modelAnswer->question_type = $modelQuestion->type;
+$modelAnswer->question_text = $modelQuestion->quest_text;
+$modelAnswer->question_list_id = $questionListId;
+$modelAnswer->answer_date = (new DateTime())->format('Y-m-d');
+$modelAnswer->answer_list_id = $answerListId;
+
 ?>
-    <?/*= $form->field($modelQuestion, "[{$modelQuestion->id}]quest_text")->textArea(['maxlength' => true]) */
-    $modelAnswer->question_id = $modelQuestion->id;
-    $modelAnswer->question_type = $modelQuestion->type;
-    $modelAnswer->question_text = $modelQuestion->quest_text;
-    $modelAnswer->question_list_id = $questionListId;
-    $modelAnswer->answer_date = (new DateTime())->format('Y-m-d');
-    $modelAnswer->answer_list_id = $answerListId;
-    ?>
 <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-envelope"><?=$modelQuestion->quest_text;?></i>
+            <i class="fa fa-envelope"><?php echo $modelQuestion->quest_text;?></i>
             <div class="clearfix"></div>
         </div>
     <div class="panel-body container-questions">
         <div class="form-group">
-            <? if (!$modelAnswer->isNewRecord)echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]id");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_id");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_type");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_text");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_list_id");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_date");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_list_id");?>
-            <?= Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]scores");?>
-            <? switch($modelQuestion->type) {
+            <?php if (!$modelAnswer->isNewRecord)echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]id");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_id");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_type");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_text");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_list_id");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_date");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_list_id");?>
+            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]scores");?>
+            <?php switch($modelQuestion->type) {
                 case 'multiple' :
                     $answerVariants = [];
                     $options = [];
@@ -68,7 +68,7 @@ $(".select_answer select").change(setScores);
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")->textArea(['maxlength' => true]);
                     break;
             }?>
-            <?= $form->field($modelAnswer, "[{$questionIndex}]answer_comment")->textArea(['maxlength' => true]);?>
+            <?php echo $form->field($modelAnswer, "[{$questionIndex}]answer_comment")->textArea(['maxlength' => true]);?>
         </div>
     </div>
 </div>

@@ -26,16 +26,18 @@ use yii\helpers\Html;
     </div>
 
     <div class="panel-body container-questions">
-        <? foreach($modelsQuestion as $questionIndex => $q):?>
-            <?= $this->render('_one-question', [
-                'modelQuestion' =>  $q,
-                'modelAnswer' =>  (isset($modelsAnswer) && isset($modelsAnswer[$questionIndex])) ? $modelsAnswer[$questionIndex] : new Answer(),
-                'questionIndex' =>  $questionIndex,
-                'form' => $form,
-                'questionListId' => $modelQuestionList->id,
-                'answerListId' => $modelAnswerList->id,
-            ]); ?>
-        <? endforeach;?>
+        <?php 
+            foreach($modelsQuestion as $questionIndex => $q) {
+                echo $this->render('_one-question', [
+                    'modelQuestion' =>  $q,
+                    'modelAnswer' =>  (isset($modelsAnswer) && isset($modelsAnswer[$questionIndex])) ? $modelsAnswer[$questionIndex] : new Answer(),
+                    'questionIndex' =>  $questionIndex,
+                    'form' => $form,
+                    'questionListId' => $modelQuestionList->id,
+                    'answerListId' => $modelAnswerList->id,
+                ]);
+            }
+        ?>
     </div>
 
 </div>

@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="answer-list-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?= DetailView::widget([
+    <?php echo DetailView::widget([
         'model' => $modelAnswerList,
         'attributes' => [
             'list_name',
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'scores',
         ],
     ]) ?>
-    <?= GridView::widget([
+    <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             'question_text',

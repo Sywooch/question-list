@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = 'Редактирование';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
+    <?php echo $this->render('_form', [
         'modelsQuestion' =>  $modelsQuestion,
         'modelQuestionList' =>  $modelQuestionList,
         'modelsAnswerVariant' =>  $modelsAnswerVariant,

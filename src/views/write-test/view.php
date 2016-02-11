@@ -26,24 +26,13 @@ $this->registerCss('
 <div class="answer-list-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <? if($modelAnswerList->id): ?>
-    <p>
-        <?= Html::a('Изменить', ['update', 'id' => $modelAnswerList->id], ['class' => 'btn btn-primary']) ?>
-        <?/*= Html::a('Delete', ['delete', 'id' => $modelAnswerList->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) */?>
-    </p>
-    <? endif; ?>
+    <?php if($modelAnswerList->id) echo Html::a('Изменить', ['update', 'id' => $modelAnswerList->id], ['class' => 'btn btn-primary']); ?>
 
-    <?if($modelAnswerList->comment):?>
+    <?php if($modelAnswerList->comment): ?>
         <div class="comment">
-            <p><i>Комментарий : <?=$modelAnswerList->comment?></i></p>
+            <p><i>Комментарий : <?php echo $modelAnswerList->comment; ?></i></p>
         </div>
-    <?endif?>
+    <?php endif ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

@@ -11,9 +11,9 @@ $answVar->answer = $modelsAnswerVariant[0]->answer;
 $answVar->scores = $modelsAnswerVariant[0]->scores;
 $modelsAnswerVariant[0] = $answVar;
 $modelsAnswerVariant[0]->oldAttributes=$modelsAnswerVariant[1]->oldAttributes;
-?>
-<?
 
+?>
+<?php
 DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_inner',
     'widgetBody' => '.container-answervariants',
@@ -27,7 +27,8 @@ DynamicFormWidget::begin([
     'formFields' => [
         'answer',
     ],
-]); ?>
+]); 
+?>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -47,8 +48,8 @@ DynamicFormWidget::begin([
                         echo Html::activeHiddenInput($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]id");
                     }
                     ?>
-                    <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]answer")->label(false)->textInput(['maxlength' => true]) ?>
-                    <?= $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]scores")->textInput(['type'=>'number','maxlength' => 4,'style'=>'width:100px']); ?>
+                    <?php echo $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]answer")->label(false)->textInput(['maxlength' => true]) ?>
+                    <?php echo $form->field($modelAnswerVariant, "[{$indexQuestion}][{$indexAnswerVariant}]scores")->textInput(['type'=>'number','maxlength' => 4,'style'=>'width:100px']); ?>
                 </td>
                 <td class="text-center vcenter" style="width: 90px;">
                     <button type="button" class="remove-answervariant btn btn-danger btn-xs"><span class="glyphicon glyphicon-minus"></span></button>
