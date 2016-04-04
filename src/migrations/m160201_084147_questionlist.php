@@ -99,16 +99,36 @@ class m160201_084147_questionlist extends Migration
         ]);
 
         $this->insert('{{%questionlist_users_offices}}',[
-            'profile_id' => 'ql_manager',
+            'profile_id' => 'empl',
+            'office_id' => 1,
+            'region_id' => 1,
+            'profile_office_role' => 'employe',
+        ]);
+
+        $this->insert('{{%questionlist_users_offices}}',[
+            'profile_id' => 'ql_manager_1',
             'office_id' => 1,
             'region_id' => 1,
             'profile_office_role' => 'manager',
         ]);
 
         $this->insert('{{%questionlist_users_offices}}',[
-            'profile_id' => 'comdir',
+            'profile_id' => 'ql_manager_2',
+            'office_id' => 3,
+            'region_id' => 2,
+            'profile_office_role' => 'manager',
+        ]);
+
+        $this->insert('{{%questionlist_users_offices}}',[
+            'profile_id' => 'comdir1',
             'profile_office_role' => 'commercial_director',
             'region_id' => 1,
+        ]);
+
+        $this->insert('{{%questionlist_users_offices}}',[
+            'profile_id' => 'comdir2',
+            'profile_office_role' => 'commercial_director',
+            'region_id' => 2,
         ]);
 
         $this->insert('{{%questionlist_users_offices}}',[
