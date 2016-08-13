@@ -30,7 +30,9 @@ use yii\helpers\Html;
             foreach($modelsQuestion as $questionIndex => $q) {
                 echo $this->render('_one-question', [
                     'modelQuestion' =>  $q,
-                    'modelAnswer' =>  (isset($modelsAnswer) && isset($modelsAnswer[$questionIndex])) ? $modelsAnswer[$questionIndex] : new Answer(),
+                    'modelAnswer' =>  (isset($modelsAnswer) && isset($modelsAnswer[$questionIndex])) ?
+                        $modelsAnswer[$questionIndex] :
+                        new Answer(),
                     'questionIndex' =>  $questionIndex,
                     'form' => $form,
                     'questionListId' => $modelQuestionList->id,
@@ -42,7 +44,9 @@ use yii\helpers\Html;
 
 </div>
 <div class="form-group">
-    <?= Html::submitButton($modelQuestion->isNewRecord ? 'Готово' : 'Обновить', ['class' => 'btn btn-primary','submit-button']) ?>
+    <?= Html::submitButton($modelQuestion->isNewRecord ?
+        'Готово' : 'Обновить',
+        ['class' => 'btn btn-primary','submit-button']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

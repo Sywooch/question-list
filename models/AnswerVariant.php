@@ -4,6 +4,7 @@ namespace app\modules\unicred\questionlist\models;
 
 use Yii;
 use app\modules\unicred\questionlist\models\Question;
+use yii\helpers\Json;
 
 
 /**
@@ -13,6 +14,7 @@ use app\modules\unicred\questionlist\models\Question;
  * @property integer $question_id
  * @property string $answer
  * @property integer $scores
+ * @property string $html_attributes
  */
 class AnswerVariant extends \yii\db\ActiveRecord
 {
@@ -30,19 +32,24 @@ class AnswerVariant extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['question_id','answer'], 'required',"on"=>"form"],
-           /* [['question_id'], 'required'],*/
-            [['question_id','scores'], 'integer'],
-            [['answer'], 'string', 'max' => 255]
+            [['question_id'], 'required'],
+            [['scores','answer'], 'required', 'whenClient'=>'function(){
+                var value = $("#question-type").val();
+                return ["select_one","radio","select_multiple"].indexOf(value)!=-1;
+            }'],
+            [['question_id'], 'integer'],
+            //[['html_attributes'], 'string', 'max'=>1000],
+            //[['html_attributes'], 'safe'],
+            [['scores'], 'integer']
         ];
     }
 
-    public function scenarios()
+    /*public function scenarios()
     {
         $scenarios = parent::scenarios();
         $scenarios['form'] = ['answer','question_id','scores'];
         return $scenarios;
-    }
+    }*/
 
     public function getQuestion()
     {
@@ -60,5 +67,32 @@ class AnswerVariant extends \yii\db\ActiveRecord
             'answer' => 'Ответ',
             'scores' => 'Баллы',
         ];
+    }
+
+    public function getHtmlAttributes()
+    {
+        try {
+            return Json::decode($this->html_attributes);
+        } catch(\yii\base\InvalidParamException $e) {
+            return [];
+        }
+    }
+
+    public function setHtmlAttributes($attributes)
+    {
+        if(is_array($attributes)) $this->html_attributes = [];
+        $this->html_attributes = Json::encode($attributes);
+    }
+
+    public function load($data, $formName = null)
+    {
+        if($res = parent::load($data, $formName)){
+            $this->htmlAttributes = $data['htmlAttributes'];
+        }
+    }
+
+    public function getHtml_attributes_show_comment()
+    {
+        var_dump($this->html_attributes);
     }
 }

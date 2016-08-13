@@ -23,19 +23,18 @@ class QuestionList extends \yii\db\ActiveRecord
     }
 
     public function getQuestions()
-        {
-          return $this->hasMany(Question::className(), ['id' => 'question_id'])
-                ->viaTable('questionlist_questions_qlists', ['list_id' => 'id']);
-        }
+    {
+        return $this->hasMany(Question::className(), ['list_id' => 'id']);
+    }
 
     public function getAnswerLists()
     {
-      return $this->hasMany(AnswerList::className(), ['question_list_id' => 'id']);
+        return $this->hasMany(AnswerList::className(), ['question_list_id' => 'id']);
     }
 
     public function getQuestionsCount()
     {
-      return count($this->questions);
+        return count($this->questions);
     }
 
     public function beforeDelete()

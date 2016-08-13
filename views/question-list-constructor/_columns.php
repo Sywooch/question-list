@@ -20,5 +20,29 @@ return [
     'id',
     'title',
     'questionsCount',
-    ['class' => 'yii\grid\ActionColumn'],
+    [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => '{view}{update}{delete}',
+        'buttons' => [
+            'update' => function($url, $model) {
+                return Html::a(
+                    '<span class="glyphicon glyphicon-pencil"></span>',
+                    Url::toRoute(['update','id'=>$model->id]));
+            },
+            'view' => function($url, $model) {
+                return Html::a(
+                    '<span class="glyphicon glyphicon-list"></span>',
+                    Url::toRoute(['question/index','list_id'=>$model->id]));
+            },
+            'delete' => function($url, $model) {
+                return Html::a(
+                    '<span class="glyphicon glyphicon-trash"></span>',
+                    Url::toRoute(['delete','id'=>$model->id]),
+                    [
+                        'data-confirm'=>'Вы уверены, что хотите удалить форму?',
+                        'data-method' => 'post',
+                    ]);
+            }
+        ],
+    ],
 ];

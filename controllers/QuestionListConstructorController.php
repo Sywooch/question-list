@@ -70,7 +70,7 @@ class QuestionListConstructorController extends Controller
             if (isset($postAnswerVariants[0])) {
                 foreach ($postAnswerVariants as $indexQuestion => $answers) {
 
-                    if($modelsQuestion[$indexQuestion]->type === 'multiple') {
+                    if($modelsQuestion[$indexQuestion]->type === 'select_one') {
                         foreach ($answers as $indexAnswer => $answer) {
                             $data = [];
                             $data['AnswerVariant'] = $answer;
@@ -221,7 +221,7 @@ class QuestionListConstructorController extends Controller
                             }
                             if (isset($modelsAnswerVariant[$indexQuestion]) && is_array($modelsAnswerVariant[$indexQuestion])) {
                                 foreach ($modelsAnswerVariant[$indexQuestion] as $indexAnswerVariant => $modelAnswerVariant) {
-                                    if($modelsQuestion[$indexQuestion]->type !== 'multiple') {
+                                    if($modelsQuestion[$indexQuestion]->type !== 'select_one') {
                                         $modelAnswerVariant->delete();
                                     } else {
                                         $modelAnswerVariant->question_id = $modelQuestion->id;

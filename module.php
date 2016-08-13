@@ -2,7 +2,9 @@
 
 namespace app\modules\unicred\questionlist;
 
-class Module extends \yii\base\Module
+use yii\base\BootstrapInterface;
+
+class Module extends \yii\base\Module implements BootstrapInterface
 {
     public $controllerNamespace = 'app\modules\unicred\questionlist\controllers';
 
@@ -15,6 +17,13 @@ class Module extends \yii\base\Module
         parent::init();
         if($this->onBeforeAction) $this->params['onBeforeAction'] = $this->onBeforeAction ;
         if($this->behaviors) $this->params['behaviors'] = $this->behaviors ;
+    }
+
+    public function bootstrap($app)
+    {
+        if($app instanceof \yii\console\Application) {
+            $this->controllerNamespace = 'app\modules\unicred\questionlist\commands';
+        }
     }
 
 }

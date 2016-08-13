@@ -11,6 +11,7 @@ use Yii;
  * @property integer $id
  * @property string $type
  * @property string $quest_text
+ * @property integer $list_id
  */
 class Question extends \yii\db\ActiveRecord
 {
@@ -28,17 +29,16 @@ class Question extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['type', 'quest_text'], 'required'],
-            [['type'], 'string', 'max' => 10],
+            [['type', 'quest_text','list_id'], 'required'],
+            [['type'], 'string', 'max' => 50],
             [['quest_text', 'answer'], 'string', 'max' => 1000]
         ];
     }
 
 
-    public function getQuestionLists()
+    public function getQuestionList()
     {
-        return $this->hasMany(QuestionList::className(), ['id' => 'list_id'])
-            ->viaTable('questionlist_questions_qlists', ['question_id' => 'id']);
+        return $this->hasOne(QuestionList::className(), ['list_id' => 'id']);
     }
 
     public function getAnswerVariants()
@@ -54,7 +54,11 @@ class Question extends \yii\db\ActiveRecord
         }
         return $res;
     }
-
+    public function delete()
+    {
+        foreach($this->answerVariants as $model) $model->delete();
+        parent::delete();
+    }
 
     /*protected function questionTypeValidation($attribute, $params){
         die();
@@ -88,8 +92,10 @@ class Question extends \yii\db\ActiveRecord
     {
         return [
             'text' => 'Поле для ответа',
-            'multiple'=>'Выбор из списка вариантов',
-            //'boolean'=>'Да/Нет',
+            'select_one'=>'Выбор одного варианта из списка вариантов',
+            'select_multiple'=>'Выбор нескольких вариантов из списка вариантов',
+            'radio'=>'Радио-кнопки',
+            'checkbox'=>'Чек-бокс',
         ];
     }
 
@@ -101,4 +107,5 @@ class Question extends \yii\db\ActiveRecord
     {
         return $this->getQuestionTypes()[$this->type];
     }
+
 }

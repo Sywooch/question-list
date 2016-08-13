@@ -3,7 +3,6 @@
 namespace app\modules\unicred\questionlist\models;
 
 use Yii;
-use app\modules\unicred\questionlist\models\Answer;
 
 /**
  * This is the model class for table "answers".
@@ -43,6 +42,27 @@ class Answer extends \yii\db\ActiveRecord
             [['question_text', 'answer','answer_comment'], 'string', 'max' => 1000],
             [['question_type'], 'string', 'max' => 25],
             [['profile_id'], 'string', 'max' => 25],
+            ['answer_comment', 'required','when'=>function(){
+                return false;
+            },'whenClient' =>'function(attribute, value){
+                var requiredField = false;
+                var questionField = $(attribute.input).parent(".question-comment")
+                .siblings(".question-field").find("select,input[type!=hidden],textarea");
+                switch(questionField.prop("tagName"))
+                {
+                    case "SELECT" :
+                        requiredField = questionField.find("option:selected").attr("data-showcomment");
+                    break;
+                    case "INPUT" :
+                        if($(questionField).attr("type")!="radio") break;
+                        $(questionField).each(function(){
+                            if($(this).prop("checked")){
+                                requiredField = $(this).attr("data-showcomment")
+                            }
+                        });
+                }
+                return requiredField;
+            }'],
         ];
     }
 
@@ -66,3 +86,4 @@ class Answer extends \yii\db\ActiveRecord
     }
 
 }
+
