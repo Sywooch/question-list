@@ -41,7 +41,7 @@ class QuestionList extends \yii\db\ActiveRecord
     {
         if(parent::beforeDelete()) {
           /* @var $al AnswerList*/
-          array_filter( array_merge($this->answerLists, $this->questions), function($item){
+          array_filter(array_merge($this->answerLists, $this->questions), function($item){
               $item->questionListWasDelete();
           });
           $res = Yii::$app->db
@@ -76,4 +76,5 @@ class QuestionList extends \yii\db\ActiveRecord
             'questionsCount' => 'Кол-во вопросов',
         ];
     }
+
 }

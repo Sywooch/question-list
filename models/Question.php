@@ -35,7 +35,6 @@ class Question extends \yii\db\ActiveRecord
         ];
     }
 
-
     public function getQuestionList()
     {
         return $this->hasOne(QuestionList::className(), ['list_id' => 'id']);

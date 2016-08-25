@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\modules\unicred\questionlist\models\UsersOffices;
+use yii\helpers\ArrayHelper;
 
 /**
  * UsersOfficesSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\UsersOffices`.
@@ -22,18 +23,19 @@ class UsersOfficesSearch extends UsersOffices
     {
         return [
             [['id', 'office_id'], 'integer'],
-            [['profile_id', 'profile_office_role','officeName','roleName','regionName'], 'safe'],
+            [['profile_id', 'profile_office_role','officeName','roleName','regionName'], 'safe','on'=>'adminSearch'],
+            [['profile_id','officeName','regionName'], 'safe','on'=>'managerSearch'],
         ];
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarios()
+    /*public function scenarios()
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
-    }
+    }*/
 
     /**
      * Creates data provider instance with search query applied
@@ -73,9 +75,18 @@ class UsersOfficesSearch extends UsersOffices
         if($this->roleName) {
             $this->profile_office_role = $this->roleName;
         }
-
         $query->andFilterWhere(['like', 'profile_id', $this->profile_id])
             ->andFilterWhere(['like', 'profile_office_role', $this->profile_office_role]);
+
+        if($this->scenario == 'managerSearch') {
+            $userRoles = UsersOffices::findAll([
+                'profile_id' => Yii::$app->user->identity->username,
+                'profile_office_role' => 'commercial_director'
+            ]);
+            $userRegions = array_values(ArrayHelper::map($userRoles, 'region_id','region_id'));
+            $query->andFilterWhere(['like', 'profile_office_role', 'manager']);
+            $query->andFilterWhere(['in', 'questionlist_users_offices.region_id', $userRegions]);
+        }
 
         $query->joinWith(['office'=>function($q) {
             $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);

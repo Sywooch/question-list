@@ -39,9 +39,14 @@ class UsersOffices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id','region_id'], 'required'],
+            [['profile_id'], 'required'],
+            [['office_id'], 'required', 'on'=>'createManager'],
             [['office_id','region_id'], 'integer'],
             [['profile_id', 'profile_office_role'], 'string', 'max' => 50],
+            ['profile_office_role', 'default', 'value'=> 'manager', 'on' => 'createManager'],
+            ['region_id', 'default', 'value'=> function($model){
+                return Office::findOne($model->office_id)->region_id;
+            }, 'on' => 'createManager'],
         ];
     }
 

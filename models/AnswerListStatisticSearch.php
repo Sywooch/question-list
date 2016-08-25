@@ -21,7 +21,7 @@ class AnswerListStatisticSearch extends AnswerList
     {
         return [
             [['id', 'question_list_id', 'do_id', 'scores'], 'integer'],
-            [['date_from', 'date_to','date', 'status', 'list_name','statusName','officeName'], 'safe'],
+            [['date_from', 'date_to','date', 'status','statusName','officeName'], 'safe'],
         ];
     }
 
@@ -43,7 +43,7 @@ class AnswerListStatisticSearch extends AnswerList
      */
     public function search($params)
     {
-        $query = AnswerList::find()->orderBy('status');
+        $query = AnswerList::find()->with('questionList')->orderBy('status');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -68,8 +68,6 @@ class AnswerListStatisticSearch extends AnswerList
         ]);
         if($this->statusName) $query->andFilterWhere(['like', 'status', $this->statusName]);
         else $query->andFilterWhere(['not like', 'status', 'archive']);
-
-        $query->andFilterWhere(['like', 'list_name', $this->list_name]);
 
         return $dataProvider;
     }

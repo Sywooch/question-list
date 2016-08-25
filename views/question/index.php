@@ -10,6 +10,10 @@ use kartik\grid\GridView;
 /* @var $list_id integer */
 
 $this->title = 'Вопросы';
+$this->params['breadcrumbs'][] = [
+            'label' => 'Опросные листы',
+            'url' => ['question-list/index']
+            ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-index">
@@ -30,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'questionTypeName',
             'quest_text',
-            'answer',
+            'answerVariantsInline',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view}{update}{delete}',
@@ -59,3 +63,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 </div>
+
+<?php $this->registerJs('
+  $(function(){
+      console.log($("table").length);
+      $("table").resizableColumns();
+    });
+'); ?>

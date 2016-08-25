@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $list_id integer */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Questions', 'url' => ['index','list_id'=>$list_id]];
+$this->params['breadcrumbs'][] = ['label' => 'Вопросы', 'url' => ['index','list_id'=>$list_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="question-view">

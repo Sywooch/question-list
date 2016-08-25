@@ -22,7 +22,7 @@ class AnswerListSearch extends AnswerList
     {
         return [
             [['id', 'question_list_id', 'do_id'], 'integer'],
-            [['date_from', 'date_to','date','status', 'list_name','officeName','statusName'], 'safe'],
+            [['date_from', 'date_to','date','status','officeName','statusName'], 'safe'],
         ];
     }
 
@@ -60,6 +60,7 @@ class AnswerListSearch extends AnswerList
             'desc' => ['status' => SORT_DESC],
             'label' => 'Статус'
         ];
+
         $dataProvider->setSort($sort);
 
         $this->load($params);
@@ -70,6 +71,7 @@ class AnswerListSearch extends AnswerList
             $query->joinWith(['questionlist_office']);
             return $dataProvider;
         }
+        $query->joinWith('questionList');
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -80,7 +82,8 @@ class AnswerListSearch extends AnswerList
             'date_to' => $this->date_to,*/
         ]);
 
-        $query->andFilterWhere(['like', 'list_name', $this->list_name])
+        $query
+            //->andFilterWhere(['like', 'list_name', $this->list_name])
             ->andFilterWhere(['>=', 'date_from', $this->date_from])
             ->andFilterWhere(['<=', 'date_to', $this->date_to]);
 

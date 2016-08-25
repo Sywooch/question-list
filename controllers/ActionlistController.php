@@ -14,7 +14,6 @@ class ActionlistController extends Controller
         $actions = UsersAccess::getAvailableActions(Yii::$app->user->identity->username);
         $userRoles = UsersAccess::getUserRoles(Yii::$app->user->identity->username);
 
-
         return $this->render('index_',['actions' => $actions, 'userRoles'=>$userRoles]);
     }
 

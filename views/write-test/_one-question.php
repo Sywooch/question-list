@@ -13,22 +13,9 @@ Asset::register($this);
 /* @var $questionListId int; */
 /* @var $answerListId int; */
 /* @var $modelAnswer; */
-/*$this->registerJs('
-function setScores(){
-    var id = $(this).attr("id").slice(7, $(this).attr("id").indexOf("-answer")),
-        value = $(this).val(),
-        scores = $(this).find("option[value=\'"+value+"\']").attr("scores");
-    $("input#answer-"+id+"-scores").val(scores);
-}
-$(".select_answer select").each(function(i,element){
-    setScores.call(element);
-});
-$(".select_answer select").change(setScores);
-');*/
+
 
 $modelAnswer->question_id = $modelQuestion->id;
-$modelAnswer->question_type = $modelQuestion->type;
-$modelAnswer->question_text = $modelQuestion->quest_text;
 $modelAnswer->question_list_id = $questionListId;
 $modelAnswer->answer_date = (new DateTime())->format('Y-m-d');
 $modelAnswer->answer_list_id = $answerListId;
@@ -44,21 +31,14 @@ $modelAnswer->answer_list_id = $answerListId;
     <div class="panel-body container-questions">
         <div class="form-group one-question-group">
             <?php if (!$modelAnswer->isNewRecord)echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]id");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_id");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_type");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_text");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]question_list_id");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_date");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]answer_list_id");?>
-            <?php echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]scores");?>
+            <?php echo $form->field($modelAnswer, "[{$questionIndex}]question_id")->hiddenInput()->label(false);?>
             <?php if(in_array($modelQuestion->type,['select_one','radio'])){
                 $answerVariants = [];
                 foreach ($modelQuestion->answerVariants as $av) {
-                    $answerVariants[$av->answer] = $av->answer;
+                    $answerVariants[$av->id] = $av->answer;
                     foreach($av->htmlAttributes as $attributeName => $attributeValue) {
-                        if($attributeValue) $options[$av->answer]['data-'.$attributeName] = $attributeValue;
+                        if($attributeValue) $options[$av->id]['data-'.$attributeName] = $attributeValue;
                     }
-                    $options[$av->answer]['scores']= $av->scores;
                 }
             }?>
             <?php switch($modelQuestion->type) {
@@ -75,7 +55,6 @@ $modelAnswer->answer_list_id = $answerListId;
                         foreach($av->htmlAttributes as $attributeName => $attributeValue) {
                             if($attributeValue) $radioOptions[$k]['data-'.$attributeName] = $attributeValue;
                         }
-                        $radioOptions[$k]['scores']= $av->scores;
                     }
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer",[
                         'options'=>['class'=>'question-field']])
@@ -84,7 +63,7 @@ $modelAnswer->answer_list_id = $answerListId;
                                     $return = '<label class="modal-radio">';
                                     $return .= '<input type="radio" name="'.$name.'" value="'.$value.'" ';
                                     if($checked) $return .= 'checked ';
-                                    foreach($radioOptions[$index] as $attributeName => $attributeValue) {
+                                    if($radioOptions[$index])foreach($radioOptions[$index] as $attributeName => $attributeValue) {
                                         if($attributeValue) $return.=' '.$attributeName.'="'.$attributeValue.'"';
                                     }
                                     $return .= '>';
@@ -98,8 +77,7 @@ $modelAnswer->answer_list_id = $answerListId;
                     break;
                 case 'checkbox' :
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer",['options'=>['class'=>'question-field']])
-                        ->checkbox(['scores'=> ($modelQuestion->answerVariants[0] ? $modelQuestion->answerVariants[0]->scores : 0),
-                            'label'=>false])->label($modelQuestion->quest_text);
+                        ->checkbox(['label'=>false])->label($modelQuestion->quest_text);
                     break;
                 default :
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer")->textArea(['maxlength' => true]);

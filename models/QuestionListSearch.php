@@ -8,7 +8,7 @@ use yii\data\ActiveDataProvider;
 use app\modules\unicred\questionlist\models\QuestionList;
 
 /**
- * QuestionSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\QuestionList`.
+ * QuestionListSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\QuestionList`.
  */
 class QuestionListSearch extends QuestionList
 {

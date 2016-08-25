@@ -5,20 +5,7 @@ use kartik\grid\GridView;
 /* @var $statusList array */
 return [
     ['class' => 'kartik\grid\SerialColumn'],
-    [
-        'class' => 'kartik\grid\ExpandRowColumn',
-        'attribute' => 'name',
-        'value' => function($model,$key,$index,$column) {
-            return GridView::ROW_COLLAPSED;
-        },
-        'detail' => function($model,$key,$index,$column) {
-            return Yii::$app->controller->renderPartial('_expand-row_details',['model'=>$model]);
-        },
-        'expandOneOnly' => true,
-        'headerOptions' => ['class' => 'kartik-sheet-style'],
-    ],
     'id',
-    'list_name',
     'date_from',
     'date_to',
     [

@@ -2,15 +2,12 @@
 
 namespace app\modules\unicred\questionlist\controllers;
 
-use app\modules\unicred\questionlist\models\UsersOffices;
-use app\modules\unicred\questionlist\models\UsersAccess;
 use Yii;
 use app\modules\unicred\questionlist\models\AnswerList;
-use app\modules\unicred\questionlist\models\AnswerListStatisticSearch;
+use app\modules\unicred\questionlist\models\AnswerListSearch;
 use app\modules\unicred\questionlist\controllers\ModuleBaseController as Controller;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use \yii\web\Response;
 use yii\helpers\Html;
 use yii\data\ArrayDataProvider;
@@ -18,7 +15,7 @@ use yii\data\ArrayDataProvider;
 /**
  * StatisticController implements the CRUD actions for AnswerList model.
  */
-class StatisticController extends Controller
+class ConfirmQuestionListController extends Controller
 {
     /**
      * Lists all AnswerList models.
@@ -26,7 +23,7 @@ class StatisticController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new AnswerListStatisticSearch();
+        $searchModel = new AnswerListSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index_', [
@@ -41,29 +38,49 @@ class StatisticController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {   
+    public function actionConfirm($id)
+    {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        if($request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return [
-                    'title'=> "AnswerList #".$id,
-                    'content'=>$this->renderAjax('view', [
-                        'model' => $model,
-                        'answersDataProvider' => new ArrayDataProvider([
-                            'allModels' => $model->answers,
-                        ]),
-                    ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                ];    
-        }else{
-            return $this->render('view', [
+
+        if($request->isGet){
+            return $this->render('confirm', [
                 'model' => $model,
                 'answersDataProvider' => new ArrayDataProvider([
                     'allModels' => $model->answers,
                 ]),
+            ]);
+        }else if ($model->load($request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+        }
+
+        return $this->render('confirm', [
+            'model' => $model,
+            'answersDataProvider' => new ArrayDataProvider([
+                'allModels' => $model->answers,
+            ]),
+        ]);
+
+
+    }
+    /*
+     * Вывод сообщения о том,
+     *  что изменение данного опроса невозможно.
+     * */
+    protected function updateDenied($model){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'title'=> "Опросный лист #".$model->id,
+                'content'=>$this->renderAjax('update_denied', [
+                    'model' => $model,
+                ]),
+                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+            ];
+        }else{
+            return $this->render('update_denied', [
+                'model' => $model,
             ]);
         }
     }
@@ -79,7 +96,11 @@ class StatisticController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-
+        // Если опрос в работе у отделения, и отделение уже дало ответы
+        // Изменять статус опроса нельзя.
+        if($model->status == 'answered'){
+            return $this->updateDenied($model);
+        }
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -87,7 +108,7 @@ class StatisticController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Обновление ответов на опрос #".$id,
+                    'title'=> "Обновление назначенного опросного листа #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -97,15 +118,15 @@ class StatisticController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "AnswerList #".$id,
+                    'title'=> "Обновление назначенного опросного листа #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                         'answersDataProvider' => new ArrayDataProvider([
                             'allModels' => $model->answers,
                         ]),
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
@@ -113,8 +134,8 @@ class StatisticController extends Controller
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{
@@ -135,54 +156,6 @@ class StatisticController extends Controller
             }
         }
     }
-
-    /**
-     * Delete an existing AnswerList model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    /*public function actionDelete($id)
-    {
-        $request = Yii::$app->request;
-        $this->findModel($id)->delete();
-
-        if($request->isAjax){
-
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-
-            return $this->redirect(['index_']);
-        }
-    }*/
-
-     /**
-     * Delete multiple existing AnswerList model.
-     * For ajax request will return json object
-     * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    /*public function actionBulkDelete()
-    {        
-        $request = Yii::$app->request;
-        $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (AnswerList::findAll(json_decode($pks)) as $model) {
-            $model->delete();
-        }
-        
-
-        if($request->isAjax){
-
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-
-            return $this->redirect(['index_']);
-        }
-    }*/
 
     /**
      * Finds the AnswerList model based on its primary key value.

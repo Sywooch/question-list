@@ -1,6 +1,8 @@
 <?php
 
 namespace app\modules\unicred\questionlist\controllers;
+use app\modules\unicred\questionlist\models\AnswerVariant;
+use app\modules\unicred\questionlist\models\Question;
 use Yii;
 use app\modules\unicred\questionlist\controllers\ModuleBaseController as Controller;
 use app\modules\unicred\questionlist\models\Model;
@@ -103,52 +105,57 @@ class WriteTestController extends Controller
     {
         $modelAnswerList = $this->findAnswerListModel($id);
         $modelAnswerList->scenario = 'write-test';
-
-        if($modelAnswerList->status !== 'clear')
-            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/update','id'=>$modelAnswerList->id]));
+        if ($modelAnswerList->status !== 'clear')
+            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/update', 'id' => $modelAnswerList->id]));
 
         $modelQuestionList = $modelAnswerList->questionList;
         $modelsQuestion = $modelQuestionList->questions;
 
         // если форма отправлена.
-        if($postData = Yii::$app->request->post())
-        {
-            $modelsAnswer = Model::createMultiple(Answer::classname(),[],$scenario=['scenario'=>'create']);
+        if ($postData = Yii::$app->request->post()) {
+            $modelsAnswer = Model::createMultiple(Answer::classname(), [], $scenario = ['scenario' => 'create']);
             Model::loadMultiple($modelsAnswer, $postData);
-            $valid = $modelQuestionList->validate();
-            $summScores = 0;
-            foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
-                $summScores += $modelAnswer->scores;
-                $modelAnswer->profile_id = Yii::$app->user->identity->username;
-                $valid = $modelAnswer->validate() && $valid;
-            }
-            if($valid) {
-                $transaction = \Yii::$app->db->beginTransaction();
-                try {
-                    $flag = false;
-                    $modelAnswerList->scores = $summScores;
-                    if($modelAnswerList->save())
-                        foreach($modelsAnswer as $indexModelAnswer => $modelAnswer)
-                        {
-                            if (! ($flag = $modelAnswer->save(false))) {
-                                $transaction->rollBack();
-                                break;
-                            }
-                        }
+            $valid = false;
 
-
-                    if ($flag) {
-                        $transaction->commit();
-                        return $this->redirect(['view', 'id' => $modelAnswerList->id]);
-                    }else {
-                        $transaction->rollBack();
-                    }
-                } catch (Exception $e) {
-                    $transaction->rollBack();
+            $sumScores = 0;
+            $groupsOfModelsAnswerVariants = $this->getAllAnswerVariantsGroupByQuestionId($modelAnswerList->question_list_id);
+            foreach ($modelsAnswer as $modelAnswer) {
+                $modelAnswer->question_list_id = $modelAnswerList->question_list_id;
+                $modelAnswer->answer_list_id = $modelAnswerList->id;
+                $valid = $modelAnswer->validate();
+                if (!$valid) break;
+                if (isset($groupsOfModelsAnswerVariants[$modelAnswer->question_id])
+                    && isset($groupsOfModelsAnswerVariants[$modelAnswer->question_id][$modelAnswer->answer])
+                ) {
+                    $score = $groupsOfModelsAnswerVariants[$modelAnswer->question_id][$modelAnswer->answer]->scores;
+                    $sumScores += $score;
                 }
             }
+            //если все ответы на вопросы корректны, сохраняем вопросынй лист и ответы
+            $transaction = \Yii::$app->db->beginTransaction();
+            if ($valid) {
+                $modelAnswerList->date = date('Y-m-d');
+                $modelAnswerList->status = 'answered';
+                $modelAnswerList->scores = $sumScores;
+                $modelAnswerList->author = Yii::$app->user->identity->username;
+                if (($valid = $modelAnswerList->validate()) && $modelAnswerList->save()) {
+                    foreach ($modelsAnswer as $modelAnswer) if (!$valid = $modelAnswer->save()) break;
+                } else {
+                    $transaction->rollBack();
+                }
+                if ($valid) {
+                    $transaction->commit();
+                    return $this->redirect(['view', 'id' => $modelAnswerList->id]);
+                }
+            }
+            //  если были ошибки то перенаправляем на изменение
+            $transaction->rollBack();
+            return $this->render('create', [
+                'modelQuestionList' => $modelQuestionList,
+                'modelAnswerList' => $modelAnswerList,
+                'modelsQuestion' => $modelsQuestion,
+            ]);
         }
-
         return $this->render('create', [
             'modelQuestionList' => $modelQuestionList,
             'modelAnswerList' => $modelAnswerList,
@@ -250,13 +257,26 @@ class WriteTestController extends Controller
         }
     }
 
+    protected function getAllAnswerVariantsGroupByQuestionId($question_list_id)
+    {
+        $result = [];
+        $modelQuestionList = Question::findAll(['list_id'=>$question_list_id]);
+        $ids = array_values(ArrayHelper::map($modelQuestionList, 'id','id'));
+        $answerVariants = AnswerVariant::findAll(['question_id'=>$ids]);
+        foreach($answerVariants as $answerVariant) {
+            $result[$answerVariant->question_id][$answerVariant->id] = $answerVariant;
+        }
+        return $result;
+    }
+
+    /*
+     * @return AnswerList $model
+     */
     protected function findAnswerListModel($answer_list_id)
     {
-        if (($model = AnswerList::findOne($answer_list_id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
+        $model = AnswerList::findOne($answer_list_id);
+        return $model;
+
     }
 
 }

@@ -34,19 +34,6 @@ class QuestionListConstructorController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single QuestionList model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-
-        return $this->render('view', [
-            'model' => $model,
-        ]);
-    }
 
     /**
      * Creates a new QuestionList model.
@@ -55,7 +42,6 @@ class QuestionListConstructorController extends Controller
      */
     public function actionCreate()
     {
-        // TODO : Провести рефакторинг
         $modelQuestionList = new QuestionList();
         // добавляем в объект класса QuestionList данные, пришедние из формы
         if ($modelQuestionList->load(Yii::$app->request->post())) {

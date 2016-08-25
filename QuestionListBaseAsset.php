@@ -9,9 +9,8 @@ class QuestionListBaseAsset extends AssetBundle
 {
     public $baseUrl = '@web';
 
-    public $js = [
-        'js/calculate_scores.js',
-    ];
+    public $js = [];
+    public $css = [];
 
     public $depends = [
         'yii\web\YiiAsset',

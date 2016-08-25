@@ -5,6 +5,13 @@ use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\unicred\questionlist\models\AnswerList */
+
+$this->title = "Ответы #{$model->id} на Чек-лист \"{$model->questionList->title}\" отделения {$model->officeName}";
+$moduleID = \Yii::$app->controller->module->id;
+$this->params['breadcrumbs'][] = ['label' => 'Система опросов', 'url' => ['/'.$moduleID]];
+$this->params['breadcrumbs'][] = ['label' => 'Чек-листы', 'url' => ['confirm-question-list/index']];
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="answer-list-view">
 
@@ -12,7 +19,7 @@ use yii\grid\GridView;
         'model' => $model,
         'attributes' => [
             'id',
-            'list_name',
+            'questionList.title',
             'officeName',
             'date_from',
             'date_to',
@@ -28,10 +35,8 @@ use yii\grid\GridView;
             'dataProvider' => $answersDataProvider,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
-                'question_text',
                 'answer',
                 'answer_comment',
-                'scores',
             ],
         ]); ?>
     <? else: ?>

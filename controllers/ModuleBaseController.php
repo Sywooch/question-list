@@ -31,7 +31,7 @@ class ModuleBaseController extends Controller
             ],
         ];
         if($moduleConfigBehaviors = Yii::$app->controller->module->params['behaviors'])
-            foreach($moduleConfigBehaviors as $behaviodID => $behavior)$behaviors[$behaviodID] = $behavior;
+            foreach($moduleConfigBehaviors as $behaviorId => $behavior)$behaviors[$behaviorId] = $behavior;
         return $behaviors;
     }
 

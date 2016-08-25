@@ -17,7 +17,7 @@ use yii\helpers\ArrayHelper;
 /**
  * UsersOfficesController implements the CRUD actions for UsersOffices model.
  */
-class UsersOfficesController extends Controller
+class UsersController extends Controller
 {
     /**
      * Lists all UsersOffices models.
@@ -25,7 +25,7 @@ class UsersOfficesController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new UsersOfficesSearch();
+        $searchModel = new UsersOfficesSearch(['scenario'=>'adminSearch']);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -77,9 +77,9 @@ class UsersOfficesController extends Controller
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if($request->isGet){
+            if($request->isGet) {
                 return [
-                    'title'=> "Create new UsersOffices",
+                    'title'=> "Добавление роли",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                         'usersRoles' => $usersRoles,
@@ -88,11 +88,11 @@ class UsersOfficesController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if($model->load($request->post()) && $model->save()){
+            } else if($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
                     'title'=> "Create new UsersOffices",
-                    'content'=>'<span class="text-success">Create UsersOffices success</span>',
+                    'content'=>'<span class="text-success">Роль добавлена удачно</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
@@ -146,32 +146,32 @@ class UsersOfficesController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update UsersOffices #".$id,
+                    'title'=> "Изменение роли профала ".$model->profile_id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                         'usersRoles' => $usersRoles,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "UsersOffices #".$id,
+                    'title'=> "Роль профайла ".$model->profile_id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Изменить',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];    
             }else{
                  return [
-                    'title'=> "Update UsersOffices #".$id,
+                    'title'=> "Изменение роли профала ".$model->profile_id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
                 ];        
             }
         }else{

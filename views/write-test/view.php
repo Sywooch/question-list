@@ -37,11 +37,8 @@ $this->registerCss('
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            'question_text',
-            'question_type',
             'answer',
             'answer_comment',
-            'scores',
         ],
     ]) ?>
 
