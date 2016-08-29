@@ -12,7 +12,7 @@ Asset::register($this);
 /* @var $questionIndex int; */
 /* @var $questionListId int; */
 /* @var $answerListId int; */
-/* @var $modelAnswer; */
+/* @var $modelAnswer app\modules\unicred\questionlist\models\Answer; */
 
 
 $modelAnswer->question_id = $modelQuestion->id;
@@ -27,7 +27,15 @@ if($modelAnswer->question->visible_condition){
 }
 ?>
 <div class="one-question-block" <?php echo $attributes;?> >
-    <h4><span class="label label-info">Вопрос №<?= ($questionIndex+1) ?></span></h4>
+    <h4>
+        <span class="label label-info">Вопрос №<?= ($questionIndex+1) ?></span>
+        <?php if((!$modelAnswer->isNewRecord) && $modelAnswer->profile_id): ?>
+            <?php $color_code = '#'.substr(dechex(crc32($modelAnswer->profile_id)),0,6);?>
+            <span style="font-size:16px">Ответ дал пользователь :</span><span class="badge" style="background-color : <?php echo $color_code;?>;">
+            <?php echo $modelAnswer->profile_id;?>
+        </span>
+        <?php endif; ?>
+    </h4>
     <?php if(!in_array($modelQuestion->type,['checkbox'])):?>
     <div class="panel-heading">
         <i class="fa fa-envelope"><?php echo $modelQuestion->quest_text;?></i>
@@ -37,6 +45,7 @@ if($modelAnswer->question->visible_condition){
         <div class="form-group one-question-group">
             <?php if (!$modelAnswer->isNewRecord)echo Html::activeHiddenInput($modelAnswer, "[{$questionIndex}]id");?>
             <?php echo $form->field($modelAnswer, "[{$questionIndex}]question_id")->hiddenInput()->label(false);?>
+            <?php /*echo $form->field($modelAnswer, "[{$questionIndex}]profile_id")->hiddenInput()->label(false);*/?>
             <?php if(in_array($modelQuestion->type,['select_one','radio'])){
                 $answerVariants = [];
                 foreach ($modelQuestion->answerVariants as $av) {

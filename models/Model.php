@@ -36,7 +36,7 @@ class Model extends \yii\base\Model
                 if (isset($item['id']) && !empty($item['id']) && isset($multipleModels[$item['id']])) {
                     $models[] = $multipleModels[$item['id']];
                 } else {
-                    $models[] = new $modelClass;
+                    $models[] = new $modelClass($scenario);
                 }
             }
         }

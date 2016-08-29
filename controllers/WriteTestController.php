@@ -107,7 +107,7 @@ class WriteTestController extends Controller
         $modelAnswerList = $this->findAnswerListModel($id);
         $modelAnswerList->scenario = 'write-test';
         if ($modelAnswerList->status !== 'clear')
-            Yii::$app->getResponse()->redirect(Url::toRoute(['write-test/update', 'id' => $modelAnswerList->id]));
+            Yii::$app->getResponse()->redirect(Url::toRoute(['update', 'id' => $modelAnswerList->id]));
 
         $modelQuestionList = $modelAnswerList->questionList;
         $modelsQuestion = $modelQuestionList->questions;
@@ -182,7 +182,6 @@ class WriteTestController extends Controller
         // если форма отправлена.
         if($postData = Yii::$app->request->post())
         {
-
             $valid = $modelQuestionList->validate();
             $answerIds = ArrayHelper::getColumn($postData['Answer'], 'id');
             $modelsAnswer = Answer::findAll($answerIds);

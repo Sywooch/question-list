@@ -14,6 +14,7 @@ use Yii;
  * @property string $answer
  * @property integer $answer_list_id
  * @property string $answer_comment
+ * @property string $profile_id
  */
 class Answer extends \yii\db\ActiveRecord
 {
@@ -34,6 +35,10 @@ class Answer extends \yii\db\ActiveRecord
             [['question_id', 'question_list_id', 'answer_list_id'], 'required'],
             [['question_id', 'question_list_id', 'answer_list_id'], 'integer'],
             [['answer_date'], 'safe'],
+            [['profile_id'], 'default','value'=>function($model){
+                return Yii::$app->user->identity->username;
+            },'on'=>'create'],
+
             [['answer'],'required','when'=>function($model){
                 return false;
             },
@@ -99,9 +104,22 @@ class Answer extends \yii\db\ActiveRecord
             'answer' => 'Ответ',
             'answer_list_id' => 'Answer List ID',
             'answer_comment' => 'Комментарий',
+            'profile_id' => 'Пользователь',
         ];
     }
 
+    public function load($data, $formName = null)
+    {
+        $result = parent::load($data, $formName);
+        $oldAttributes = $this->getOldAttributes();
+        $isChange = ($data['answer'] != $oldAttributes['answer']) || ($data['answer_comment'] != $oldAttributes['answer_comment']);
+
+        if($isChange) {
+            $this->profile_id = Yii::$app->user->identity->username;
+        }
+        return $this->validate() && $result;
+
+    }
     public function getQuestion()
     {
         return $this->hasOne(Question::className(), ['id'=>'question_id']);
