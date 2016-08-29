@@ -3,6 +3,7 @@
 namespace app\modules\unicred\questionlist\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 
 /**
@@ -11,7 +12,10 @@ use Yii;
  * @property integer $id
  * @property string $type
  * @property string $quest_text
+ * @property string $ordering
  * @property integer $list_id
+ * @property string $visible_condition
+ * @property string $visible_condition_value
  */
 class Question extends \yii\db\ActiveRecord
 {
@@ -31,7 +35,22 @@ class Question extends \yii\db\ActiveRecord
         return [
             [['type', 'quest_text','list_id'], 'required'],
             [['type'], 'string', 'max' => 50],
-            [['quest_text', 'answer'], 'string', 'max' => 1000]
+            [['ordering'], 'number'],
+            [['quest_text'], 'string', 'max' => 1000],
+            [['visible_condition'], 'string', 'max' => 1000],
+            [['visible_condition_value'], 'string', 'max' => 100],
+            [['visible_condition_value'], 'required', 'when' => function($model){
+                if(!$model->visible_condition)return false;
+                $linkedQuestion = Question::findOne($model->visible_condition);
+                if(!$linkedQuestion) throw new \NotFoundHttpException();
+                switch($linkedQuestion->type){
+                    case 'select_one':case 'select_multiple':case 'radio':case 'checkbox':
+                        return true;
+                    case 'text':default:
+                        return false;
+                }
+
+            },'whenClient'=>'function(){return false;}'],
         ];
     }
 
@@ -45,23 +64,15 @@ class Question extends \yii\db\ActiveRecord
         return $this->hasMany(AnswerVariant::className(), ['question_id' => 'id']);
     }
 
-    public function getAnswerVariantsInline()
+    public function getAnswerVariantsInline($glue = ';')
     {
-        $res = '';
-        foreach($this->answerVariants as $av) {
-            $res.= $av->answer.';';
-        }
-        return $res;
+        return implode($glue,ArrayHelper::map($this->answerVariants,'id','answer'));
     }
     public function delete()
     {
         foreach($this->answerVariants as $model) $model->delete();
         parent::delete();
     }
-
-    /*protected function questionTypeValidation($attribute, $params){
-        die();
-    }*/
 
     /**
      * @inheritdoc
@@ -73,8 +84,11 @@ class Question extends \yii\db\ActiveRecord
             'type' => 'Тип',
             'questionTypeName' => 'Тип вопроса',
             'quest_text' => 'Текст вопроса',
+            'ordering' => 'Номер вопроса',
             'answer' => 'Варианты ответа',
             'answerVariantsInline' => 'Варианты ответа',
+            'visible_condition' => 'Связанный вопрос',
+            'visible_condition_value' => 'Ответ на связанный вопрос',
         ];
     }
 
@@ -91,8 +105,8 @@ class Question extends \yii\db\ActiveRecord
     {
         return [
             'text' => 'Поле для ответа',
-            'select_one'=>'Выбор одного варианта из списка вариантов',
-            'select_multiple'=>'Выбор нескольких вариантов из списка вариантов',
+            'select_one'=>'Выбор одного из списка',
+            //'select_multiple'=>'Множественный выбор',
             'radio'=>'Радио-кнопки',
             'checkbox'=>'Чек-бокс',
         ];

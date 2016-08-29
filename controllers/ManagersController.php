@@ -3,8 +3,8 @@
 namespace app\modules\unicred\questionlist\controllers;
 
 use Yii;
-use app\modules\unicred\questionlist\models\UsersOffices;
-use app\modules\unicred\questionlist\models\UsersOfficesSearch;
+use app\modules\unicred\questionlist\models\Users;
+use app\modules\unicred\questionlist\models\UsersSearch;
 use app\modules\unicred\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 /**
- * ManagersController implements the CRUD actions for UsersOffices model.
+ * ManagersController implements the CRUD actions for Users model.
  * Контроллер для управления ролями Менеджер, контроллер доступен для роли Коммерчский директор
  */
 class ManagersController extends Controller
@@ -42,7 +42,7 @@ class ManagersController extends Controller
      */
     public function actionIndex()
     {    
-        $searchModel = new UsersOfficesSearch(['scenario'=>'managerSearch']);
+        $searchModel = new UsersSearch(['scenario'=>'managerSearch']);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -53,7 +53,7 @@ class ManagersController extends Controller
 
 
     /**
-     * Displays a single UsersOffices model.
+     * Displays a single Users model.
      * @param integer $id
      * @return mixed
      */
@@ -79,7 +79,7 @@ class ManagersController extends Controller
     }
 
     /**
-     * Creates a new UsersOffices model.
+     * Creates a new Users model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -87,7 +87,7 @@ class ManagersController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new UsersOffices(['scenario'=>'createManager']);
+        $model = new Users(['scenario'=>'createManager']);
         if($request->isAjax){
             /*
             *   Process for ajax request
@@ -95,7 +95,7 @@ class ManagersController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new UsersOffices",
+                    'title'=> "Create new Users",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -106,15 +106,15 @@ class ManagersController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new UsersOffices",
-                    'content'=>'<span class="text-success">Create UsersOffices success</span>',
+                    'title'=> "Create new Users",
+                    'content'=>'<span class="text-success">Create Users success</span>',
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new UsersOffices",
+                    'title'=> "Create new Users",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -139,7 +139,7 @@ class ManagersController extends Controller
     }
 
     /**
-     * Updates an existing UsersOffices model.
+     * Updates an existing Users model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -199,7 +199,7 @@ class ManagersController extends Controller
     }
 
     /**
-     * Delete an existing UsersOffices model.
+     * Delete an existing Users model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -210,7 +210,7 @@ class ManagersController extends Controller
         $request = Yii::$app->request;
         $model = $this->findModel($id);
 
-        $userRoles = UsersOffices::findAll([
+        $userRoles = Users::findAll([
             'profile_id' => Yii::$app->user->identity->username,
             'profile_office_role' => 'commercial_director'
         ]);
@@ -238,7 +238,7 @@ class ManagersController extends Controller
     }
 
      /**
-     * Delete multiple existing UsersOffices model.
+     * Delete multiple existing Users model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -248,7 +248,7 @@ class ManagersController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
-        $userRoles = UsersOffices::findAll([
+        $userRoles = Users::findAll([
             'profile_id' => Yii::$app->user->identity->username,
             'profile_office_role' => 'commercial_director'
         ]);
@@ -277,15 +277,15 @@ class ManagersController extends Controller
     }
 
     /**
-     * Finds the UsersOffices model based on its primary key value.
+     * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UsersOffices the loaded model
+     * @return Users the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        $model = UsersOffices::findOne($id);
+        $model = Users::findOne($id);
         if (($model) !== null) {
             return $model;
         } else {

@@ -7,9 +7,9 @@ use kartik\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\unicred\questionlist\models\QuestionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $list_id integer */
+/* @var $list_id int */
 
-$this->title = 'Вопросы';
+$this->title = 'Вопросы опросного листа ID#'.$list_id;
 $this->params['breadcrumbs'][] = [
             'label' => 'Опросные листы',
             'url' => ['question-list/index']
@@ -30,11 +30,25 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
             'questionTypeName',
-            'quest_text',
-            'answerVariantsInline',
+            [
+                'class' => 'yii\grid\DataColumn',
+                'attribute' => 'quest_text',
+                'value' => function($model){
+                  return mb_substr($model->quest_text,0,20).'...';
+                }
+            ],
+            [
+                'class' => 'yii\grid\DataColumn',
+                'attribute' => 'answerVariantsInline',
+                'value' => function($model){
+                  if($model->type == 'checkbox') return 'Да/Нет';
+                  if($model->type == 'text') return 'Ручной ввод';
+                  return mb_strlen($model->answerVariantsInline) > 50 ?
+                    mb_substr($model->answerVariantsInline,0,100).'...' : $model->answerVariantsInline;
+                }
+            ],
+            'ordering',
             [
                 'class' => 'yii\grid\ActionColumn',
                 'template' => '{view}{update}{delete}',

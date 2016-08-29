@@ -3,10 +3,10 @@
 namespace app\modules\unicred\questionlist\controllers;
 
 use Yii;
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 use app\modules\unicred\questionlist\models\Office;
 use app\modules\unicred\questionlist\models\Region;
-use app\modules\unicred\questionlist\models\UsersOfficesSearch;
+use app\modules\unicred\questionlist\models\UsersSearch;
 use app\modules\unicred\questionlist\controllers\ModuleBaseController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,17 +15,17 @@ use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
 
 /**
- * UsersOfficesController implements the CRUD actions for UsersOffices model.
+ * UsersController implements the CRUD actions for Users model.
  */
 class UsersController extends Controller
 {
     /**
-     * Lists all UsersOffices models.
+     * Lists all Users models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new UsersOfficesSearch(['scenario'=>'adminSearch']);
+        $searchModel = new UsersSearch(['scenario'=>'adminSearch']);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -36,7 +36,7 @@ class UsersController extends Controller
 
 
     /**
-     * Displays a single UsersOffices model.
+     * Displays a single Users model.
      * @param integer $id
      * @return mixed
      */
@@ -46,7 +46,7 @@ class UsersController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "UsersOffices #".$id,
+                    'title'=> "Users #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -61,7 +61,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Creates a new UsersOffices model.
+     * Creates a new Users model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -69,8 +69,8 @@ class UsersController extends Controller
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new UsersOffices();
-        $usersRoles = UsersOffices::getRoles();
+        $model = new Users();
+        $usersRoles = Users::getRoles();
 
         if($request->isAjax){
             /*
@@ -84,24 +84,25 @@ class UsersController extends Controller
                         'model' => $model,
                         'usersRoles' => $usersRoles,
                     ]),
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                                Html::button('Сохранить',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
             } else if($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Create new UsersOffices",
+                    'title'=> "Добавление роли",
                     'content'=>'<span class="text-success">Роль добавлена удачно</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Закрыть',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Добавить еще',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
             }else{           
                 return [
-                    'title'=> "Create new UsersOffices",
+                    'title'=> "Добавление роли",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
+                        'usersRoles' => $usersRoles,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
@@ -118,7 +119,6 @@ class UsersController extends Controller
 
                 return $this->render('create', [
                     'model' => $model,
-                    'roleVariants' => ['manager'=>'Менеджер',0 => 'Нет роли'],
                     'usersRoles' => $usersRoles,
                 ]);
             }
@@ -127,7 +127,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Updates an existing UsersOffices model.
+     * Updates an existing Users model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
@@ -137,7 +137,7 @@ class UsersController extends Controller
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $usersRoles = UsersOffices::getRoles();
+        $usersRoles = Users::getRoles();
 
         if($request->isAjax){
             /*
@@ -190,7 +190,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Delete an existing UsersOffices model.
+     * Delete an existing Users model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -219,7 +219,7 @@ class UsersController extends Controller
     }
 
      /**
-     * Delete multiple existing UsersOffices model.
+     * Delete multiple existing Users model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
@@ -229,7 +229,7 @@ class UsersController extends Controller
     {        
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys
-        foreach (UsersOffices::findAll(json_decode($pks)) as $model) {
+        foreach (Users::findAll(json_decode($pks)) as $model) {
             $model->delete();
         }
 
@@ -249,15 +249,15 @@ class UsersController extends Controller
     }
 
     /**
-     * Finds the UsersOffices model based on its primary key value.
+     * Finds the Users model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return UsersOffices the loaded model
+     * @return Users the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UsersOffices::findOne($id)) !== null) {
+        if (($model = Users::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

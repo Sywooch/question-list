@@ -13,7 +13,7 @@ use Yii;
  * @property integer $region_id
  * @property string $profile_office_role
  */
-class UsersOffices extends \yii\db\ActiveRecord
+class Users extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
@@ -27,7 +27,6 @@ class UsersOffices extends \yii\db\ActiveRecord
     {
         return [
             'manager'=>'Управляющий',
-            'empl'=>'Сотрудник',
             'admin'=>'Администратор',
             'commercial_director'=>'Коммерческий директор',
         ];
@@ -39,14 +38,19 @@ class UsersOffices extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id'], 'required'],
-            [['office_id'], 'required', 'on'=>'createManager'],
-            [['office_id','region_id'], 'integer'],
+            [['profile_id','profile_office_role'], 'required'],
             [['profile_id', 'profile_office_role'], 'string', 'max' => 50],
-            ['profile_office_role', 'default', 'value'=> 'manager', 'on' => 'createManager'],
+            ['office_id', 'required', 'when' => function($model){
+                    return $model->profile_office_role == 'manager';
+                },
+            ],
+            ['region_id', 'required', 'when' => function($model){
+                return $model->profile_office_role == 'commercial_director';
+            },
+            ],
             ['region_id', 'default', 'value'=> function($model){
                 return Office::findOne($model->office_id)->region_id;
-            }, 'on' => 'createManager'],
+            }],
         ];
     }
 
@@ -88,8 +92,8 @@ class UsersOffices extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'profile_id' => 'Профайл',
-            'office_id' => 'Office ID',
-            'Region_id' => 'Region ID',
+            'office_id' => 'Офис',
+            'region_id' => 'Регион',
             'profile_office_role' => 'Роль',
             'officeName' => 'Офис',
             'regionName' => 'Регион',

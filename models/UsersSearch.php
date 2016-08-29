@@ -5,13 +5,13 @@ namespace app\modules\unicred\questionlist\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 use yii\helpers\ArrayHelper;
 
 /**
- * UsersOfficesSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\UsersOffices`.
+ * UsersSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\Users`.
  */
-class UsersOfficesSearch extends UsersOffices
+class UsersSearch extends Users
 {
     public $officeName;
     public $regionName;
@@ -46,7 +46,7 @@ class UsersOfficesSearch extends UsersOffices
      */
     public function search($params)
     {
-        $query = UsersOffices::find();
+        $query = Users::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -79,7 +79,7 @@ class UsersOfficesSearch extends UsersOffices
             ->andFilterWhere(['like', 'profile_office_role', $this->profile_office_role]);
 
         if($this->scenario == 'managerSearch') {
-            $userRoles = UsersOffices::findAll([
+            $userRoles = Users::findAll([
                 'profile_id' => Yii::$app->user->identity->username,
                 'profile_office_role' => 'commercial_director'
             ]);

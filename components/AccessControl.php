@@ -1,7 +1,7 @@
 <?php
 namespace app\modules\unicred\questionlist\components;
 
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 use app\modules\unicred\questionlist\models\Office;
 use app\modules\unicred\questionlist\models\UsersAccess;
 use app\modules\unicred\questionlist\models\AnswerList;
@@ -17,7 +17,7 @@ class AccessControl extends ActionFilter
     public function beforeAction($action)
     {
         $profileId = Yii::$app->user->identity->username;
-        $userData = UsersOffices::findAll(['profile_id'=>$profileId]);
+        $userData = Users::findAll(['profile_id'=>$profileId]);
         $roles = array_values(ArrayHelper::map($userData,'id','profile_office_role'));
 
         //echo'<pre>';var_dump($action->controller->id);echo'</pre>';die;
@@ -30,7 +30,7 @@ class AccessControl extends ActionFilter
                 break;
             // Отвесать на опросные листы могут только менеджеры и коммерческий директор
             case 'write-test' :
-                $access  = array_intersect(['manager'], $roles);
+                $access  = array_intersect(['manager','commercial_director'], $roles);
                 break;
             //Назначать управляющих и коммерческих директоров и админов могут только роли админ
             case 'users-offices' :

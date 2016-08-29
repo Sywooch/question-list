@@ -7,9 +7,12 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\unicred\questionlist\models\Question */
 /* @var $list_id integer */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Вопросы', 'url' => ['index','list_id'=>$list_id]];
-$this->params['breadcrumbs'][] = $this->title;
+
+$this->title = 'Просмотр вопроса' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Опросные листы', 'url' => ['question-list/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Вопросы опросного листа #'.$list_id, 'url' => ['index','list_id'=>$list_id]];
+$this->params['breadcrumbs'][] = 'Просмотр';
+
 ?>
 <div class="question-view">
 

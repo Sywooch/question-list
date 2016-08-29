@@ -8,6 +8,7 @@ use yii\web\AssetBundle;
 class QuestionListWriteAsset extends QuestionListBaseAsset
 {
     public $js = [
-        'js/calculate_scores.js',
+        'js/show_hide_comment.js',
+        'js/question_visible.js',
     ];
 } 

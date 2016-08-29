@@ -11,21 +11,6 @@ use yii\helpers\ArrayHelper;
  */
 class WriteTestSearch extends AnswerListSearch
 {
-
-     /**
-     * @param $profile_id
-     * @return array
-     * Возвращает массив ID отделений, где пользователь является управляющим
-     */
-    protected function getOffiсeIds($profile_id)
-    {
-        $modelsUsersOffices = UsersOffices::findAll([
-            'profile_id' => $profile_id,
-            'profile_office_role' => 'manager'
-        ]);
-        return ArrayHelper::map($modelsUsersOffices, 'office_id', 'office_id');
-    }
-
     /**
      * Creates data provider instance with search query applied
      *
@@ -35,10 +20,28 @@ class WriteTestSearch extends AnswerListSearch
      */
     public function search($params)
     {
-        // берем ID отделений, где пользователь является управляющим, или где он назначен им.
-        $officeIds = $this->getOffiсeIds(Yii::$app->user->identity->username);
-
-        $query = AnswerList::find()->joinWith('questionList')->where(['do_id'=>$officeIds]);
+        // Если админ, то выбираем все опросы.
+        if($isAdmin = Users::findOne([
+            'profile_id' => Yii::$app->user->identity->username,
+            'profile_office_role' => 'admin',
+        ])){
+            $officeIds = ArrayHelper::map(Office::find()->all(), 'id', 'id');
+        } elseif($isCommercialDirector = Users::findAll([
+            'profile_id' => Yii::$app->user->identity->username,
+            'profile_office_role' => 'commercial_director',
+        ])){
+            // берем ID отделений, где регион отделения === региону, где пользователь коммерч.директор
+            $regionIds = ArrayHelper::map($isCommercialDirector,'region_id', 'region_id');
+            $officeIds = ArrayHelper::map(Office::findAll(['region_id'=>$regionIds]), 'id', 'id');
+        } else {
+            // берем ID отделений, где пользователь является управляющим, или где он назначен им.
+            $officeIds = $this->getOffiсeIds(Yii::$app->user->identity->username);
+        }
+        $query = AnswerList::find()
+            ->joinWith('questionList')
+            ->where(['do_id'=>$officeIds])
+            //->andWhere(['<=','date_from',date('Y-m-d')])
+        ;
         //$query = AnswerList::find()->innerJoinWith('questionList');
 
         $dataProvider = new ActiveDataProvider([
@@ -92,8 +95,20 @@ class WriteTestSearch extends AnswerListSearch
             $q->andFilterWhere(['like', 'questionlist_office.name', $this->officeName]);
         }]);
 
-
-
         return $dataProvider;
+    }
+
+    /**
+     * @param $profile_id
+     * @return array
+     * Возвращает массив ID отделений, где пользователь является управляющим
+     */
+    protected function getOffiсeIds($profile_id)
+    {
+        $modelsUsers = Users::findAll([
+            'profile_id' => $profile_id,
+            'profile_office_role' => 'manager'
+        ]);
+        return ArrayHelper::map($modelsUsers, 'office_id', 'office_id');
     }
 }

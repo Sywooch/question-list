@@ -7,11 +7,14 @@ use yii\helpers\ArrayHelper;
 use Yii;
 use app\modules\unicred\questionlist\models\Question;
 use app\modules\unicred\questionlist\models\QuestionSearch;
+use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use \yii\web\Response;
 use yii\filters\VerbFilter;
 use app\modules\unicred\questionlist\models\Model;
 use app\modules\unicred\questionlist\models\AnswerVariant;
+use app\modules\unicred\questionlist\models\AnswerList;
 
 /**
  * QuestionController implements the CRUD actions for Question model.
@@ -28,8 +31,31 @@ class QuestionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    'get-question-data' => ['GET'],
                 ],
             ],
+        ];
+    }
+
+    /*
+     * Ответ на AJAX запрос. Метод возвращает в формате JSON данные по вопросу, с вариантами ответов.
+     * Используется в views/question/form/  в js-сценарии create_update_question
+     */
+    public function actionGetQuestionData($question_id)
+    {
+        $request = Yii::$app->request;
+        if(!$request->isAjax) throw new BadRequestHttpException();
+
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = Question::find()
+            ->where(['id'=>$question_id])
+            ->andWhere(['<>','type','text'])
+            ->with('answerVariants')
+            ->one();
+        if(!$model) throw new NotFoundHttpException();
+        return [
+            'question'=>$model,
+            'answerVariants'=>$model->answerVariants,
         ];
     }
 
@@ -45,7 +71,7 @@ class QuestionController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'list_id' => intval($list_id),
+            'list_id' => $list_id,
         ]);
     }
 
@@ -63,12 +89,30 @@ class QuestionController extends Controller
     }
 
     /**
+     * Проверка, можно ли изменять содержание опроса, после того,
+     * как он назначен отделениям.
+    */
+    public function canCreateQuestion($question_list_id)
+    {
+        // Назначен ли опрос отделениям
+        $modelsAnswerList = AnswerList::findAll(['question_list_id'=>$question_list_id]);
+        return (!$modelsAnswerList);
+    }
+
+    /**
      * Creates a new Question model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate($list_id)
     {
+        // Проверяем можем ли создать вопрос.
+        if(!$this->canCreateQuestion($list_id)){
+            return $this->render('question_list_is_lock', [
+                'modelQuestionList' => QuestionList::findOne($list_id),
+                'action' => 'create',
+            ]);
+        }
         $model = new Question();
         $model->list_id = $list_id;
         $post = Yii::$app->request->post();
@@ -131,6 +175,13 @@ class QuestionController extends Controller
      */
     public function actionUpdate($id, $list_id)
     {
+        // Проверяем можем ли изменить вопрос.
+        if(!$this->canCreateQuestion($list_id)){
+            return $this->render('question_list_is_lock', [
+                'modelQuestionList' => QuestionList::findOne($list_id),
+                'action' => 'update',
+            ]);
+        }
         $model = $this->findModel($id);
         $post = Yii::$app->request->post();
 
@@ -209,7 +260,7 @@ class QuestionController extends Controller
                 ]);
             }
         } else {
-            return $this->render('create', [
+            return $this->render('update', [
                 'model' => $model,
                 'list_id' => $list_id,
             ]);

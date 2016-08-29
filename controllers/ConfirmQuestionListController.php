@@ -41,24 +41,32 @@ class ConfirmQuestionListController extends Controller
     public function actionConfirm($id)
     {
         $request = Yii::$app->request;
-        $model = $this->findModel($id);
+        $modelAnswerList = $this->findModelWithRelations($id);
+        $answersOnList = [];
+        foreach($modelAnswerList->answers as $answer) {
+            if($answer->question->answerVariants) foreach($answer->question->answerVariants as $variant){
+                if($variant->id == $answer->answer) $answersOnList[$answer->question->id][]= $variant->answer;
+            }
+        }
 
         if($request->isGet){
             return $this->render('confirm', [
-                'model' => $model,
+                'model' => $modelAnswerList,
                 'answersDataProvider' => new ArrayDataProvider([
-                    'allModels' => $model->answers,
+                    'allModels' => $modelAnswerList->answers,
                 ]),
+                'answersOnList'=> $answersOnList,
             ]);
-        }else if ($model->load($request->post()) && $model->save()) {
+        }else if ($modelAnswerList->load($request->post()) && $modelAnswerList->save()) {
             return $this->redirect(['index']);
         }
 
         return $this->render('confirm', [
-            'model' => $model,
+            'model' => $modelAnswerList,
             'answersDataProvider' => new ArrayDataProvider([
-                'allModels' => $model->answers,
+                'allModels' => $modelAnswerList->answers,
             ]),
+            'answersOnList'=> $answersOnList,
         ]);
 
 
@@ -167,6 +175,29 @@ class ConfirmQuestionListController extends Controller
     protected function findModel($id)
     {
         if (($model = AnswerList::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Finds the AnswerList model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return AnswerList the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModelWithRelations($id)
+    {
+        $query = AnswerList::find(['id'=>$id])->with(['answers' => function($q){
+            $q->with(['question' => function($q){
+                $q->with('answerVariants');
+            }]);
+        }]);
+        $model = $query->one();
+
+        if ($model !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

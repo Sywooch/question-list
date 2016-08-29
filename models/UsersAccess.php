@@ -9,22 +9,24 @@
 namespace app\modules\unicred\questionlist\models;
 
 use Yii;
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 
 
-class UsersAccess extends UsersOffices {
+class UsersAccess extends Users {
 
     static $allActions = [
         'admin' => [
             ['label'=>'Конструктор', 'url'=>['question-list/index']],
             ['label'=>'Управление опросами', 'url'=>['answer-list/index']],
-            ['label'=>'Пользователи и роли', 'url'=>['users-offices/index']],
+            ['label'=>'Пользователи и роли', 'url'=>['users/index']],
             ['label'=>'Офисы', 'url'=>['office/index']],
             ['label'=>'Регионы', 'url'=>['region/index']],
+            ['label'=>'Ответить на чек-лист', 'url'=>['write-test/index']],
         ],
         'commercial_director' => [
             ['label'=>'Чек-листы', 'url'=>['confirm-question-list/index']],
             ['label'=>'Назначить управляющих', 'url'=>['managers/index']],
+            ['label'=>'Ответить на чек-лист', 'url'=>['write-test/index']],
         ],
         'manager' => [
             ['label'=>'Чек-листы', 'url'=>['write-test/index']],

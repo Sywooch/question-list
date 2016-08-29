@@ -11,7 +11,7 @@ use hiqdev\yii2\assets\StoreJs\StoreJsAsset;
 use app\modules\unicred\questionlist\CrudAsset as QLCrudAsset;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\unicred\questionlist\models\UsersOfficesSearch */
+/* @var $searchModel app\modules\unicred\questionlist\models\UsersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Users Offices';

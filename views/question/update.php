@@ -6,10 +6,11 @@ use yii\helpers\Html;
 /* @var $model app\modules\unicred\questionlist\models\Question */
 /* @var $list_id integer */
 
-$this->title = 'Update Question: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Questions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id,'list_id'=>$list_id]];
-$this->params['breadcrumbs'][] = 'Редактирование';
+$this->title = 'Изменение вопроса ';
+$this->params['breadcrumbs'][] = ['label' => 'Опросные листы', 'url' => ['question-list/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Вопросы опросного листа #'.$list_id, 'url' => ['index','list_id'=>$list_id]];
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="question-update">
 
@@ -17,6 +18,7 @@ $this->params['breadcrumbs'][] = 'Редактирование';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'list_id' => $list_id,
     ]) ?>
 
 </div>

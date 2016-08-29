@@ -20,8 +20,13 @@ $modelAnswer->question_list_id = $questionListId;
 $modelAnswer->answer_date = (new DateTime())->format('Y-m-d');
 $modelAnswer->answer_list_id = $answerListId;
 
+$attributes = 'data-question-id="'.$modelAnswer->question->id.'" ';
+if($modelAnswer->question->visible_condition){
+    $attributes .= 'data-visible-condition-linked-question-id="'.$modelAnswer->question->visible_condition.'"';
+    $attributes .= ' data-visible-condition-linked-question-value="'.$modelAnswer->question->visible_condition_value.'"';
+}
 ?>
-<div>
+<div class="one-question-block" <?php echo $attributes;?> >
     <h4><span class="label label-info">Вопрос №<?= ($questionIndex+1) ?></span></h4>
     <?php if(!in_array($modelQuestion->type,['checkbox'])):?>
     <div class="panel-heading">
@@ -43,9 +48,13 @@ $modelAnswer->answer_list_id = $answerListId;
             }?>
             <?php switch($modelQuestion->type) {
                 case 'select_one' :
-                    echo $form->field($modelAnswer, "[{$questionIndex}]answer",['options'=>['class'=>'question-field']])
+                    echo $form->field($modelAnswer, "[{$questionIndex}]answer",[
+                        'options'=>[
+                            'class'=>'question-field',
+                        ]])
                         ->dropDownList($answerVariants,[
                             'options'=> $options,
+                            'data'=>['question-id'=>$modelAnswer->question->id],
                             'prompt' => 'Выберите ..',
                         ])->label(false);
                     break;
@@ -59,9 +68,10 @@ $modelAnswer->answer_list_id = $answerListId;
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer",[
                         'options'=>['class'=>'question-field']])
                         ->radioList($answerVariants,[
-                                'item'=> function($index, $label, $name, $checked, $value) use($radioOptions){
+                                'item'=> function($index, $label, $name, $checked, $value) use($radioOptions,$modelAnswer){
                                     $return = '<label class="modal-radio">';
-                                    $return .= '<input type="radio" name="'.$name.'" value="'.$value.'" ';
+                                    $return .= '<input type="radio" name="'.$name.'" value="'.$value.'"
+                                    data-question-id="'.$modelAnswer->question->id.'"';
                                     if($checked) $return .= 'checked ';
                                     if($radioOptions[$index])foreach($radioOptions[$index] as $attributeName => $attributeValue) {
                                         if($attributeValue) $return.=' '.$attributeName.'="'.$attributeValue.'"';
@@ -77,15 +87,16 @@ $modelAnswer->answer_list_id = $answerListId;
                     break;
                 case 'checkbox' :
                     echo $form->field($modelAnswer, "[{$questionIndex}]answer",['options'=>['class'=>'question-field']])
-                        ->checkbox(['label'=>false])->label($modelQuestion->quest_text);
+                        ->checkbox(['label'=>false,'data'=>['question-id'=>$modelAnswer->question->id]])->label($modelQuestion->quest_text);
                     break;
                 default :
-                    echo $form->field($modelAnswer, "[{$questionIndex}]answer")->textArea(['maxlength' => true]);
+                    echo $form->field($modelAnswer, "[{$questionIndex}]answer")
+                        ->textArea(['maxlength' => true,'data'=>['question-id'=>$modelAnswer->question->id]]);
                     break;
             }?>
             <?php echo $form->field($modelAnswer, "[{$questionIndex}]answer_comment",['options'=>['class'=>'question-comment','style'=>['display'=>'none']]])
                 ->textArea(['maxlength' => true]);?>
         </div>
     </div>
+    <hr/>
 </div>
-<hr>

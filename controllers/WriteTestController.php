@@ -7,7 +7,7 @@ use Yii;
 use app\modules\unicred\questionlist\controllers\ModuleBaseController as Controller;
 use app\modules\unicred\questionlist\models\Model;
 use app\modules\unicred\questionlist\models\QuestionList;
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 use app\modules\unicred\questionlist\models\Answer;
 use app\modules\unicred\questionlist\models\AnswerList;
 use app\modules\unicred\questionlist\models\WriteTestSearch;
@@ -16,6 +16,7 @@ use yii\helpers\ArrayHelper;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class AnswerListController
@@ -32,8 +33,9 @@ class WriteTestController extends Controller
      */
     public function actionSend($id)
     {
-        $request = Yii::$app->request;
+        //$request = Yii::$app->request;
         $model = $this->findAnswerListModel($id);
+        if(!$model) throw new NotFoundHttpException();
         $model->status = 'send';
         $model->save();
         return $this->redirect(['index']);
@@ -49,7 +51,6 @@ class WriteTestController extends Controller
         $modelQuestionList = $modelAnswerList->questionList;
 
         if(! $modelQuestionList ) {
-            
             return $this->render('locked_answer_list', [
                 'modelAnswerList' => $modelAnswerList,
                 'dataProvider' => new ActiveDataProvider([
@@ -76,11 +77,11 @@ class WriteTestController extends Controller
      */
     protected function getOffiсeIds($profile_id)
     {
-        $modelsUsersOffices = UsersOffices::findAll([
+        $modelsUsers = Users::findAll([
             'profile_id' => $profile_id,
             'profile_office_role' => 'manager'
         ]);
-        return ArrayHelper::map($modelsUsersOffices, 'office_id', 'office_id');
+        return ArrayHelper::map($modelsUsers, 'office_id', 'office_id');
     }
 
     public function actionIndex()
@@ -175,13 +176,14 @@ class WriteTestController extends Controller
 
         $modelQuestionList = $modelAnswerList->questionList;
         $modelsQuestion = $modelQuestionList->questions;
+
         $modelsAnswer = $modelAnswerList->answers;
 
         // если форма отправлена.
         if($postData = Yii::$app->request->post())
         {
+
             $valid = $modelQuestionList->validate();
-            $summScores = 0;
             $answerIds = ArrayHelper::getColumn($postData['Answer'], 'id');
             $modelsAnswer = Answer::findAll($answerIds);
             Model::loadMultiple($modelsAnswer, $postData);
@@ -198,17 +200,25 @@ class WriteTestController extends Controller
                 }
             }
             // сумма очков
-            $summScores = 0;
-            foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
-                $summScores += $modelAnswer->scores;
-                $modelAnswer->profile_id = Yii::$app->user->identity->username;
-                $valid = $modelAnswer->validate() && $valid;
+            $sumScores = 0;
+            $groupsOfModelsAnswerVariants = $this->getAllAnswerVariantsGroupByQuestionId($modelAnswerList->question_list_id);
+            foreach ($modelsAnswer as $modelAnswer) {
+                $modelAnswer->question_list_id = $modelAnswerList->question_list_id;
+                $modelAnswer->answer_list_id = $modelAnswerList->id;
+                $valid = $modelAnswer->validate();
+                if (!$valid) break;
+                if (isset($groupsOfModelsAnswerVariants[$modelAnswer->question_id])
+                    && isset($groupsOfModelsAnswerVariants[$modelAnswer->question_id][$modelAnswer->answer])
+                ) {
+                    $score = $groupsOfModelsAnswerVariants[$modelAnswer->question_id][$modelAnswer->answer]->scores;
+                    $sumScores += $score;
+                }
             }
+            $transaction = \Yii::$app->db->beginTransaction();
             if($valid) {
-                $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $flag = false;
-                    $modelAnswerList->scores = $summScores;
+                    $modelAnswerList->scores = $sumScores;
 
                     if($modelAnswerList->save())foreach($modelsAnswer as $indexModelAnswer => $modelAnswer) {
                         if (! ($flag = $modelAnswer->save(false))) {
@@ -270,7 +280,7 @@ class WriteTestController extends Controller
     }
 
     /*
-     * @return AnswerList $model
+     * @return app\modules\unicred\questionlist\models\AnswerList $model
      */
     protected function findAnswerListModel($answer_list_id)
     {

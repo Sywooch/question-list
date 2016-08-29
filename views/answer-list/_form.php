@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\widgets\DetailView;
+use \app\modules\unicred\questionlist\models\AnswerList;
 
 
 /* @var $this yii\web\View */
@@ -13,7 +14,7 @@ use yii\widgets\DetailView;
 /* @var $statusList array */
 
 ?>
-
+<?php if(!$model->isNewRecord) :?>
 <? echo DetailView::widget([
     'model' => $model,
     'attributes' => [
@@ -21,6 +22,7 @@ use yii\widgets\DetailView;
         'statusName',
     ],
 ]) ?>
+<?php endif; ?>
 
 <div class="answer-list-form">
 
@@ -29,20 +31,15 @@ use yii\widgets\DetailView;
     <?= $form->field($model, "question_list_id")->dropDownList($questionLists,
         [ $model->question_list_id => ['selected'=>'selected']]);?>
 
-    <? if(!empty($statusList)):?>
-        <? /*echo $form->field($model, "status")->dropDownList($statusList,
-            [ $model->status => ['selected'=>'selected']]);*/ ?>
-    <? endif?>
-
-    <?= $form->field($model, "status")->dropDownList($statusList,
-        [ $model->status => ['selected'=>'selected']]);?>
-
+    <?php if(!$model->isNewRecord) :?>
+        <?= $form->field($model, "status")->dropDownList(AnswerList::getStatusList(),
+            [ $model->status => ['selected'=>'selected']]);?>
+    <?php endif; ?>
     <?= $form->field($model, "do_id")->dropDownList($DoList,
         [ $model->question_list_id => ['selected'=>'selected']]);?>
 
     <div class="form-group field-answerlist-dates">
-        <?= DatePicker::widget(
-            [
+        <?= DatePicker::widget(            [
                 'name'=>'date_from',
                 'type'=> DatePicker::TYPE_RANGE,
                 'name2' => 'date_to',

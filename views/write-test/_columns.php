@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 return [
     ['class' => 'kartik\grid\SerialColumn'],
     'id',
+    'questionList.title',
     'date_from',
     'date_to',
     [

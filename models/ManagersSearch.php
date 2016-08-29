@@ -5,12 +5,12 @@ namespace app\modules\unicred\questionlist\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 
 /**
- * UsersOfficesSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\UsersOffices`.
+ * UsersSearch represents the model behind the search form about `app\modules\unicred\questionlist\models\Users`.
  */
-class ManagersSearch extends UsersOffices
+class ManagersSearch extends Users
 {
     public $officeName;
     public $regionName;
@@ -44,7 +44,7 @@ class ManagersSearch extends UsersOffices
      */
     public function search($params)
     {
-        $query = UsersOffices::find();
+        $query = Users::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

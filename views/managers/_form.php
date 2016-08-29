@@ -3,14 +3,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use app\modules\unicred\questionlist\models\Region;
-use app\modules\unicred\questionlist\models\UsersOffices;
+use app\modules\unicred\questionlist\models\Users;
 use app\modules\unicred\questionlist\models\Office;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\unicred\questionlist\models\UsersOffices */
+/* @var $model app\modules\unicred\questionlist\models\Users */
 /* @var $form yii\widgets\ActiveForm */
 
-$userRoles = UsersOffices::findAll([
+$userRoles = Users::findAll([
     'profile_id' => Yii::$app->user->identity->username,
     'profile_office_role' => 'commercial_director'
 ]);

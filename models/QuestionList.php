@@ -24,7 +24,8 @@ class QuestionList extends \yii\db\ActiveRecord
 
     public function getQuestions()
     {
-        return $this->hasMany(Question::className(), ['list_id' => 'id']);
+        return $this->hasMany(Question::className(), ['list_id' => 'id'])
+            ->orderBy(['questionlist_question.ordering'=>SORT_ASC]);
     }
 
     public function getAnswerLists()

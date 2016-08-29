@@ -19,7 +19,7 @@ class QuestionSearch extends Question
     {
         return [
             [['id'], 'integer'],
-            [['type', 'quest_text', 'answer'], 'safe'],
+            [['type', 'quest_text'], 'safe'],
         ];
     }
 
@@ -63,8 +63,7 @@ class QuestionSearch extends Question
         ]);
 
         $query->andFilterWhere(['like', 'type', $this->type])
-            ->andFilterWhere(['like', 'quest_text', $this->quest_text])
-            ->andFilterWhere(['like', 'answer', $this->answer]);
+            ->andFilterWhere(['like', 'quest_text', $this->quest_text]);
 
         return $dataProvider;
     }
