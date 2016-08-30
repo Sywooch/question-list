@@ -70,20 +70,6 @@ class WriteTestController extends Controller
         ]);
     }
 
-    /**
-     * @param $profile_id
-     * @return array
-     * Возвращает массив ID отделений, где пользователь является управляющим
-     */
-    protected function getOffiсeIds($profile_id)
-    {
-        $modelsUsers = Users::findAll([
-            'profile_id' => $profile_id,
-            'profile_office_role' => 'manager'
-        ]);
-        return ArrayHelper::map($modelsUsers, 'office_id', 'office_id');
-    }
-
     public function actionIndex()
     {
         $statusList = AnswerList::getStatusList();
@@ -171,6 +157,7 @@ class WriteTestController extends Controller
      */
     public function actionUpdate($id)
     {
+
         $modelAnswerList = $this->findAnswerListModel($id);
         $modelAnswerList->scenario = 'write-test';
 

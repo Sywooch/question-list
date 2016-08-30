@@ -12,27 +12,5 @@ use yii\filters\VerbFilter;
  */
 class ModuleBaseController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        $behaviors = [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-            'access'=> [
-                'class' => 'app\modules\unicred\questionlist\components\AccessControl',
-                'onBeforeAction' => Yii::$app->controller->module->params['onBeforeAction'],
-            ],
-        ];
-        if($moduleConfigBehaviors = Yii::$app->controller->module->params['behaviors'])
-            foreach($moduleConfigBehaviors as $behaviorId => $behavior)$behaviors[$behaviorId] = $behavior;
-        return $behaviors;
-    }
 
 }

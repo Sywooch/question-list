@@ -59,6 +59,7 @@ class UsersAccess extends Users {
         foreach ($actions as $group) {
             foreach ($group as $action) $return[] = $action;
         }
+        return self::$allActions;
         return $return;
     }
 

@@ -10,7 +10,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
 
     public $onBeforeAction;
 
-    public $defaultRoute = 'action-list';
+    public $defaultRoute = 'home';
 
     public $behaviors;
 
